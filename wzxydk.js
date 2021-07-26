@@ -1,8 +1,8 @@
 //打卡ck有效期待测试，预计一星期
 //rewrite local
-//我在校园打卡   https://student.wozaixiaoyuan.com url script-request-body https://github.com/YaphetS0903/JStest/blob/main/wzxydk.js
+//我在校园打卡   https://student.wozaixiaoyuan.com url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxydk.js
 //task local 
-//0 0,10 * * * https://github.com/YaphetS0903/JStest/blob/main/wzxydk.js, tag=我在校园打卡, enabled=true
+//0 0,10 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxydk.js, tag=我在校园打卡, enabled=true
 //hostname=student.wozaixiaoyuan.com
 //获取ck方法，打开我在校园，点击健康打卡，获取位置，打卡一次获取ck
 
