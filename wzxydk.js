@@ -1,6 +1,6 @@
 //打卡ck有效期待测试，预计一星期
 //rewrite local
-//我在校园打卡   https://student.wozaixiaoyuan.com url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxydk.js
+//我在校园打卡   https://student.wozaixiaoyuan.com/health url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxydk.js
 //task local 
 //0 0,10 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxydk.js, tag=我在校园打卡, enabled=true
 //hostname=student.wozaixiaoyuan.com
@@ -22,7 +22,7 @@ let xsgbody = $.getdata('xsgbody')
   .finally(() => $.done())
 //ck
 function xsgck() {
-   if ($request.url.indexOf("health") > -1) {
+   if ($request.url.indexOf("save.json") > -1) {
     $.setdata($request.url,'xsgurl')
     $.log(xsgurl)
 $.setdata(JSON.stringify($request.headers),'xsghd')
@@ -40,7 +40,7 @@ function xsgqd(timeout = 0) {
 let url = {
         url : 'https://student.wozaixiaoyuan.com/health/save.json',
         headers : JSON.parse($.getdata('xsghd')),
-        body : `act=50`,}//xsgbody,}
+        body : xsgbody,}
       $.post(url, async (err, resp, data) => {
         try {
            
