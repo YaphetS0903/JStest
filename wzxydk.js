@@ -1,6 +1,8 @@
+//我在校园打卡
+//制作日期2021.8.1
 //打卡ck有效期待测试，预计一星期
 //rewrite local
-//我在校园打卡   https://student.wozaixiaoyuan.com/health url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxydk.js
+//https://student.wozaixiaoyuan.com/health url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxydk.js
 //task local 
 //0 0,10 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxydk.js, tag=我在校园打卡, enabled=true
 //hostname=student.wozaixiaoyuan.com
