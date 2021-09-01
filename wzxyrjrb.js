@@ -4,9 +4,9 @@
 //rewrite local
 //https://student.wozaixiaoyuan.com/heat url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxyrjrb.js
 //task local 
-//0 20 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxyrjrb.js, tag=我在校园打卡, enabled=true
+//0 20 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxyrjrb.js, tag=我在校园日检日报打卡, enabled=true
 //hostname=student.wozaixiaoyuan.com
-//获取ck方法，打开我在校园，点击健康打卡，获取位置，打卡一次获取ck
+//获取ck方法，打开我在校园，点击日检日报，填好所有温度之后，点获取位置，打卡一次获取ck
 
 const $ = new Env('我在校园日检日报打卡');
 let xsgurl = $.getdata('xsgurl')
