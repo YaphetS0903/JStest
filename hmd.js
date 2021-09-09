@@ -32,9 +32,9 @@ hmdbodyArr.push($.getdata('hmdbody'))
     hmdhdArr.push($.getdata(`hmdhd${i}`))
     hmdbodyArr.push($.getdata(`hmdbody${i}`))
   }
-    console.log(`------------- 共${hmdhdArr.length}个账号-------------\n`)
-      for (let i = 0; i < hmdhdArr.length; i++) {
-        if (hmdhdArr[i]) {
+    console.log(`------------- 共${hmdbodyArr.length}个账号-------------\n`)
+      for (let i = 0; i < hmdbodyArr.length; i++) {
+        if (hmdbodyArr[i]) {
          
           hmdurl = hmdurlArr[i];
           hmdhd = hmdhdArr[i];
@@ -42,7 +42,7 @@ hmdbodyArr.push($.getdata('hmdbody'))
           $.index = i + 1;
           console.log(`\n开始【河姆渡${$.index}】`)
           await $.wait(1000);
-          await hmdjs();
+          await hmdqd();
 
   }
 }}
@@ -68,7 +68,7 @@ $.setdata(hmdbody, `hmdbody${status}`)
   }
 }
 
-function hmdjs(timeout = 0) {
+function hmdqd(timeout = 0) {
   return new Promise((resolve) => {
 //uid=hmdurl.match(/user_id=(.*?)&/)[1]
 let url = {
