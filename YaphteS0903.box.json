@@ -1,0 +1,25 @@
+{
+  "id": "YaphetS0903.app.sub",
+  "name": "YaphetS 脚本订阅",
+  "author": "YaphetS0903",
+  "icon": "https://raw.githubusercontent.com/xl2101200/-/main/tom/tom.png",
+  "repo": "https://github.com/YaphetS0903/JStest",
+  "apps": [
+  {
+            "id": "hmd",
+            "name": "河姆渡签到",
+            "keys": ["hmdbody", "hmdbody2","hmdbody3", "hmdbody4","hmdbody5", "hmdbody6","hmdbody7", "hmdbody8","hmdbody9", "hmdbody10"],
+            "author": "@YaphetS0903",
+            "settings": [{
+            "id": "hmdstatus",
+            "name": "当前账号",
+            "val": "1",
+            "type": "number",
+            "desc": "当前抓取ck记录的账号序号，如：1、2、3、4"
+    }],
+            "repo": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/hmd.js",
+            "icons": ["https://raw.githubusercontent.com/xl2101200/-/main/tom/tom.jpg","https://raw.githubusercontent.com/xl2101200/-/main/tom/tom.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/hmd.js"
+    }
+	]
+}
