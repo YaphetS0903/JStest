@@ -26,6 +26,81 @@
             "repo": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/hmd.js",
             "icons": ["https://raw.githubusercontent.com/xl2101200/-/main/tom/tom.jpg","https://raw.githubusercontent.com/xl2101200/-/main/tom/tom.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/hmd.js"
-    }
+    },
+	  {
+            "id": "cydxs",
+            "name": "成语大学士",
+            "keys": ["cydxshd","cydxsbody","cydxsspbody", "cydxshd2","cydxsbody2","cydxsspbody2", "cydxshd3","cydxsbody3","cydxsspbody3", "cydxshd4","cydxsbody4","cydxsspbody4", "cydxshd5","cydxsbody5","cydxsspbody5", "cydxshd6","cydxsbody6","cydxsspbody6", "cydxshd7","cydxsbody7","cydxsspbody7", "cydxshd8","cydxsbody8","cydxsspbody8", "cydxshd9","cydxsbody9","cydxsspbody9", "cydxshd10","cydxsbody10","cydxsspbody10"],
+            "author": "@feizao",
+            "settings": [{
+            "id": "cydxsstatus",
+            "name": "当前账号",
+            "val": "1",
+            "type": "number",
+            "desc": "当前账号对应"
+    },
+    {
+            "id": "cydxscount",
+            "name": "账号个数",
+            "val": "1",
+            "type": "number",
+            "desc": "需要几个账号，数字为几"
+    }],
+            "repo": "https://github.com/age174/-/blob/main/cydxs.js",
+            "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
+            "script": "https://raw.githubusercontent.com/age174/-/main/cydxs.js"
+    } ,
+	  {
+            "id": "dtwz",
+            "name": "答题王者",
+            "keys": ["dtwzhd","dtwzbody","dtwzspbody", "dtwzhd2","dtwzbody2","dtwzspbody2", "dtwzhd3","dtwzbody3","dtwzspbody3", "dtwzhd4","dtwzbody4","dtwzspbody4", "dtwzhd5","dtwzbody5","dtwzspbody5", "dtwzhd6","dtwzbody6","dtwzspbody6", "dtwzhd7","dtwzbody7","dtwzspbody7", "dtwzhd8","dtwzbody8","dtwzspbody8", "dtwzhd9","dtwzbody9","dtwzspbody9", "dtwzhd10","dtwzbody10","dtwzspbody10"],
+            "author": "@feizao",
+            "settings": [{
+            "id": "dtwzstatus",
+            "name": "当前账号",
+            "val": "1",
+            "type": "number",
+            "desc": "当前账号对应"
+    },
+    {
+            "id": "dtwzcount",
+            "name": "账号个数",
+            "val": "1",
+            "type": "number",
+            "desc": "需要几个账号，数字为几"
+    }],
+            "repo": "https://github.com/age174/-/blob/main/dtwz.js",
+            "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
+            "script": "https://raw.githubusercontent.com/age174/-/main/dtwz.js"
+    } ,
+	  {
+            "id": "cyds",
+            "name": "成语大师",
+            "keys": ["cydshd","cydsbody","cydsspbody", "cydshd2","cydsbody2","cydsspbody2", "cydshd3","cydsbody3","cydsspbody3", "cydshd4","cydsbody4","cydsspbody4", "cydshd5","cydsbody5","cydsspbody5", "cydshd6","cydsbody6","cydsspbody6", "cydshd7","cydsbody7","cydsspbody7", "cydshd8","cydsbody8","cydsspbody8", "cydshd9","cydsbody9","cydsspbody9", "cydshd10","cydsbody10","cydsspbody10"],
+            "author": "@feizao",
+            "settings": [{
+            "id": "cydsstatus",
+            "name": "当前账号",
+            "val": "1",
+            "type": "number",
+            "desc": "当前账号对应"
+    },
+    {
+            "id": "cydscount",
+            "name": "账号个数",
+            "val": "1",
+            "type": "number",
+            "desc": "需要几个账号，数字为几"
+    }],
+            "repo": "https://github.com/age174/-/blob/main/cyds.js",
+            "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
+            "script": "https://raw.githubusercontent.com/age174/-/main/cyds.js"
+    } ,
+	  
+	  
+	  
+	  
+	  
+	  
 	]
 }
