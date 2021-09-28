@@ -175,7 +175,52 @@
             "repo": "https://github.com/YaphetS0903/JStest/blob/main/elsbjsb.js",
             "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/elsbjsb.js"
-    } 
+    } , {
+            "id": "ppxxx",
+            "name": "泡泡消消消",
+            "keys": ["ppxxxhd","ppxxxbody","ppxxxspbody", "ppxxxhd2","ppxxxbody2","ppxxxspbody2", "ppxxxhd3","ppxxxbody3","ppxxxspbody3", "ppxxxhd4","ppxxxbody4","ppxxxspbody4", "ppxxxhd5","ppxxxbody5","ppxxxspbody5", "ppxxxhd6","ppxxxbody6","ppxxxspbody6", "ppxxxhd7","ppxxxbody7","ppxxxspbody7", "ppxxxhd8","ppxxxbody8","ppxxxspbody8", "ppxxxhd9","ppxxxbody9","ppxxxspbody9", "ppxxxhd10","ppxxxbody10","ppxxxspbody10"],
+            "author": "@YaphetS0903",
+            "settings": [{
+            "id": "ppxxxstatus",
+            "name": "当前账号",
+            "val": "1",
+            "type": "number",
+            "desc": "当前账号对应"
+    },
+    {
+            "id": "ppxxxcount",
+            "name": "账号个数",
+            "val": "1",
+            "type": "number",
+            "desc": "需要几个账号，数字为几"
+    }],
+            "repo": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ppxxx.js",
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ppxxx.js"
+    } ,
+	   {
+            "id": "kxxxx",
+            "name": "开心消消消",
+            "keys": ["kxxxxhd","kxxxxbody","kxxxxspbody", "kxxxxhd2","kxxxxbody2","kxxxxspbody2", "kxxxxhd3","kxxxxbody3","kxxxxspbody3", "kxxxxhd4","kxxxxbody4","kxxxxspbody4", "kxxxxhd5","kxxxxbody5","kxxxxspbody5", "kxxxxhd6","kxxxxbody6","kxxxxspbody6", "kxxxxhd7","kxxxxbody7","kxxxxspbody7", "kxxxxhd8","kxxxxbody8","kxxxxspbody8", "kxxxxhd9","kxxxxbody9","kxxxxspbody9", "kxxxxhd10","kxxxxbody10","kxxxxspbody10"],
+            "author": "@YaphetS0903",
+            "settings": [{
+            "id": "kxxxxstatus",
+            "name": "当前账号",
+            "val": "1",
+            "type": "number",
+            "desc": "当前账号对应"
+    },
+    {
+            "id": "kxxxxcount",
+            "name": "账号个数",
+            "val": "1",
+            "type": "number",
+            "desc": "需要几个账号，数字为几"
+    }],
+            "repo": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/kxxxx.js",
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/kxxxx.js"
+    } ,
 	  
 	  
 	  
