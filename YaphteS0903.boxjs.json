@@ -2,7 +2,7 @@
   "id": "YaphetS0903.app.sub",
   "name": "YaphetS 脚本订阅",
   "author": "YaphetS0903",
-  "icon": "https://raw.githubusercontent.com/xl2101200/-/main/tom/tom.png",
+  "icon": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.png",
   "repo": "https://github.com/YaphetS0903/JStest",
   "apps": [
   {
@@ -24,7 +24,7 @@
             "desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
     } ],
             "repo": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/hmd.js",
-            "icons": ["https://raw.githubusercontent.com/xl2101200/-/main/tom/tom.jpg","https://raw.githubusercontent.com/xl2101200/-/main/tom/tom.jpg"],
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg","https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/hmd.js"
     },
 	  {
@@ -47,7 +47,7 @@
             "desc": "需要几个账号，数字为几"
     }],
             "repo": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/cydxs.js",
-            "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/cydxs.js"
     } ,
 	  {
@@ -70,7 +70,7 @@
             "desc": "需要几个账号，数字为几"
     }],
             "repo": "https://github.com/YaphetS0903/JStest/blob/main/dtwz.js",
-            "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/dtwz.js"
     } ,
 	  {
@@ -93,7 +93,7 @@
             "desc": "需要几个账号，数字为几"
     }],
             "repo": "https://github.com/YaphetS0903/JStest/blob/main/cyds.js",
-            "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/cyds.js"
     } ,
 	  {
@@ -126,7 +126,7 @@
                 }
             ],
             "repo": "https://github.com/YaphetS0903/JStest/blob/main/ttxfk.js",
-            "icons": ["https://raw.githubusercontent.com/laoguilin/JS-/main/img/ttxfk.png","https://raw.githubusercontent.com/laoguilin/JS-/main/img/ttxfk.png"],
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg","https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttxfk.js"
         },
 	  
@@ -150,7 +150,7 @@
             "desc": "需要几个账号，数字为几"
     }],
             "repo": "https://github.com/YaphetS0903/JStest/blob/main/bsxxl.js",
-            "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/bsxxl.js"
     } ,
 	  {
@@ -173,7 +173,7 @@
             "desc": "需要几个账号，数字为几"
     }],
             "repo": "https://github.com/YaphetS0903/JStest/blob/main/elsbjsb.js",
-            "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/elsbjsb.js"
     } 
 	  
