@@ -19,8 +19,9 @@ https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 答题王者
 圈X配置如下，其他软件自行测试
 [task_local]
+自行设置运行时间，可设置5分钟到10分钟一次，别太快，垃圾游戏容易黑
 #答题王者
-*/5 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/dtwz.js, tag=答题王者, enabled=true
+0,30 * 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/dtwz.js, tag=答题王者, enabled=true
 [rewrite_local]
 #答题王者视频
 https://api-access.pangolin-sdk-toutiao.com/api/ad/union/sdk/reward_video/reward/ url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/dtwz.js
