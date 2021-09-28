@@ -96,6 +96,39 @@
             "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/cyds.js"
     } ,
+	  {
+            "id": "ttxfk",
+            "name": "天天消方块",
+            "keys": ["ttxfkbody", "ttxfktoken", "ttxfkbody2", "ttxfktoken2", "ttxfkbody3", "ttxfktoken3", 
+                    "ttxfkbody4", "ttxfktoken4", "ttxfkbody5", "ttxfktoken5", "ttxfkbody6", "ttxfktoken6"],
+            "author": "@laoguilin",
+            "settings": [
+                {
+                    "id": "ttxfkstatus",
+                    "name": "当前账号",
+                    "val": "1",
+                    "type": "number",
+                    "desc": "当前抓取ck记录的账号序号，如：1、2、3、4"
+                },
+                {
+                    "id": "ttxfkcount",
+                    "name": "账号个数",
+                    "val": "1",
+                    "type": "number",
+                    "desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
+                },
+                {
+                    "id": "tz",
+                    "name": "通知",
+                    "val": "0",
+                    "type": "number",
+                    "desc": "0关闭通知，1打开通知"
+                }
+            ],
+            "repo": "https://github.com/YaphetS0903/JStest/blob/main/ttxfk.js",
+            "icons": ["https://raw.githubusercontent.com/laoguilin/JS-/main/img/ttxfk.png","https://raw.githubusercontent.com/laoguilin/JS-/main/img/ttxfk.png"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttxfk.js"
+        }
 	  
 	  
 	  
