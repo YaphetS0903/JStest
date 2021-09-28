@@ -221,8 +221,72 @@
             "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/kxxxx.js"
     } ,
-	  
-	  
+	   {
+            "id": "ttdt",
+            "name": "天天答题",
+            "keys": ["ttdtbody", "ttdttoken", "ttdtbody2", "ttdttoken2", "ttdtbody3", "ttdttoken3", 
+                    "ttdtbody4", "ttdttoken4", "ttdtbody5", "ttdttoken5", "ttdtbody6", "ttdttoken6"],
+            "author": "@YaphetS0903",
+            "settings": [
+                {
+                    "id": "ttdtstatus",
+                    "name": "当前账号",
+                    "val": "1",
+                    "type": "number",
+                    "desc": "当前抓取ck记录的账号序号，如：1、2、3、4"
+                },
+                {
+                    "id": "ttdtcount",
+                    "name": "账号个数",
+                    "val": "1",
+                    "type": "number",
+                    "desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
+                },
+                {
+                    "id": "tz",
+                    "name": "通知",
+                    "val": "0",
+                    "type": "number",
+                    "desc": "0关闭通知，1打开通知"
+                }
+            ],
+            "repo": "https://github.com/YaphetS0903/JStest/blob/main/ttdt.js",
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg","https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttdt.js"
+        },
+	   {
+            "id": "ttcg",
+            "name": "天天猜歌",
+            "keys": ["ttcgbody", "ttcgtoken", "ttcgbody2", "ttcgtoken2", "ttcgbody3", "ttcgtoken3", 
+                    "ttcgbody4", "ttcgtoken4", "ttcgbody5", "ttcgtoken5", "ttcgbody6", "ttcgtoken6"],
+            "author": "@YaphetS0903",
+            "settings": [
+                {
+                    "id": "ttcgstatus",
+                    "name": "当前账号",
+                    "val": "1",
+                    "type": "number",
+                    "desc": "当前抓取ck记录的账号序号，如：1、2、3、4"
+                },
+                {
+                    "id": "ttcgcount",
+                    "name": "账号个数",
+                    "val": "1",
+                    "type": "number",
+                    "desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
+                },
+                {
+                    "id": "tz",
+                    "name": "通知",
+                    "val": "0",
+                    "type": "number",
+                    "desc": "0关闭通知，1打开通知"
+                }
+            ],
+            "repo": "https://github.com/YaphetS0903/JStest/blob/main/ttcg.js",
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg","https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttcg.js"
+        },
 	  
 	  
 	  
