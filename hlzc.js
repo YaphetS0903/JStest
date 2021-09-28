@@ -31,7 +31,7 @@ hostname = springglasses.com
 const $ = new Env('欢乐找茬');
 let status;
 status = (status = ($.getval("hlzcstatus") || "1") ) > 1 ? `${status}` : ""; // 账号扩展字符
-const hlzchdArr = [],hlzcbodyArr = [],hlzcspbodyArr = [],hlzccount = ''
+const hlzchdArr = [],hlzcbodyArr = [],hlzcsphdArr = [],hlzcspbodyArr = [],hlzccount = ''
 let hlzchd = $.getdata('hlzchd')
 let hlzcbody = $.getdata('hlzcbody')
 let hlzcspbody = $.getdata('hlzcspbody')
