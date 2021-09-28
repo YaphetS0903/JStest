@@ -1,12 +1,33 @@
 /*
-软件名称:成语大学士
-[rewrite_local]
-https://r1.nullpointerexception.cn/redpacket//f/ad/divident url script-request-body cydxs.js
-https://api-access.pangolin-sdk-toutiao.com/api/ad/union/sdk/reward_video/reward/ url script-request-body cydxs.js
- * [task_local]
- * 自行设定脚本定时运行时间
-hostname = r1.nullpointerexception.cn, api-access.pangolin-sdk-toutiao.com
 
+软件名称:成语大学士 
+更新时间：2021-09-27 @YaphetS0903
+脚本说明：成语大学士自动刷红包。。
+玩法和其他游戏一样。先把其他游戏的重写关了。。。
+动物研究院使用方法:
+1-点击气泡红包观看广告结束获得视频数据。
+2-领取红包获得红包数据。
+本脚本以学习为主
+
+TG通知群:https://t.me/tom_ww
+TG电报交流群: https://t.me/tom_210120
+
+boxjs地址 :  
+
+https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
+
+成语大学士
+圈X配置如下，其他软件自行测试
+[task_local]
+#成语大学士
+*/5 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/cydxs.js, tag=成语大学士, enabled=true
+[rewrite_local]
+#成语大学士视频
+https://api-access.pangolin-sdk-toutiao.com/api/ad/union/sdk/reward_video/reward/ url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/cydxs.js
+#成语大学士红包
+https://r1.nullpointerexception.cn/redpacket//f/ad/divident url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/cydxs.js
+[MITM]
+hostname = r1.nullpointerexception.cn, api-access.pangolin-sdk-toutiao.com
 */
 const $ = new Env('成语大学士');
 let status;
