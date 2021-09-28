@@ -1,16 +1,25 @@
 /*
 软件名称:宝石消消乐 
-
-点击红包领取，看视频获得视频数据。领红包获得红包数据。
-
-慢点运行。间隔久一点。。。。也不要一天到晚运行。
-
+更新时间：2021-09-27 @YaphetS0903
+脚本说明：宝石消消乐自动刷红包。。
+玩法和其他游戏一样。先把其他游戏的重写关了。。。
+宝石消消乐使用方法:
+领取红包获得红包数据。
 本脚本以学习为主
+TG通知群:https://t.me/tom_ww
+TG电报交流群: https://t.me/tom_210120
+boxjs地址 :  
+https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
+宝石消消乐
+圈X配置如下，其他软件自行测试
+[task_local]
 #宝石消消乐
-https://r1.nullpointerexception.cn/redpacket//f/ad/divident url script-request-body bsxxl.js
-hostname=r1.nullpointerexception.cn
-
-
+*/5 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/bsxxl.js, tag=宝石消消乐, enabled=true
+[rewrite_local]
+#宝石消消乐红包
+https://r1.nullpointerexception.cn/redpacket//f/ad/divident url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/bsxxl.js
+[MITM]
+hostname = r1.nullpointerexception.cn
 */
 const $ = new Env('宝石消消乐');
 let status;
