@@ -46,9 +46,9 @@
             "type": "number",
             "desc": "需要几个账号，数字为几"
     }],
-            "repo": "https://github.com/age174/-/blob/main/cydxs.js",
+            "repo": "https://github.com/YaphetS0903/JStest/blob/main/cydxs.js",
             "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
-            "script": "https://raw.githubusercontent.com/age174/-/main/cydxs.js"
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/cydxs.js"
     } ,
 	  {
             "id": "dtwz",
@@ -69,9 +69,9 @@
             "type": "number",
             "desc": "需要几个账号，数字为几"
     }],
-            "repo": "https://github.com/age174/-/blob/main/dtwz.js",
+            "repo": "https://github.com/YaphetS0903/JStest/blob/main/dtwz.js",
             "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
-            "script": "https://raw.githubusercontent.com/age174/-/main/dtwz.js"
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/dtwz.js"
     } ,
 	  {
             "id": "cyds",
@@ -92,9 +92,9 @@
             "type": "number",
             "desc": "需要几个账号，数字为几"
     }],
-            "repo": "https://github.com/age174/-/blob/main/cyds.js",
+            "repo": "https://github.com/YaphetS0903/JStest/blob/main/cyds.js",
             "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
-            "script": "https://raw.githubusercontent.com/age174/-/main/cyds.js"
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/cyds.js"
     } ,
 	  
 	  
