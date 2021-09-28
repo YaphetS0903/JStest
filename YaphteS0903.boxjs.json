@@ -46,7 +46,7 @@
             "type": "number",
             "desc": "需要几个账号，数字为几"
     }],
-            "repo": "https://github.com/YaphetS0903/JStest/blob/main/cydxs.js",
+            "repo": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/cydxs.js",
             "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/cydxs.js"
     } ,
