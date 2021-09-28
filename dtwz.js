@@ -1,18 +1,33 @@
 /*
-软件名称:答题王者
 
-
-点击红包领取，看视频获得视频数据。领红包获得红包数据。
-
-慢点运行。间隔久一点。。。。也不要一天到晚运行。
-
+软件名称:答题王者 
+更新时间：2021-09-27 @YaphetS0903
+脚本说明：答题王者自动刷红包。。
+玩法和其他游戏一样。先把其他游戏的重写关了。。。
+答题王者使用方法:
+1-点击气泡红包观看广告结束获得视频数据。
+2-领取红包获得红包数据。
 本脚本以学习为主
 
-#答题王者
-https://r1.nullpointerexception.cn/redpacket//f/ad/divident url script-request-body dtwz.js
+TG通知群:https://t.me/tom_ww
+TG电报交流群: https://t.me/tom_210120
 
-https://api-access.pangolin-sdk-toutiao.com/api/ad/union/sdk/reward_video/reward/ url script-request-body dtwz.js
-hostname=api-access.pangolin-sdk-toutiao.com,r1.nullpointerexception.cn
+boxjs地址 :  
+
+https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
+
+答题王者
+圈X配置如下，其他软件自行测试
+[task_local]
+#答题王者
+*/5 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/dtwz.js, tag=答题王者, enabled=true
+[rewrite_local]
+#答题王者视频
+https://api-access.pangolin-sdk-toutiao.com/api/ad/union/sdk/reward_video/reward/ url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/dtwz.js
+#答题王者红包
+https://r1.nullpointerexception.cn/redpacket//f/ad/divident url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/dtwz.js
+[MITM]
+hostname = r1.nullpointerexception.cn, api-access.pangolin-sdk-toutiao.com
 */
 const $ = new Env('答题王者');
 let status;
