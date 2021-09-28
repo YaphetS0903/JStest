@@ -13,8 +13,8 @@ https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 宝石消消乐
 圈X配置如下，其他软件自行测试
 [task_local]
-#宝石消消乐
 自行设置运行时间，可设置5分钟到10分钟一次，别太快，垃圾游戏容易黑
+#宝石消消乐
 0,30 * 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/bsxxl.js, tag=宝石消消乐, enabled=true
 [rewrite_local]
 #宝石消消乐红包
