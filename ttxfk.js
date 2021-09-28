@@ -1,11 +1,26 @@
-/**
- * app名称：App Store搜索天天消方块
- * 
- * 脚本完成时间：2021年9月27日
- * 
- * 获取方式：进入游戏看一条视频广告自动获取视频body和token
-hostname=num.springglasses.com
- */
+/*
+软件名称:天天消方块 
+更新时间：2021-09-27 @YaphetS0903
+脚本说明：天天消方块自动刷红包。。
+玩法和其他游戏一样。先把其他游戏的重写关了。。。
+天天消方块使用方法:
+领取红包获得红包数据。
+本脚本以学习为主
+TG通知群:https://t.me/tom_ww
+TG电报交流群: https://t.me/tom_210120
+boxjs地址 :  
+https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
+天天消方块
+圈X配置如下，其他软件自行测试
+[task_local]
+#天天消方块
+*/20 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttxfk.js, tag=天天消方块, enabled=true
+[rewrite_local]
+#天天消方块红包
+https://num.springglasses.com/api/app/ios/credit/coin? url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttxfk.js
+[MITM]
+hostname = num.springglasses.com
+*/
 
  const $ = new Env('天天消方块');
  let status;
