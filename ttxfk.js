@@ -13,8 +13,9 @@ https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 天天消方块
 圈X配置如下，其他软件自行测试
 [task_local]
+自行设置运行时间，可设置5分钟到10分钟一次，别太快，垃圾游戏容易黑
 #天天消方块
-*/20 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttxfk.js, tag=天天消方块, enabled=true
+0,30 * 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttxfk.js, tag=天天消方块, enabled=true
 [rewrite_local]
 #天天消方块红包
 https://num.springglasses.com/api/app/ios/credit/coin? url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttxfk.js
