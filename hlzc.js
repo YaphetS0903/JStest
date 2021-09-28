@@ -111,7 +111,7 @@ let url = {
       $.post(url, async (err, resp, data) => {
         try {
     //const result = JSON.parse(data)
-        if (data && data.length >= 150) {
+        if (data && data.length >= 80) {
   $.log(`\n欢乐找茬:成功领取红包`)
 } else {
 
@@ -140,7 +140,7 @@ let url = {
       $.post(url, async (err, resp, data) => {
         try {
     const result = JSON.parse(data)
-        if (data && data.length >= 150) {
+        if (data && data.length >= 80) {
   $.log(`\n欢乐找茬视频观看成功`)
     await $.wait(5000)
    await hlzchb();
