@@ -1,17 +1,25 @@
 /*
 软件名称:2048极速版 
-与其他游戏冲突，先禁用其他游戏重写
-
-点击红包领取，看视频获得视频数据。领红包获得红包数据。
-
-慢点运行。间隔久一点。。。。也不要一天到晚运行。
-
+更新时间：2021-09-27 @YaphetS0903
+脚本说明：2048极速版自动刷红包。。
+玩法和其他游戏一样。先把其他游戏的重写关了。。。
+2048极速版使用方法:
+领取红包获得红包数据。
 本脚本以学习为主
+TG通知群:https://t.me/tom_ww
+TG电报交流群: https://t.me/tom_210120
+boxjs地址 :  
+https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
+2048极速版
+圈X配置如下，其他软件自行测试
+[task_local]
 #2048极速版
-https://r1.nullpointerexception.cn/redpacket//f/ad/divident url script-request-body elsbjsb.js
-hostname=r1.nullpointerexception.cn
-
-
+*/5 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/elsbjsb.js, tag=2048极速版, enabled=true
+[rewrite_local]
+#2048极速版红包
+https://r1.nullpointerexception.cn/redpacket//f/ad/divident url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/elsbjsb.js
+[MITM]
+hostname = r1.nullpointerexception.cn
 */
 const $ = new Env('2048极速版');
 let status;
