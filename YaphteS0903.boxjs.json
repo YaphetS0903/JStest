@@ -31,7 +31,7 @@
             "id": "cydxs",
             "name": "成语大学士",
             "keys": ["cydxshd","cydxsbody","cydxsspbody", "cydxshd2","cydxsbody2","cydxsspbody2", "cydxshd3","cydxsbody3","cydxsspbody3", "cydxshd4","cydxsbody4","cydxsspbody4", "cydxshd5","cydxsbody5","cydxsspbody5", "cydxshd6","cydxsbody6","cydxsspbody6", "cydxshd7","cydxsbody7","cydxsspbody7", "cydxshd8","cydxsbody8","cydxsspbody8", "cydxshd9","cydxsbody9","cydxsspbody9", "cydxshd10","cydxsbody10","cydxsspbody10"],
-            "author": "@feizao",
+            "author": "@YaphetS0903",
             "settings": [{
             "id": "cydxsstatus",
             "name": "当前账号",
@@ -54,7 +54,7 @@
             "id": "dtwz",
             "name": "答题王者",
             "keys": ["dtwzhd","dtwzbody","dtwzspbody", "dtwzhd2","dtwzbody2","dtwzspbody2", "dtwzhd3","dtwzbody3","dtwzspbody3", "dtwzhd4","dtwzbody4","dtwzspbody4", "dtwzhd5","dtwzbody5","dtwzspbody5", "dtwzhd6","dtwzbody6","dtwzspbody6", "dtwzhd7","dtwzbody7","dtwzspbody7", "dtwzhd8","dtwzbody8","dtwzspbody8", "dtwzhd9","dtwzbody9","dtwzspbody9", "dtwzhd10","dtwzbody10","dtwzspbody10"],
-            "author": "@feizao",
+            "author": "@YaphetS0903",
             "settings": [{
             "id": "dtwzstatus",
             "name": "当前账号",
@@ -77,7 +77,7 @@
             "id": "cyds",
             "name": "成语大师",
             "keys": ["cydshd","cydsbody","cydsspbody", "cydshd2","cydsbody2","cydsspbody2", "cydshd3","cydsbody3","cydsspbody3", "cydshd4","cydsbody4","cydsspbody4", "cydshd5","cydsbody5","cydsspbody5", "cydshd6","cydsbody6","cydsspbody6", "cydshd7","cydsbody7","cydsspbody7", "cydshd8","cydsbody8","cydsspbody8", "cydshd9","cydsbody9","cydsspbody9", "cydshd10","cydsbody10","cydsspbody10"],
-            "author": "@feizao",
+            "author": "@YaphetS0903",
             "settings": [{
             "id": "cydsstatus",
             "name": "当前账号",
@@ -101,7 +101,7 @@
             "name": "天天消方块",
             "keys": ["ttxfkbody", "ttxfktoken", "ttxfkbody2", "ttxfktoken2", "ttxfkbody3", "ttxfktoken3", 
                     "ttxfkbody4", "ttxfktoken4", "ttxfkbody5", "ttxfktoken5", "ttxfkbody6", "ttxfktoken6"],
-            "author": "@laoguilin",
+            "author": "@YaphetS0903",
             "settings": [
                 {
                     "id": "ttxfkstatus",
@@ -128,8 +128,54 @@
             "repo": "https://github.com/YaphetS0903/JStest/blob/main/ttxfk.js",
             "icons": ["https://raw.githubusercontent.com/laoguilin/JS-/main/img/ttxfk.png","https://raw.githubusercontent.com/laoguilin/JS-/main/img/ttxfk.png"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttxfk.js"
-        }
+        },
 	  
+	  {
+            "id": "bsxxl",
+            "name": "宝石消消乐",
+            "keys": ["bsxxlhd","bsxxlbody", "bsxxlhd2","bsxxlbody2", "bsxxlhd3","bsxxlbody3", "bsxxlhd4","bsxxlbody4", "bsxxlhd5","bsxxlbody5", "bsxxlhd6","bsxxlbody6","bsxxlhd7","bsxxlbody7", "bsxxlhd8","bsxxlbody8", "bsxxlhd9","bsxxlbody9", "bsxxlhd10","bsxxlbody10"],
+            "author": "@YaphetS0903",
+            "settings": [{
+            "id": "bsxxlstatus",
+            "name": "当前账号",
+            "val": "1",
+            "type": "number",
+            "desc": "当前账号对应"
+    },
+    {
+            "id": "bsxxlcount",
+            "name": "账号个数",
+            "val": "1",
+            "type": "number",
+            "desc": "需要几个账号，数字为几"
+    }],
+            "repo": "https://github.com/YaphetS0903/JStest/blob/main/bsxxl.js",
+            "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/bsxxl.js"
+    } ,
+	  {
+            "id": "elsbjsb",
+            "name": "2048极速版",
+            "keys": ["elsbjsbhd","elsbjsbbody", "elsbjsbhd2","elsbjsbbody2", "elsbjsbhd3","elsbjsbbody3", "elsbjsbhd4","elsbjsbbody4", "elsbjsbhd5","elsbjsbbody5", "elsbjsbhd6","elsbjsbbody6","elsbjsbhd7","elsbjsbbody7", "elsbjsbhd8","elsbjsbbody8", "elsbjsbhd9","elsbjsbbody9", "elsbjsbhd10","elsbjsbbody10"],
+            "author": "@YaphetS0903",
+            "settings": [{
+            "id": "elsbjsbstatus",
+            "name": "当前账号",
+            "val": "1",
+            "type": "number",
+            "desc": "当前账号对应"
+    },
+    {
+            "id": "elsbjsbcount",
+            "name": "账号个数",
+            "val": "1",
+            "type": "number",
+            "desc": "需要几个账号，数字为几"
+    }],
+            "repo": "https://github.com/YaphetS0903/JStest/blob/main/elsbjsb.js",
+            "icons": ["https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg", "https://ae01.alicdn.com/kf/Uc5a0618d6a404079af9216e1012e35efs.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/elsbjsb.js"
+    } ,
 	  
 	  
 	  
