@@ -12,9 +12,11 @@ boxjs地址 :
 https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 2048极速版
 圈X配置如下，其他软件自行测试
+
 [task_local]
 #2048极速版
-*/5 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/elsbjsb.js, tag=2048极速版, enabled=true
+自行设置运行时间，可设置5分钟到10分钟一次，别太快，垃圾游戏容易黑
+0,30 * 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/elsbjsb.js, tag=2048极速版, enabled=true
 [rewrite_local]
 #2048极速版红包
 https://r1.nullpointerexception.cn/redpacket//f/ad/divident url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/elsbjsb.js
