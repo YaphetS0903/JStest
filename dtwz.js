@@ -28,7 +28,10 @@ https://api-access.pangolin-sdk-toutiao.com/api/ad/union/sdk/reward_video/reward
 https://r1.nullpointerexception.cn/redpacket//f/ad/divident url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/dtwz.js
 [MITM]
 hostname = r1.nullpointerexception.cn, api-access.pangolin-sdk-toutiao.com
+
+  
 */
+
 const $ = new Env('答题王者');
 let status;
 status = (status = ($.getval("dtwzstatus") || "1") ) > 1 ? `${status}` : ""; // 账号扩展字符
