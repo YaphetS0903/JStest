@@ -19,8 +19,9 @@ https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 成语大学士
 圈X配置如下，其他软件自行测试
 [task_local]
+自行设置运行时间，可设置5分钟到10分钟一次，别太快，垃圾游戏容易黑
 #成语大学士
-*/5 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/cydxs.js, tag=成语大学士, enabled=true
+0,30 * 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/cydxs.js, tag=成语大学士, enabled=true
 [rewrite_local]
 #成语大学士视频
 https://api-access.pangolin-sdk-toutiao.com/api/ad/union/sdk/reward_video/reward/ url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/cydxs.js
