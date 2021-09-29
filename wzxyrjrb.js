@@ -81,8 +81,10 @@ let url = {
     const result = JSON.parse(data)
         if(result.code == 0){  
     console.log('\n打卡成功 ')
+           $.msg($.name,"",`我在校园日检日报打卡成功`)
 } else{
        console.log('\n打卡失败: '+result.message)
+  $.msg($.name,"",`我在校园日检日报打卡失败`)
 }
         } catch (e) {
           //$.logErr(e, resp);
