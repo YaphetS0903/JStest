@@ -82,7 +82,7 @@ let url = {
         if(result.code == 0){  
     console.log('\n打卡成功 ')
 } else{
-       console.log('\n打卡失败: '+result.mseeage)
+       console.log('\n打卡失败: '+result.message)
 }
         } catch (e) {
           //$.logErr(e, resp);
