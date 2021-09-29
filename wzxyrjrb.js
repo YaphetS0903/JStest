@@ -81,8 +81,10 @@ let url = {
     const result = JSON.parse(data)
         if(result.respCode == 0){  
     console.log('\n打卡成功 ')
-} else {
+} else if(result.respCode == 1){
        console.log('\n打卡失败: '+result.mseeage)
+}else if(result.respCode == -10){
+  console.log('\n打卡失败: '+result.mseeage)
 }
    
         } catch (e) {
