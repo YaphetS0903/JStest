@@ -287,8 +287,29 @@
             "repo": "https://github.com/YaphetS0903/JStest/blob/main/ttcg.js",
             "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg","https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttcg.js"
-        }
-	  
+        },
+	  {
+            "id": "wzxyrjrb",
+            "name": "我在校园日检日报",
+            "keys": ["wzxyrjrbbody", "wzxyrjrbbody2","wzxyrjrbbody3", "wzxyrjrbbody4","wzxyrjrbbody5", "wzxyrjrbbody6","wzxyrjrbbody7", "wzxyrjrbbody8","wzxyrjrbbody9", "wzxyrjrbbody10"],
+            "author": "@YaphetS0903",
+            "settings": [{
+            "id": "wzxyrjrbstatus",
+            "name": "当前账号",
+            "val": "1",
+            "type": "number",
+            "desc": "当前抓取ck记录的账号序号，如：1、2、3、4"
+    },{
+            "id": "wzxyrjrbcount",
+            "name": "账号个数",
+            "val": "1",
+            "type": "number",
+            "desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
+    } ],
+            "repo": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxyrjrb.js",
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg","https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxyrjrb.js"
+    }
 	  
 	  
 	]
