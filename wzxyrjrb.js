@@ -40,7 +40,7 @@ xsgbodyArr.push($.getdata('xsgbody'))
           xsghd = xsghdArr[i];
           xsgbody = xsgbodyArr[i];
           $.index = i + 1;
-          console.log(`\n开始【河姆渡${$.index}】`)
+          console.log(`\n开始【我在校园日检日报${$.index}】`)
           await $.wait(1000);
           await xsgjs();
 
