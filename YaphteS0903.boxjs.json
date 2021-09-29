@@ -291,7 +291,7 @@
 	  {
             "id": "wzxyrjrb",
             "name": "我在校园日检日报",
-            "keys": ["xsghd", "xsgbody","xsghd2", "xsgbody2"],
+            "keys": ["xsghd", "xsgbody","xsghd2", "xsgbody2","xsghd3", "xsgbody3","xsghd4", "xsgbody4","xsghd5", "xsgbody5","xsghd6", "xsgbody6","xsghd7", "xsgbody7"],
             "author": "@YaphetS0903",
             "settings": [{
             "id": "xsgstatus",
