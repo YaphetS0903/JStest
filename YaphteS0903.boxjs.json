@@ -289,18 +289,18 @@
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttcg.js"
         },
 	  {
-            "id": "wzxyrjrb",
+            "id": "xsg",
             "name": "我在校园日检日报",
-            "keys": ["wzxyrjrbbody", "wzxyrjrbbody2","wzxyrjrbbody3", "wzxyrjrbbody4","wzxyrjrbbody5", "wzxyrjrbbody6","wzxyrjrbbody7", "wzxyrjrbbody8","wzxyrjrbbody9", "wzxyrjrbbody10"],
+            "keys": ["xsghd", "xsgbody","xsghd2", "xsgbody2"],
             "author": "@YaphetS0903",
             "settings": [{
-            "id": "wzxyrjrbstatus",
+            "id": "xsgstatus",
             "name": "当前账号",
             "val": "1",
             "type": "number",
             "desc": "当前抓取ck记录的账号序号，如：1、2、3、4"
     },{
-            "id": "wzxyrjrbcount",
+            "id": "xsgcount",
             "name": "账号个数",
             "val": "1",
             "type": "number",
