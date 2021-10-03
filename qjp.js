@@ -540,43 +540,7 @@ $.log(token)
     })
 }
 
-//开盒子立即领取金币
-function qjpbox(timeout = 0) {
-    return new Promise((resolve) => {
 
-        let url = {
-            url: `https://qjp.qujianpan.com/qjp-app/game/savingsBank/openBox`,
-            headers: JSON.parse(qjphd),
-            body: qjpbody,
-        }
-        $.post(url, async (err, resp, data) => {
-            try {
-
-        const result = JSON.parse(data)
-
-                if (result.code == 200) {
-
-         console.log(`【开盒子立即领取金币】：${result.message}\n`)
-					
-        $.message += `【开盒子立即领取金币】：${result.message}\n`
-			//ticket = result.data.ticket
-            //await qjpboxdb();
-
-
-                } else {
-
-                    console.log(`【开盒子立即领取金币失败】：${result.message}\n`)
-
-                }
-            } catch (e) {
-
-            } finally {
-
-                resolve()
-            }
-        }, timeout)
-    })
-}
 
 //完成视频任务
 function qjpsprw(timeout = 0) {
@@ -603,8 +567,9 @@ function qjpsprw(timeout = 0) {
                     console.log(`【完成视频任务失败】：${result.message}\n`)
 
                 }
+		    await $.wait(2000)
                 await qjpfbkrw()
-				await $.wait(2000)
+				
                 
             } catch (e) {
 
@@ -641,9 +606,9 @@ function qjpfbkrw(timeout = 0) {
                     console.log(`【完成翻倍卡任务失败】：${result.message}\n`)
 
                 }
+		    await $.wait(2000)
                 await qjpcskrw()
-				await $.wait(2000)
-                
+				
             } catch (e) {
 
             } finally {
@@ -679,8 +644,9 @@ function qjpcskrw(timeout = 0) {
                     console.log(`【完成财神卡任务失败】：${result.message}\n`)
 
                 }
+		    await $.wait(2000)
                 await qjpzbdhrw()
-				await $.wait(2000)
+				
                 
             } catch (e) {
 
@@ -717,8 +683,9 @@ function qjpzbdhrw(timeout = 0) {
                     console.log(`【完成猪币兑换任务失败】：${result.message}\n`)
 
                 }
+		    await $.wait(2000)
                 await qjpzpcjrw()
-				await $.wait(2000)
+				
                
             } catch (e) {
 
@@ -755,9 +722,9 @@ function qjpzpcjrw(timeout = 0) {
                     console.log(`【完成转盘抽奖任务失败】：${result.message}\n`)
 
                 }
-				 
+			await $.wait(2000)	 
                 await qjpstealrw()
-                await $.wait(2000)
+               
             } catch (e) {
 
             } finally {
