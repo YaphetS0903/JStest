@@ -93,13 +93,20 @@ $.message = ''
 				await $.wait(2000)
                 await qjpyqk()
 				await $.wait(2000)
+		                for(let k=0;k<3;k++){
+				$.index=k+1
+				console.log(`\n【开始第${k+1}次执行偷好友猪币任务!】\n等待2秒开始偷取`)
+			        await $.wait(2000)
 				await qjpsteal()
 				await $.wait(2000)
+		                }
+		    
 				await qjpbox()
 				await $.wait(2000)
 				for(let x=0;x<2;x++){
 				$.index=x+1
 				console.log(`\n【开始第${x+1}次执行转盘任务!】\n等待2秒开始转盘`)
+				await $.wait(2000)
 				await qjpzp()
 				await $.wait(2000)
 				}
@@ -287,11 +294,14 @@ function qjpyqk(timeout = 0) {
 //偷好友猪币
 function qjpsteal(timeout = 0) {
     return new Promise((resolve) => {
-
+	    let y =0;y<5;y++
         let url = {
             url: `https://qjp.qujianpan.com/qjp-app/game/savingsBankFriend/stealPigMoney`,
             headers: JSON.parse(qjphd),
-            body: qjpbody,
+            body: 
+		`{
+  "friendId": ${y}
+}`,
         }
         $.post(url, async (err, resp, data) => {
             try {
