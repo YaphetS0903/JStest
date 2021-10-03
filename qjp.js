@@ -794,42 +794,6 @@ function qjpstealrw(timeout = 0) {
 
 
 
-//查看金币余额
-function qjpbalance(timeout = 0) {
-    return new Promise((resolve) => {
-//token = qjphd.match(/"Auth-Token":(\d.+)/)[1]
-token = qjphd.match(/"(\d.{35})"/)[1]
-        let url = {
-            url: `https://qjp.qujianpan.com/qjp-app/pig/turntable/info,
-            headers: //JSON.parse(qjphd),
-{"Referer": "https://h5.qujianpan.com/pigLottery/index.html?from=2",
-
-"Auth-Token":token,
-
-},
-
-            body: qjpbody,
-        }
-        $.post(url, async (err, resp, data) => {
-            try {
-
-                const result = JSON.parse(data)
-				if (result.code == 200) {
-                    console.log(`【查询开始查询金币余额】：${result.message}\n`)
-					console.log(`【金币余额】：${result.data.balance}\n`)
-                    $.message += `【金币余额】：${result.data.balance}\n`
-                } else {
-                    console.log(`【查询金币余额失败】\n`)
-                }
-            } catch (e) {
-
-            } finally {
-
-                resolve()
-            }
-        }, timeout)
-    })
-}
 
 
 
