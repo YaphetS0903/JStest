@@ -313,7 +313,7 @@
 	  {
             "id": "qjp",
             "name": "趣键盘极速版",
-            "keys": ["qjphd","qjpbody","qjpspbody", "qjphd2","qjpbody2","qjpspbody2", "qjphd3","qjpbody3","qjpspbody3", "qjphd4","qjpbody4","qjpspbody4", "qjphd5","qjpbody5","qjpspbody5", "qjphd6","qjpbody6","qjpspbody6", "qjphd7","qjpbody7","qjpspbody7", "qjphd8","qjpbody8","qjpspbody8", "qjphd9","qjpbody9","qjpspbody9", "qjphd10","qjpbody10","qjpspbody10"],
+            "keys": ["qjphd","qjphd2", "qjphd3", "qjphd4", "qjphd5", "qjphd6", "qjphd7", "qjphd8", "qjphd9", "qjphd10"],
             "author": "@YaphetS0903",
             "settings": [{
             "id": "qjpstatus",
