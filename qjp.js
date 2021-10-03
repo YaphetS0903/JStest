@@ -792,7 +792,39 @@ function qjpstealrw(timeout = 0) {
 }
 
 
+//查看金币余额
+function qjpsteal(timeout = 0) {
+    return new Promise((resolve) => {
 
+        let url = {
+            url: `https://qjp.qujianpan.com/qjp-app/pig/turntable/info`,
+            headers: JSON.parse(qjphd),
+            body: qjpbody,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【开始查询金币余额】：${result.message}\n`)
+					console.log(`【金币余额】：${result.data.balance}\n`)
+                    $.message += `【金币余额】：${result.data.balance}\n`
+                } else {
+
+                    console.log(`【查询金币余额失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
 
 
 
