@@ -309,8 +309,30 @@
             "repo": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxyrjrb.js",
             "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg","https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/wzxyrjrb.js"
+    } , 
+	  {
+            "id": "qjp",
+            "name": "趣键盘极速版",
+            "keys": ["qjphd","qjpbody","qjpspbody", "qjphd2","qjpbody2","qjpspbody2", "qjphd3","qjpbody3","qjpspbody3", "qjphd4","qjpbody4","qjpspbody4", "qjphd5","qjpbody5","qjpspbody5", "qjphd6","qjpbody6","qjpspbody6", "qjphd7","qjpbody7","qjpspbody7", "qjphd8","qjpbody8","qjpspbody8", "qjphd9","qjpbody9","qjpspbody9", "qjphd10","qjpbody10","qjpspbody10"],
+            "author": "@YaphetS0903",
+            "settings": [{
+            "id": "qjpstatus",
+            "name": "当前账号",
+            "val": "1",
+            "type": "number",
+            "desc": "当前账号对应"
+    },
+    {
+            "id": "qjpcount",
+            "name": "账号个数",
+            "val": "1",
+            "type": "number",
+            "desc": "需要几个账号，数字为几"
+    }],
+            "repo": "https://github.com/YaphetS0903/JStest/blob/main/qjp.js",
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/qjp.js"
     }
-	  
 	  
 	]
 }
