@@ -500,7 +500,6 @@ function qjpzpzj(timeout = 0) {
     return new Promise((resolve) => {
 //token = qjphd.match(/"Auth-Token":(\d.+)/)[1]
 token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
-$.log(token)
         let url = {
             url: `https://qjp.qujianpan.com/qjp-app/pig/turntable/addDrawNum`,
             headers: //JSON.parse(qjphd),
