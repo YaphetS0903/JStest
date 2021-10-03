@@ -103,7 +103,7 @@ $.message = ''
 				await qjpzp()
 				await $.wait(2000)
 				}
-				awaitqjpsprw()
+				await qjpsprw()
 				await $.wait(2000)
 				await qjpsq()
 				await $.wait(2000)
