@@ -795,7 +795,7 @@ function qjpstealrw(timeout = 0) {
 
 
 //查看金币余额
-function qjpsteal(timeout = 0) {
+function qjpbalance(timeout = 0) {
     return new Promise((resolve) => {
 
         let url = {
