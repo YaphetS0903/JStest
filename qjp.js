@@ -441,7 +441,7 @@ function qjpboxdb(timeout = 0) {
 function qjpzp(timeout = 0) {
     return new Promise((resolve) => {
 //token = qjphd.match(/"Auth-Token":(\d.+)/)[1]
-token = qjphd.match(/"(\d.{35})"/)[1]
+token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
         let url = {
             url: `https://qjp.qujianpan.com/qjp-app/pig/turntable/draw`,
             headers: //JSON.parse(qjphd),
@@ -487,7 +487,7 @@ token = qjphd.match(/"(\d.{35})"/)[1]
 function qjpzpzj(timeout = 0) {
     return new Promise((resolve) => {
 //token = qjphd.match(/"Auth-Token":(\d.+)/)[1]
-token = qjphd.match(/"(\d.{35})"/)[1]
+token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
 $.log(token)
         let url = {
             url: `https://qjp.qujianpan.com/qjp-app/pig/turntable/addDrawNum`,
