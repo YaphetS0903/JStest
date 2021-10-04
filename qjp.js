@@ -44,11 +44,13 @@ let qjpurl = $.getdata('qjpurl')
 let qjphd = $.getdata('qjphd')
 let qjpbody = $.getdata('qjpbody')
 let b = Math.round(new Date().getTime() / 1000).toString();
-let ticket=''
+let ticket = ''
 let DD = RT(28000, 35000)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
 let id = '', txid = ''
+let y = -1
+let m = 80
 let token = ''
 $.message = ''
 
@@ -86,39 +88,56 @@ $.message = ''
                 $.index = i + 1;
                 console.log(`\n\n开始【趣键盘${$.index}】`)
 
-                
+
                 await $.wait(2000)
                 await qjpfbk()
-				await $.wait(2000)
+                await $.wait(2000)
                 await qjpcsk()
-				await $.wait(2000)
+                await $.wait(2000)
                 await qjpyqk()
-				await $.wait(2000)
-		                for(let k=0;k<3;k++){
-				$.index=k+1
-				console.log(`\n【开始第${k+1}次执行偷好友猪币任务!】\n等待2秒开始偷取`)
-			        await $.wait(2000)
-				await qjpsteal()
-				await $.wait(2000)
-		                }
-		    
-				await qjpbox()
-				await $.wait(2000)
-				for(let x=0;x<2;x++){
-				$.index=x+1
-				console.log(`\n【开始第${x+1}次执行转盘任务!】\n等待2秒开始转盘`)
-				await $.wait(2000)
-				await qjpzp()
-				await $.wait(2000)
-				}
-				await qjpsprw()
-				await $.wait(2000)
-				await qjpsq()
-				await $.wait(2000)
-                await qjpdh() 
-				await $.wait(2000)
-				await qjpbalance()
-				
+                await $.wait(2000)
+                for (let k = 0; k < 3; k++) {
+                    if (y < 20) { y++ }
+                    $.index = k + 1
+                    console.log(`\n【开始第${k + 1}次执行偷好友猪币任务!】\n等待2秒开始偷取`)
+                    await $.wait(2000)
+                    await qjpsteal(y)
+                    await $.wait(2000)
+                }
+
+                await qjpbox()
+                await $.wait(2000)
+
+                for (let r = 0; r < 10; r++) {
+                    $.index = r + 1
+                    if (m < 90) {
+                        m++
+                    }
+                    console.log(`\n【开始第${r + 1}次执行刮刮卡任务!】\n等待2秒开始`)
+                    await $.wait(2000)
+                    await qjpggkzb(m)
+                    await $.wait(2000)
+                    await qjpggkks(m)
+                    await $.wait(2000)
+                    await qjpggkewjlks(m)
+                    await $.wait(2000)
+                    await qjpggkewjlfb(m)
+                }
+                for (let x = 0; x < 2; x++) {
+                    $.index = x + 1
+                    console.log(`\n【开始第${x + 1}次执行转盘任务!】\n等待2秒开始转盘`)
+                    await $.wait(2000)
+                    await qjpzp()
+                    await $.wait(2000)
+                }
+                await qjpsprw()
+                await $.wait(2000)
+                await qjpsq()
+                await $.wait(2000)
+                await qjpdh()
+                await $.wait(2000)
+                await qjpbalance()
+
                 message()
             }
         }
@@ -295,12 +314,11 @@ function qjpyqk(timeout = 0) {
 //偷好友猪币
 function qjpsteal(timeout = 0) {
     return new Promise((resolve) => {
-	    let y =0;y<5;y++
         let url = {
             url: `https://qjp.qujianpan.com/qjp-app/game/savingsBankFriend/stealPigMoney`,
             headers: JSON.parse(qjphd),
-            body: 
-		`{
+            body:
+                `{
   "friendId": ${y}
 }`,
         }
@@ -312,7 +330,7 @@ function qjpsteal(timeout = 0) {
                 if (result.code == 200) {
 
                     console.log(`【开始偷取猪币】：${result.message}\n`)
-					console.log(`【成功偷取猪币】：${result.data.stealPigMoney}\n`)
+                    console.log(`【成功偷取猪币】：${result.data.stealPigMoney}\n`)
                     $.message += `【开始偷取猪币】：${result.message}\n`
                 } else {
 
@@ -356,7 +374,7 @@ function qjpdh(timeout = 0) {
                 if (result.code == 200) {
 
                     console.log(`【猪币兑换金币】：${result.message}\n`)
-					console.log(`【成功兑换金币】：${result.data.coin}\n`)
+                    console.log(`【成功兑换金币】：${result.data.coin}\n`)
                     $.message += `【猪币兑换金币】：${result.message}\n`
                 } else {
 
@@ -384,19 +402,19 @@ function qjpbox(timeout = 0) {
         $.post(url, async (err, resp, data) => {
             try {
 
-        const result = JSON.parse(data)
+                const result = JSON.parse(data)
 
                 if (result.code == 200) {
 
-         console.log(`【开盒子立即领取金币】：${result.message}\n`)
-					
-        $.message += `【开盒子立即领取金币】：${result.message}\n`
+                    console.log(`【开盒子立即领取金币】：${result.message}\n`)
 
-			tck = result.data.ticket
-         console.log(`【获取到翻倍tck准备翻倍】\n`)
-console.log(tck)
- await $.wait(2000)
- await qjpboxdb()
+                    $.message += `【开盒子立即领取金币】：${result.message}\n`
+
+                    tck = result.data.ticket
+                    console.log(`【获取到翻倍tck准备翻倍】\n`)
+                    console.log(tck)
+                    await $.wait(2000)
+                    await qjpboxdb()
                 } else {
 
                     console.log(`【开盒子立即领取金币失败】：${result.message}\n`)
@@ -428,7 +446,7 @@ function qjpboxdb(timeout = 0) {
             try {
                 const result = JSON.parse(data)
                 if (result.code == 200) {
-                    console.log(`【开盒子金币翻倍】：${result.message}\n`)		
+                    console.log(`【开盒子金币翻倍】：${result.message}\n`)
                     $.message += `【开盒子金币翻倍】：${result.message}\n`
 
                 } else {
@@ -453,16 +471,17 @@ function qjpboxdb(timeout = 0) {
 //转盘
 function qjpzp(timeout = 0) {
     return new Promise((resolve) => {
-//token = qjphd.match(/"Auth-Token":(\d.+)/)[1]
-token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
+        //token = qjphd.match(/"Auth-Token":(\d.+)/)[1]
+        token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
         let url = {
             url: `https://qjp.qujianpan.com/qjp-app/pig/turntable/draw`,
             headers: //JSON.parse(qjphd),
-{"Referer": "https://h5.qujianpan.com/pigLottery/index.html?from=2",
+            {
+                "Referer": "https://h5.qujianpan.com/pigLottery/index.html?from=2",
 
-"Auth-Token":token,
+                "Auth-Token": token,
 
-},
+            },
 
             body: qjpbody,
         }
@@ -471,19 +490,20 @@ token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
 
                 const result = JSON.parse(data)
 
-				
-				if (result.code == 200) {
+
+                if (result.code == 200) {
                     if (result.data.type == 1) {
 
-                    console.log(`【转盘抽奖获得金币】：${result.data.rewardNum}\n`)
-                    $.message += `【转盘抽奖获得金币】：${result.data.rewardNum}\n`}
-					else{
-					console.log(`【运气真差，转盘抽奖没有获得金币】\n`)
-					}
+                        console.log(`【转盘抽奖获得金币】：${result.data.rewardNum}\n`)
+                        $.message += `【转盘抽奖获得金币】：${result.data.rewardNum}\n`
+                    }
+                    else {
+                        console.log(`【运气真差，转盘抽奖没有获得金币】\n`)
+                    }
                 } else {
 
                     console.log(`【转盘抽奖失败】：${result.message}开始看视频增加次数\n`)
-                await qjpzpzj()
+                    await qjpzpzj()
 
                 }
             } catch (e) {
@@ -499,16 +519,17 @@ token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
 //增加转盘次数
 function qjpzpzj(timeout = 0) {
     return new Promise((resolve) => {
-//token = qjphd.match(/"Auth-Token":(\d.+)/)[1]
-token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
+        //token = qjphd.match(/"Auth-Token":(\d.+)/)[1]
+        token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
         let url = {
             url: `https://qjp.qujianpan.com/qjp-app/pig/turntable/addDrawNum`,
             headers: //JSON.parse(qjphd),
-{"Referer": "https://h5.qujianpan.com/pigLottery/index.html?from=2",
+            {
+                "Referer": "https://h5.qujianpan.com/pigLottery/index.html?from=2",
 
-"Auth-Token":token,
+                "Auth-Token": token,
 
-},
+            },
 
             body: qjpbody,
         }
@@ -517,17 +538,17 @@ token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
 
                 const result = JSON.parse(data)
 
-				
-				if (result.code == 200) {
-                  
+
+                if (result.code == 200) {
+
 
                     console.log(`【转盘抽奖增加次数】：${result.message}\n`)
-                    $.message += `【转盘抽奖获得金币】：${result.message}\n`
-					
-					}
+                    $.message += `【转盘抽奖增加次数】：${result.message}\n`
+
+                }
                 else {
 
-                   console.log(`【转盘抽奖增加次数失败】：${result.message}\n`)
+                    console.log(`【转盘抽奖增加次数失败】：${result.message}\n`)
 
                 }
             } catch (e) {
@@ -567,10 +588,10 @@ function qjpsprw(timeout = 0) {
                     console.log(`【完成视频任务失败】：${result.message}\n`)
 
                 }
-		    await $.wait(2000)
+                await $.wait(2000)
                 await qjpfbkrw()
-				
-                
+
+
             } catch (e) {
 
             } finally {
@@ -606,9 +627,9 @@ function qjpfbkrw(timeout = 0) {
                     console.log(`【完成翻倍卡任务失败】：${result.message}\n`)
 
                 }
-		    await $.wait(2000)
+                await $.wait(2000)
                 await qjpcskrw()
-				
+
             } catch (e) {
 
             } finally {
@@ -644,10 +665,10 @@ function qjpcskrw(timeout = 0) {
                     console.log(`【完成财神卡任务失败】：${result.message}\n`)
 
                 }
-		    await $.wait(2000)
+                await $.wait(2000)
                 await qjpzbdhrw()
-				
-                
+
+
             } catch (e) {
 
             } finally {
@@ -683,10 +704,10 @@ function qjpzbdhrw(timeout = 0) {
                     console.log(`【完成猪币兑换任务失败】：${result.message}\n`)
 
                 }
-		    await $.wait(2000)
+                await $.wait(2000)
                 await qjpzpcjrw()
-				
-               
+
+
             } catch (e) {
 
             } finally {
@@ -722,9 +743,9 @@ function qjpzpcjrw(timeout = 0) {
                     console.log(`【完成转盘抽奖任务失败】：${result.message}\n`)
 
                 }
-			await $.wait(2000)	 
+                await $.wait(2000)
                 await qjpstealrw()
-               
+
             } catch (e) {
 
             } finally {
@@ -788,7 +809,7 @@ function qjpbalance(timeout = 0) {
                 if (result.code == 200) {
 
                     console.log(`【开始查询金币余额】：${result.message}\n`)
-					console.log(`【金币余额】：${result.data.balance}\n`)
+                    console.log(`【金币余额】：${result.data.balance}\n`)
                     $.message += `【金币余额】：${result.data.balance}\n`
                 } else {
 
@@ -806,7 +827,191 @@ function qjpbalance(timeout = 0) {
 }
 
 
+//刮刮卡准备
+function qjpggkzb(m) {
+    return new Promise((resolve) => {
+        token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
 
+        let url = {
+            url: `https://qjp.qujianpan.com/qjp-app/game/guagua/getAwardDetail?awardId=${m}`,
+            headers: {
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "zh-cn",
+                "Connection": "keep-alive",
+                "Auth-Token": token,
+                "Host": "qjp.qujianpan.com",
+                "Origin": "https://h5.qujianpan.com",
+                "Referer": "https://h5.qujianpan.com/scratchCard/index.html",
+
+            },
+
+
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【刮刮卡准备】：${result.message}\n`)
+                    $.message += `【刮刮卡准备】：${result.message}\n`
+                } else {
+
+                    console.log(`【刮刮卡准备失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, 0)
+    })
+}
+
+//刮刮卡开始
+function qjpggkks(m) {
+    return new Promise((resolve) => {
+        token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
+
+        let url = {
+            url: `https://qjp.qujianpan.com/qjp-app/game/guagua/acquireAward?awardId=${m}`,
+            headers: {
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "zh-cn",
+                "Connection": "keep-alive",
+                "Auth-Token": token,
+                "Host": "qjp.qujianpan.com",
+                "Origin": "https://h5.qujianpan.com",
+                "Referer": "https://h5.qujianpan.com/scratchCard/index.html",
+
+            },
+
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+
+                    console.log(`【刮刮卡开始刮取id】：${result.data.coinAdded}\n`)
+                    console.log(`【当前金币总数】：${result.data.coinBalance}\n`)
+                    $.message += `【刮刮卡开始刮取id】：${result.data.coinAdded}\n`
+                } else {
+
+                    console.log(`【刮刮卡开始失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, 0)
+    })
+}
+
+
+//刮刮卡额外奖励开始
+function qjpggkewjlks(m) {
+    return new Promise((resolve) => {
+        token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
+
+        let url = {
+            url: `https://qjp.qujianpan.com/qjp-app/game/guagua/acquireExtraAward?awardId=${m}`,
+            headers: {
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "zh-cn",
+                "Connection": "keep-alive",
+                "Auth-Token": token,
+                "Host": "qjp.qujianpan.com",
+                "Origin": "https://h5.qujianpan.com",
+                "Referer": "https://h5.qujianpan.com/scratchCard/index.html",
+
+            },
+
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【刮刮卡额外奖励开始】：${result.message}\n`)
+                    console.log(`【获得金币】：${result.data.coinAdded}\n`)
+                    console.log(`【当前金币总数】：${result.data.coinBalance}\n`)
+                    $.message += `【刮刮卡额外奖励获得金币】：${result.data.coinAdded}\n`
+                } else {
+
+                    console.log(`【刮刮卡额外奖励开始失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, 0)
+    })
+}
+
+
+
+//刮刮卡额外奖励翻倍
+function qjpggkewjlfb(m) {
+    return new Promise((resolve) => {
+        token = qjphd.match(/"Auth-Token":"(\w.{35})"/)[1]
+
+        let url = {
+            url: `https://qjp.qujianpan.com/qjp-app/game/guagua/extraDouble?awardId=${m}`,
+            headers: {
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "zh-cn",
+                "Connection": "keep-alive",
+                "Auth-Token": token,
+                "Host": "qjp.qujianpan.com",
+                "Origin": "https://h5.qujianpan.com",
+                "Referer": "https://h5.qujianpan.com/scratchCard/index.html",
+
+            },
+
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【刮刮卡额外奖励翻倍开始】：${result.message}\n`)
+                    console.log(`【获得金币】：${result.data.coinAdded}\n`)
+                    console.log(`【当前金币总数】：${result.data.coinBalance}\n`)
+                    $.message += `【刮刮卡额外奖励翻倍获得金币】：${result.data.coinAdded}\n`
+                } else {
+
+                    console.log(`【刮刮卡额外奖励翻倍开始失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, 0)
+    })
+}
 
 
 
