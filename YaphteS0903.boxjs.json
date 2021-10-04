@@ -332,7 +332,34 @@
             "repo": "https://github.com/YaphetS0903/JStest/blob/main/qjp.js",
             "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/qjp.js"
-    }
-	  
+    },
+	  {
+    "id": "ykd",
+        "name": "悦看点",
+            "keys": ["ykdhd","ykdhd2","ykdhd3","ykdhd4","ykdhd5","ykdhd6","ykdhd7","ykdhd8","ykdhd9","ykdhd10"],
+                "author": "@YaphetS0903",
+                    "settings": [{
+                        "id": "ykdstatus",
+                        "name": "当前账号",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "当前抓取ck记录的账号序号，如：1、2、3、4"
+                    }, {
+                        "id": "ykdcount",
+                        "name": "账号个数",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
+                    }, {
+                        "id": "tz",
+                        "name": "通知",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "0关闭通知，1打开通知"
+                    }],
+                        "repo": "https://github.com/YaphetS0903/JStest/blob/main/ykd.js",
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ykd.js"
+  },
 	]
 }
