@@ -905,7 +905,7 @@ function qjpggkks(m) {
                     $.message += `【刮刮卡开始刮取id】：${result.data.coinAdded}\n`
                 } else {
 
-                    console.log(`【刮刮卡开始失败】：${result.message}\n`)
+                    console.log(`【刮刮卡开始失败时间未到或已刮过】：${result.message}\n`)
 
                 }
             } catch (e) {
