@@ -54,6 +54,7 @@ $.message = ''
                     $.index = k + 1
                     console.log(`\n【开始第${k + 1}个看资讯任务!】\n等待2秒开始看资讯任务`)
                     await ykdzb()
+                     await $.wait(2000)
                 }
                 await $.wait(3000)
                 await ykdzxhb()
