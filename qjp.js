@@ -514,7 +514,7 @@ function qjpzp(timeout = 0) {
                     if (result.data.type == 1) {
 
                         console.log(`【转盘抽奖获得金币】：${result.data.rewardNum}\n`)
-                        $.message += `【转盘抽奖获得金币】：${result.data.rewardNum}\n`
+                      
                     }
                     else {
                         console.log(`【运气真差，转盘抽奖没有获得金币】\n`)
@@ -562,7 +562,7 @@ function qjpzpzj(timeout = 0) {
 
 
                     console.log(`【转盘抽奖增加次数】：${result.message}\n`)
-                    $.message += `【转盘抽奖增加次数】：${result.message}\n`
+                    
 
                 }
                 else {
@@ -875,7 +875,7 @@ function qjpggkzb(m) {
                 if (result.code == 200) {
 
                     console.log(`【刮刮卡准备】：${result.message}\n`)
-                    $.message += `【刮刮卡准备】：${result.message}\n`
+                   
                 } else {
 
                     console.log(`【刮刮卡准备失败】：${result.message}\n`)
@@ -921,7 +921,7 @@ function qjpggkks(m) {
 
                     console.log(`【刮刮卡开始刮取id】：${result.data.coinAdded}\n`)
                     console.log(`【当前金币总数】：${result.data.coinBalance}\n`)
-                    $.message += `【刮刮卡开始刮取id】：${result.data.coinAdded}\n`
+                   
                 } else {
 
                     console.log(`【刮刮卡开始失败时间未到或已刮过】：${result.message}\n`)
@@ -968,7 +968,7 @@ function qjpggkewjlks(m) {
                     console.log(`【刮刮卡额外奖励开始】：${result.message}\n`)
                     console.log(`【获得金币】：${result.data.coinAdded}\n`)
                     console.log(`【当前金币总数】：${result.data.coinBalance}\n`)
-                    $.message += `【刮刮卡额外奖励获得金币】：${result.data.coinAdded}\n`
+                   
                 } else {
 
                     console.log(`【刮刮卡额外奖励开始失败】：${result.message}\n`)
@@ -1016,7 +1016,7 @@ function qjpggkewjlfb(m) {
                     console.log(`【刮刮卡额外奖励翻倍开始】：${result.message}\n`)
                     console.log(`【获得金币】：${result.data.coinAdded}\n`)
                     console.log(`【当前金币总数】：${result.data.coinBalance}\n`)
-                    $.message += `【刮刮卡额外奖励翻倍获得金币】：${result.data.coinAdded}\n`
+                    
                 } else {
 
                     console.log(`【刮刮卡额外奖励翻倍开始失败】：${result.message}\n`)
@@ -1052,7 +1052,7 @@ function qjpjkrw(z) {
 
                     console.log(`【集卡完成任务】：${result.message}\n`)
 					
-                    $.message += `【集卡完成任务】：${result.message}\n`
+                  
                 } else {
 
                     console.log(`【集卡完成任务失败】：${result.message}\n`)
@@ -1086,7 +1086,7 @@ function qjpjkrwlq(z) {
 
                     console.log(`【集卡领取】：${result.message}\n`)
 					
-                    $.message += `【集卡领取】：${result.message}\n`
+                   
                 } else {
 
                     console.log(`【集卡领取失败】：${result.message}\n`)
