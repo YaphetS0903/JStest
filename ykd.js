@@ -40,7 +40,7 @@ $.message = ''
                 $.index = i + 1;
                 console.log(`\n\n开始【悦看点${$.index}】`)
 
-                for (let x = 0; x < 2; x++) {
+                for (let x = 0; x < 4; x++) {
                     if (y < 4) {
                         y++
                     }
@@ -254,7 +254,8 @@ function ykdzb(timeout = 0) {
                     await $.wait(3000)
                     await ykdjg()
                     await $.wait(8000)
-                    await ykdzx(tck)
+                    console.log(tck)
+                    await ykdzx()
                 } else {
 
                     console.log(`【准备开始看资讯失败】：${result.message}\n`)
@@ -309,7 +310,7 @@ function ykdjg(timeout = 0) {
 
 
 //看新闻
-function ykdzx(tck) {
+function ykdzx(timeout = 0) {
     return new Promise((resolve) => {
 
         let url = {
@@ -341,7 +342,7 @@ function ykdzx(tck) {
 
                 resolve()
             }
-        }, 0)
+        }, timeout)
     })
 }
 
