@@ -54,6 +54,7 @@ let tx = ($.getval('tx') || '1');
 let id = '', txid = ''
 let y = -1
 let m = 80
+let z=0
 let token = ''
 $.message = ''
 
@@ -133,15 +134,27 @@ $.message = ''
                     await qjpzp()
                     await $.wait(2000)
                 }
+                for (let t = 0; t < 4; t++) {
+                    if (z < 20) { z++ }
+                    $.index = t + 1
+                    console.log(`\n【开始第${k + 1}次执行集卡任务!】\n等待2秒开始集卡`)
+                    await $.wait(2000)
+                    await qjpjkrw(z)
+                    await $.wait(2000)
+					await qjpjkrwlq(z)
+					await $.wait(2000)
+                }
                 await qjpsprw()
                 await $.wait(2000)
                 await qjpsq()
                 await $.wait(2000)
                 await qjpdh()
+                await qjpqrqd()
                 await $.wait(2000)
                 await qjpbalance()
                 y = -1
                 m = 80
+                z = 0
                 message()
             }
         }
@@ -1018,6 +1031,115 @@ function qjpggkewjlfb(m) {
 }
 
 
+
+//集卡任务
+function qjpjkrw(z) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://qjp.qujianpan.com/qjp-app/game/tiantianCard/doneCard?cardType=${z}`,
+            headers: JSON.parse(qjphd),
+            
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【集卡完成任务】：${result.message}\n`)
+					
+                    $.message += `【集卡完成任务】：${result.message}\n`
+                } else {
+
+                    console.log(`【集卡完成任务失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, 0)
+    })
+}
+
+//集卡任务领取
+function qjpjkrwlq(z) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://qjp.qujianpan.com/qjp-app/game/tiantianCard/acquireCard?cardType=${z}`,
+            headers: JSON.parse(qjphd),
+            
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【集卡领取】：${result.message}\n`)
+					
+                    $.message += `【集卡领取】：${result.message}\n`
+                } else {
+
+                    console.log(`【集卡领取失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, 0)
+    })
+}
+
+
+
+//7日签到
+function qjpqrqd(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://qjp.qujianpan.com/qjp-app/game/savingsBank/signIn`,
+            headers: JSON.parse(qjphd),
+            body: qjpbody,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【开始七日签到】：${result.message}\n`)
+					console.log(`【当前签到天数】：${result.data.days}\n`)
+					console.log(`【获得经验】：${result.data.experience}\n`)
+					console.log(`【获得猪币】：${result.data.pigMoney}\n`)
+                    $.message += `【开始七日签到】：${result.message}\n`
+					$.message += `【当前签到天数】：${result.data.days}\n`
+					$.message += `【获得经验】：${result.data.experience}\n`
+					$.message += `【获得猪币】：${result.data.pigMoney}\n`
+                } else {
+
+                    console.log(`【开始七日签到失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
 
 
 function message() {
