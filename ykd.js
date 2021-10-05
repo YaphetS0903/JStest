@@ -11,6 +11,7 @@ let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
 let id = '', txid = ''
 let y = -1
+let tck ='', tck1 = '', tck2 = ''
 $.message = ''
 
 
