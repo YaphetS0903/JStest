@@ -139,7 +139,7 @@ $.message = ''
                 for (let t = 0; t < 4; t++) {
                     if (z < 20) { z++ }
                     $.index = t + 1
-                    console.log(`\n【开始第${k + 1}次执行集卡任务!】\n等待2秒开始集卡`)
+                    console.log(`\n【开始第${t + 1}次执行集卡任务!】\n等待2秒开始集卡`)
                     await $.wait(2000)
                     await qjpjkrw(z)
                     await $.wait(2000)
