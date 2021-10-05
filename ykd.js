@@ -1,10 +1,8 @@
-
-
 const $ = new Env('悦看点');
 let status;
 
 status = (status = ($.getval("ykdstatus") || "1")) > 1 ? `${status}` : "";
-const ykdurlArr = [], ykdhdArr = [],  ykdcount = ''
+const ykdurlArr = [], ykdhdArr = [], ykdcount = ''
 let ykdurl = $.getdata('ykdurl')
 let ykdhd = $.getdata('ykdhd')
 let b = Math.round(new Date().getTime() / 1000).toString();
@@ -12,10 +10,8 @@ let DD = RT(28000, 35000)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
 let id = '', txid = ''
+let y = -1
 $.message = ''
-
-
-
 
 
 !(async () => {
@@ -38,19 +34,43 @@ $.message = ''
             ).toLocaleString()} ===============================================\n`);
         for (let i = 0; i < ykdhdArr.length; i++) {
             if (ykdhdArr[i]) {
-
                 ykdurl = ykdurlArr[i];
                 ykdhd = ykdhdArr[i];
-
                 $.index = i + 1;
                 console.log(`\n\n开始【悦看点${$.index}】`)
 
-                await ykdprofile()
+                for (let x = 0; x < 2; x++) {
+                    if (y < 4) {
+                        y++
+                    }
+                    $.index = x + 1
+                    console.log(`\n【开始第${x + 1}个气泡任务!】\n等待2秒开始气泡任务`)
+                    await ykdqp(y)
+                    await $.wait(2000)
+                }
+
+
+                for (let k = 0; k < 6; k++) {
+                    $.index = k + 1
+                    console.log(`\n【开始第${k + 1}个看资讯任务!】\n等待2秒开始看资讯任务`)
+                    await ykdzb()
+                }
                 await $.wait(3000)
-
-                await ykdtx()
+                await ykdzxhb()
+                await $.wait(3000)
+                for (let m = 0; m < 6; m++) {
+                    $.index = m + 1
+                    console.log(`\n【开始第${m + 1}个看视频任务!】\n等待2秒开始看视频任务`)
+                    await ykdsphq()
+                    await $.wait(3000)
+                }
+                await ykdsphb()
+                await $.wait(3000)
+                await ykdgghq()
+                await ykdprofile()
                 await $.wait(5000)
-
+                await ykdtx()
+                await $.wait(2000)
                 //await grxx()
                 //await $.wait(3000)
                 message()
@@ -79,10 +99,6 @@ function ykdck() {
 
     }
 }
-
-
-
-
 //个人信息
 function ykdprofile(timeout = 0) {
     return new Promise((resolve) => {
@@ -90,15 +106,11 @@ function ykdprofile(timeout = 0) {
         let url = {
             url: `https://yuekandian.yichengw.cn/api/v1/member/profile?debug=0&`,
             headers: JSON.parse(ykdhd),
-            
         }
         $.get(url, async (err, resp, data) => {
             try {
-
                 const result = JSON.parse(data)
-
                 if (result.code == 0) {
-
                     console.log(`【用户名】：${result.result.nickname}\n`)
                     console.log(`【当前金币余额】：${result.result.point}\n`)
                     console.log(`【当前红包余额】：${result.result.balance}\n`)
@@ -107,18 +119,15 @@ function ykdprofile(timeout = 0) {
                     $.message += `【当前金币余额】：${result.result.point}\n`
                     $.message += `【当前红包余额】：${result.result.balance}\n`
                     $.message += `【今日获得金币】：${result.result.today_point}\n`
-                     // //判定boxjs是否打开了自动提现    当前时间是否在21~22点之间   
+                    // //判定boxjs是否打开了自动提现    当前时间是否在21~22点之间   
                     // if (tx == 1 && (nowTimes.getHours() === 21 || nowTimes.getHours() === 22) && (nowTimes.getMinutes() >= 30 && nowTimes.getMinutes() <= Minutes)) {
 
-                        //条件满足则运行以下内容 
-                        // await $.wait(3000)
-                        // await sqtx()
-
+                    //条件满足则运行以下内容 
+                    // await $.wait(3000)
+                    // await sqtx()
                 } else {
-
-                    console.log(`【查询信息失败】：已达上限\n`)
-                    $.message += `【查询信息失败】：已达上限\n`
-
+                    console.log(`【查询信息失败】\n`)
+                    $.message += `【查询信息失败】\n`
                 }
             } catch (e) {
 
@@ -173,52 +182,81 @@ function ykdtx(timeout = 0) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-//个人信息
-function grxx2(timeout = 0) {
+//气泡
+function ykdqp(y) {
     return new Promise((resolve) => {
 
         let url = {
-            url: `http://api.yongchenbao.com/api/Member/getinfo`,
+            url: `https://yuekandian.yichengw.cn/api/v1/reward/coin?`,
             headers: JSON.parse(ykdhd),
-            body: `platform=android&uucode=`,
+            body: `id=${y}
+            &
+            =`,
         }
         $.post(url, async (err, resp, data) => {
             try {
 
                 const result = JSON.parse(data)
 
-                if (result.status == 200) {
+                if (result.code == 0) {
 
-
-                    yue = result.data.money
-                    console.log(`【现有余额】：${result.data.money}\n`)
-                    $.message += `【现有余额】：${result.data.money}\n`
-
-
-                    // //判定boxjs是否打开了自动提现    当前时间是否在21~22点之间   
-                    // if (tx == 1 && (nowTimes.getHours() === 21 || nowTimes.getHours() === 22) && (nowTimes.getMinutes() >= 30 && nowTimes.getMinutes() <= Minutes)) {
-
-                        //条件满足则运行以下内容 
-                        // await $.wait(3000)
-                        // await sqtx()
-
-                    }
-
+                    console.log(`【开始领取气泡金币】：${result.result.coin}\n`)
+                    console.log(`【领取成功】：${result.result.message}\n`)
+                    $.message += `【开始领取气泡金币】：${result.result.coin}\n`
+                    $.message += `【开始领取气泡金币】：${result.result.message}\n`
 
                 } else {
 
-                    console.log(`【现有余额】：${result.data.money}\n`)
-                    $.message += `【现有余额】：${result.data.money}\n`
+                    console.log(`【开始领取气泡金币失败】：${result.message}\n`)
+                    $.message += `【领取气泡金币失败】：${result.message}\n`
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, 0)
+    })
+}
+
+
+
+
+
+
+
+
+
+
+//看新闻准备
+function ykdzb(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://yuekandian.yichengw.cn/api/v1/reward/news/detail?`,
+            headers: JSON.parse(ykdhd),
+
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+
+                    console.log(`【准备开始看资讯】\n`)
+                    $.message += `【准备开始看资讯】：${result.result.title}\n`
+                    tck = result.result.ticket
+                    await $.wait(3000)
+                    await ykdjg()
+                    await $.wait(8000)
+                    await ykdzx(tck)
+                } else {
+
+                    console.log(`【准备开始看资讯失败】：${result.message}\n`)
+                    $.message += `【准备开始看资讯失败】：${result.message}\n`
 
                 }
             } catch (e) {
@@ -231,29 +269,29 @@ function grxx2(timeout = 0) {
     })
 }
 
-//申请提现
-function sqtx(timeout = 0) {
+//看新闻间隔8秒
+function ykdjg(timeout = 0) {
     return new Promise((resolve) => {
 
         let url = {
-            url: `http://api.yongchenbao.com/api//Member/addOrder`,
+            url: `https://yuekandian.yichengw.cn/api/v1/reward/news/interval?`,
             headers: JSON.parse(ykdhd),
-            body: `money=${yue}&type=1&bankname=&banknumber=&outpwd=666666&platform=android&uucode=`,
+
         }
-        $.post(url, async (err, resp, data) => {
+        $.get(url, async (err, resp, data) => {
             try {
 
                 const result = JSON.parse(data)
 
-                if (result.status == 200) {
+                if (result.code == 0) {
 
-                    console.log(`【申请提现】：${result.msg}\n`)
-                    $.message += `【申请提现】：${result.msg}\n`
+                    console.log(`【看资讯间隔8秒】\n`)
+                    $.message += `【看资讯间隔8秒】\n`
 
                 } else {
 
-                    console.log(`【申请提现】：${result.msg}\n`)
-                    $.message += `【申请提现】：${result.msg}\n`
+                    console.log(`【看资讯间隔8秒失败】：${result.result.status}\n`)
+                    $.message += `【看资讯间隔8秒失败】：${result.result.status}\n`
 
                 }
             } catch (e) {
@@ -265,6 +303,275 @@ function sqtx(timeout = 0) {
         }, timeout)
     })
 }
+
+
+
+//看新闻
+function ykdzx(tck) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://yuekandian.yichengw.cn/api/v1/reward/news?`,
+            headers: JSON.parse(ykdhd),
+            body: `ticket=${tck}
+            &
+            =`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+
+                    console.log(`【看资讯成功获得金币】：${result.result.reward}\n`)
+                    $.message += `【看资讯成功获得金币】：${result.result.reward}\n`
+
+                } else {
+
+                    console.log(`【看资讯失败】：${result.message}\n`)
+                    $.message += `【看资讯失败】：${result.message}\n`
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, 0)
+    })
+}
+
+//看资讯开红包
+function ykdzxhb(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://yuekandian.yichengw.cn/api/v1/reward/news/open?`,
+            headers: JSON.parse(ykdhd),
+
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+
+                    console.log(`【看资讯开红包获得金币】：${result.result.reward}\n`)
+                    $.message += `【看资讯开红包获得金币】：${result.result.reward}\n`
+
+                } else {
+
+                    console.log(`【看资讯开红包失败】：${result.message}\n`)
+                    $.message += `【看资讯开红包失败】：${result.message}\n`
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+
+//刷视频获取
+function ykdsphq(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://yuekandian.yichengw.cn/api/v1/reward/video?short=1&`,
+            headers: JSON.parse(ykdhd),
+
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+
+                    console.log(`【刷视频任务获取成功等待8秒刷视频】\n`)
+                    $.message += `【刷视频任务获取成功等待8秒刷视频】\n`
+                    tck1 = result.result.ticket
+                    await $.wait(8000)
+                    await ykdsp(tck1)
+                } else {
+
+                    console.log(`【刷视频任务获取失败】：${result.message}\n`)
+                    $.message += `【刷视频任务获取失败】：${result.message}\n`
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+//刷视频
+function ykdsp(tck1) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://yuekandian.yichengw.cn/api/v1/reward/video?`,
+            headers: JSON.parse(ykdhd),
+            body: `ticket=${tck1}
+            &
+            short=1
+            &
+            =`,
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+
+                    console.log(`【刷视频获得金币】：${result.result.reward}\n`)
+                    $.message += `【刷视频获得金币】：${result.result.reward}\n`
+                    tck1 = result.result.ticket
+                    await $.wait(8000)
+                    await ykdsp(tck1)
+                } else {
+
+                    console.log(`【刷视频失败】：${result.message}\n`)
+                    $.message += `【刷视频失败】：${result.message}\n`
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, 0)
+    })
+}
+
+
+
+//刷视频开红包
+function ykdsphb(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://yuekandian.yichengw.cn/api/v1/reward/video/open?`,
+            headers: JSON.parse(ykdhd),
+            body: `short=1
+            &
+            =`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+
+                    console.log(`【刷视频开红包获得金币】：${result.result.reward}\n`)
+                    $.message += `【刷视频开红包获得金币】：${result.result.reward}\n`
+
+                } else {
+
+                    console.log(`【刷视频开红包失败】：${result.message}\n`)
+                    $.message += `【刷视频开红包失败】：${result.message}\n`
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+//看广告获取
+function ykdgghq(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://yuekandian.yichengw.cn/api/v1/zhuan/video?`,
+            headers: JSON.parse(ykdhd),
+
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+
+                    console.log(`【看广告获取id成功，等待5秒开始看广告】\n`)
+                    $.message += `【看广告获取id成功，等待5秒开始看广告\n`
+                    tck2 = result.result.ticket
+                    await $.wait(5000)
+                    await ykdgg(tck2)
+                } else {
+
+                    console.log(`【看广告获取id失败】：${result.message}\n`)
+                    $.message += `【看广告获取id失败】：${result.message}\n`
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+//看广告
+function ykdgg(tck2) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://yuekandian.yichengw.cn/api/v1/ad/log?ticket=${tck2}&type=5&`,
+            headers: JSON.parse(ykdhd),
+
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+
+                    console.log(`【看广告成功】\n`)
+                    $.message += `【看广告成功\n`
+                    tck2 = result.result.ticket
+                    await $.wait(5000)
+                    await ykdgg(tck2)
+                } else {
+
+                    console.log(`【看广告获取id失败】：${result.message}\n`)
+                    $.message += `【看广告获取id失败】：${result.message}\n`
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, 0)
+    })
+}
+
 
 
 
