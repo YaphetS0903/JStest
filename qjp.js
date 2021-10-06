@@ -34,8 +34,8 @@ https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 #趣键盘极速版
 10 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/qjp.js, tag=趣键盘极速版, enabled=true
 [rewrite_local]
-#趣键盘极速版
-https://qjp.qujianpan.com/qjp-app/game/savingsBank/collectPigMoney url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/qjp.js
+#趣键盘极速版（脚本放本地）
+https://qjp.qujianpan.com/qjp-app/game/savingsBank/collectPigMoney url script-request-body qjp.js
 [MITM]
 hostname = qjp.qujianpan.com
 */
@@ -874,7 +874,7 @@ function qjpggkzb(m) {
 
                 if (result.code == 200) {
 
-                    console.log(`【刮刮卡准备】：${result.message}\n`)
+                    console.log(`【刮刮卡开始】}\n`)
                    
                 } else {
 
