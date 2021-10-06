@@ -56,7 +56,7 @@ let tx = ($.getval('tx') || '1');
 let id = '', txid = ''
 let y = -1
 let m = 80
-let z=0
+let z= -1
 let token = ''
 $.message = ''
 
@@ -156,7 +156,7 @@ $.message = ''
                 await qjpbalance()
                 y = -1
                 m = 80
-                z = 0
+                z = -1
                 message()
             }
         }
