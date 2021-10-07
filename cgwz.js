@@ -1,5 +1,27 @@
+/*
+软件名称:猜歌王者
+更新时间：2021-10-3 
+脚本说明：猜歌王者。。。appstore搜索下载
 
 
+本脚本以学习为主
+好多任务没有写，后续慢慢增加
+获取数据： 进入软件获取数据
+TG通知群:https://t.me/tom_ww
+TG电报交流群: https://t.me/tom_210120
+boxjs地址 :  
+https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
+猜歌王者
+圈X配置如下，其他自行测试
+[task_local]
+#猜歌王者
+0 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/cgwz.js, tag=猜歌王者, enabled=true
+[rewrite_local]
+#猜歌王者
+https://api.litemob.com/caigewangzhe_ios/my/info? url script-request-header https://raw.githubusercontent.com/YaphetS0903/JStest/main/cgwz.js
+[MITM]
+hostname = api.litemob.com
+*/
 const $ = new Env('猜歌王者');
 let status;
 
