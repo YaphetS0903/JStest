@@ -70,7 +70,15 @@ $.message = ''
 
                 $.index = i + 1;
                 console.log(`\n\n开始【猜歌王者${$.index}】`)
-
+                
+                for (let l = 0; l < 3; l++) {
+                    $.index = l + 1
+                    console.log(`\n【开始第${l + 1}次整点抢现金!】\n`)
+                    await cgwzqxj()
+                }
+             
+                
+                await $.wait(3000)
                 await cgwzsign()
                 await $.wait(3000)
 
@@ -869,6 +877,50 @@ function cgwzdtjh(timeout = 0) {
         }, timeout)
     })
 }
+
+
+
+
+//抢现金
+function cgwzqxj(timeout = 0) {
+    return new Promise((resolve) => {
+        const headers = {
+            'Accept': `*/*`,
+            'Accept-Encoding': `gzip, deflate, br`,
+            'Connection': `keep-alive`,
+            'Content-Type': `application/json`,
+            'Host': `api.litemob.com`,
+            'User-Agent': `cai ge wang zhe/1.3.0 (iPhone; iOS 14.4.1; Scale/3.00)`,
+            'version': `1.3.0`,
+            'Accept-Language': `zh-Hans-CN;q=1`
+        };
+        let url = {
+            url: 'https://api.litemob.com/caigewangzhe_ios/zheng_dian/check',
+            headers: headers,
+            body: `{"uid":"${uid}"}`,
+        }
+        $.post(url, async (err, resp, data) => {
+
+            try {
+                const result = JSON.parse(data)
+                if (result.code == 302) {
+                    $.log(`\n抢现金失败:${result.message}`)
+                    //$done()
+                } else {
+
+                    console.log(result.message)
+
+                }
+
+            } catch (e) {
+                //$.logErr(e, resp);
+            } finally {
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
 
 
 
