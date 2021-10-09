@@ -6,7 +6,9 @@
 10.5修复刮刮卡多账号刮不到问题
     趣键盘普通版与极速板脚本通用(苹果安卓都可)
     并且数据不互通两个都可以跑，相当于双倍奖励
-    新增7日签到功能，集卡瓜分金币功能。
+    新增7日签到功能，晚上8点集卡瓜分金币功能。
+10.9适配青龙，环境变量export qjphd='抓取的header1@抓取的header2'
+懒得加判定了，随便跑吧
 脚本说明：趣键盘极速版。。。appstore搜索下载
 邀请码:fgpidh（随心填，感谢支持）
 (提现未知)
@@ -44,9 +46,9 @@ const $ = new Env('趣键盘极速版');
 let status;
 
 status = (status = ($.getval("qjpstatus") || "1")) > 1 ? `${status}` : "";
-const qjpurlArr = [], qjphdArr = [], qjpbodyArr = [], qjpcount = ''
+let qjpurlArr = [], qjphdArr = [], qjpbodyArr = [], qjpcount = ''
 let qjpurl = $.getdata('qjpurl')
-let qjphd = $.getdata('qjphd')
+let qjphd= $.isNode() ? (process.env.qjphd ? process.env.qjphd : "") : ($.getdata('qjphd') ? $.getdata('qjphd') : "")
 let qjpbody = $.getdata('qjpbody')
 let b = Math.round(new Date().getTime() / 1000).toString();
 let ticket = ''
@@ -59,6 +61,7 @@ let m = 80
 let z= -1
 let token = ''
 $.message = ''
+let qjphds = ""
 
 
 
@@ -68,6 +71,7 @@ $.message = ''
     if (typeof $request !== "undefined") {
         await qjpck()
     } else {
+        if(!$.isNode()){
         qjpurlArr.push($.getdata('qjpurl'))
         qjphdArr.push($.getdata('qjphd'))
         qjpbodyArr.push($.getdata('qjpbody'))
@@ -160,6 +164,92 @@ $.message = ''
                 message()
             }
         }
+    }else  {
+        if (process.env.qjphd && process.env.qjphd.indexOf('@') > -1) {
+            qjphdArr = process.env.qjphd.split('@');
+          console.log(`您选择的是用"@"隔开\n`)
+      } else {
+        qjphds = [process.env.qjphd]
+      };
+      Object.keys(qjphds).forEach((item) => {
+      if (qjphds[item]) {
+        qjphdArr.push(qjphds[item])
+      }
+  })
+        console.log(`共${qjphdArr.length}个cookie`)
+          for (let k = 0; k < qjphdArr.length; k++) {
+              $.message = ""
+              qjphd = qjphdArr[k]
+              $.index = k + 1;
+        console.log(`\n开始【趣键盘${$.index}】`)
+        await $.wait(2000)
+        await qjpfbk()
+        await $.wait(2000)
+        await qjpcsk()
+        await $.wait(2000)
+        await qjpyqk()
+        await $.wait(2000)
+        for (let k = 0; k < 3; k++) {
+            if (y < 20) { y++ }
+            $.index = k + 1
+            console.log(`\n【开始第${k + 1}次执行偷好友猪币任务!】\n等待2秒开始偷取`)
+            await $.wait(2000)
+            await qjpsteal(y)
+            await $.wait(2000)
+        }
+
+        await qjpbox()
+        await $.wait(2000)
+
+        for (let r = 0; r < 10; r++) {
+            $.index = r + 1
+            if (m < 90) {
+                m++
+            }
+            console.log(`\n【开始第${r + 1}次执行刮刮卡任务!】\n等待2秒开始`)
+            await $.wait(2000)
+            await qjpggkzb(m)
+            await $.wait(2000)
+            await qjpggkks(m)
+            await $.wait(2000)
+            await qjpggkewjlks(m)
+            await $.wait(2000)
+            await qjpggkewjlfb(m)
+        }
+        for (let x = 0; x < 2; x++) {
+            $.index = x + 1
+            console.log(`\n【开始第${x + 1}次执行转盘任务!】\n等待2秒开始转盘`)
+            await $.wait(2000)
+            await qjpzp()
+            await $.wait(2000)
+        }
+        for (let t = 0; t < 4; t++) {
+            if (z < 20) { z++ }
+            $.index = t + 1
+            console.log(`\n【开始第${t + 1}次执行集卡任务!】\n等待2秒开始集卡`)
+            await $.wait(2000)
+            await qjpjkrw(z)
+            await $.wait(2000)
+            await qjpjkrwlq(z)
+            await $.wait(2000)
+        }
+        await qjpsprw()
+        await $.wait(2000)
+        await qjpsq()
+        await $.wait(2000)
+        await qjpdh()
+        await qjpqrqd()
+        await $.wait(2000)
+        await qjpbalance()
+        y = -1
+        m = 80
+        z = -1
+        message()
+
+    }
+}
+
+
     }
 })()
 
