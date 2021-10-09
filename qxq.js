@@ -8,7 +8,7 @@
 一天220-300星钻左右（100星钻1毛），加入自动夺宝5次，运气好一天1000多星钻，测试两天中了一次
 还有很多任务没写，后续慢慢更新其他任务。
 本脚本以学习为主
-获取数据： 进入软件后点击赚钱，下拉刷新后自动获取数据
+获取数据： 进入软件，点击我的，点击砍价免费拿，随便点一个免费拿，获取url和header数据
 TG通知群:https://t.me/tom_ww
 TG电报交流群: https://t.me/tom_210120
 boxjs地址 :  
@@ -20,7 +20,7 @@ https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 0 8-18/2 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/qxq.js, tag=趣星球, enabled=true
 [rewrite_local]
 #趣星球
-https://api.xqustar.com/api/task/v2/list url script-request-header https://raw.githubusercontent.com/YaphetS0903/JStest/main/qxq.js
+https://api.xqustar.com/api/haggle/productDetail? url script-request-header https://raw.githubusercontent.com/YaphetS0903/JStest/main/qxq.js
 [MITM]
 hostname = api.xqustar.com
 */
@@ -28,15 +28,16 @@ const $ = new Env('趣星球');
 let status;
 
 status = (status = ($.getval("qxqstatus") || "1")) > 1 ? `${status}` : "";
-const qxqurlArr = [], qxqhdArr = [], qxqbodyArr = [], qxqcount = ''
+const qxqurlArr = [], qxqhdArr = [], qxqcount = ''
 let qxqurl = $.getdata('qxqurl')
 let qxqhd = $.getdata('qxqhd')
-let qxqbody = $.getdata('qxqbody')
+
 let b = Math.round(new Date().getTime() / 1000).toString();
 let DD = RT(1000, 1500)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
-let id = '', txid = '', ppid = '', amt = '', idd = ''
+let id = '', txid = '', ppid = '', amt = '', idd = '', pid1 = ''
+let target = ''
 $.message = ''
 
 
@@ -49,13 +50,12 @@ $.message = ''
     } else {
         qxqurlArr.push($.getdata('qxqurl'))
         qxqhdArr.push($.getdata('qxqhd'))
-        qxqbodyArr.push($.getdata('qxqbody'))
 
         let qxqcount = ($.getval('qxqcount') || '1');
         for (let i = 2; i <= qxqcount; i++) {
             qxqurlArr.push($.getdata(`qxqurl${i}`))
             qxqhdArr.push($.getdata(`qxqhd${i}`))
-            qxqbodyArr.push($.getdata(`qxqbody${i}`))
+
         }
         console.log(
             `\n\n=============================================== 脚本执行 - 北京时间(UTC+8)：${new Date(
@@ -68,30 +68,31 @@ $.message = ''
 
                 qxqurl = qxqurlArr[i];
                 qxqhd = qxqhdArr[i];
-                qxqbody = qxqbodyArr[i];
+
 
                 $.index = i + 1;
                 console.log(`\n\n开始【趣星球${$.index}】`)
 
-                await qxqsign()
+                await qxqsign()//签到
                 await $.wait(3000)
 
                 await qxqzpinfo()//转盘
                 await $.wait(5000)
-    
+                await qxqhaggleinfo()//砍价
+                await $.wait(3000)
                 for (let k = 0; k < 2; k++) {
                     $.index = k + 1
                     console.log(`\n【开始第${k + 1}个看创意视频任务!】\n等待2秒开始看创意视频任务`)
                     await qxqvideo()
                     await $.wait(30000)
                 }
-                
 
-                await qxqshare()
+
+                await qxqshare()//分享
                 await $.wait(3000)
-                await qxqlottoinfo()
+                await qxqlottoinfo()//抽奖
                 await $.wait(3000)
-                await qxqtxpage()
+                await qxqtxpage()//提现
                 message()
             }
         }
@@ -104,7 +105,7 @@ $.message = ''
 
 
 function qxqck() {
-    if ($request.url.indexOf("task/v2/list") > -1) {
+    if ($request.url.indexOf("productDetail?") > -1) {
         const qxqurl = $request.url
         if (qxqurl) $.setdata(qxqurl, `qxqurl${status}`)
         $.log(qxqurl)
@@ -113,11 +114,9 @@ function qxqck() {
         if (qxqhd) $.setdata(qxqhd, `qxqhd${status}`)
         $.log(qxqhd)
 
-        const qxqbody = $request.body
-        if (qxqbody) $.setdata(qxqbody, `qxqbody${status}`)
-        $.log(qxqbody)
 
-        $.msg($.name, "", `趣星球${status}获取headers成功`)
+
+        $.msg($.name, "", `趣星球${status}获取数据成功`)
 
     }
 }
@@ -191,7 +190,7 @@ function qxqsigndb(timeout = 0) {
                 if (result.code == 200) {
 
                     console.log(`【签到翻倍】：${result.message}\n`)
-                   
+
 
                 } else {
 
@@ -275,7 +274,7 @@ function qxqvideodb(timeout = 0) {
                 if (result.code == 200) {
 
                     console.log(`【看创意视频翻倍】：${result.message}\n`)
-                   
+
 
                 } else {
 
@@ -358,7 +357,7 @@ function qxqsharedb(timeout = 0) {
                 if (result.code == 200) {
 
                     console.log(`【分享任务翻倍】：${result.message}\n`)
-                   
+
 
                 } else {
 
@@ -387,7 +386,7 @@ function qxqlottoinfo(timeout = 0) {
         let url = {
             url: `https://api.xqustar.com/api/lotto/v2/products?catid=recommend&pn=1&ps=10`,
             headers: JSON.parse(qxqhd),
-         
+
         }
         $.get(url, async (err, resp, data) => {
             try {
@@ -398,7 +397,7 @@ function qxqlottoinfo(timeout = 0) {
 
                     console.log(`【获取到抽奖信息】：${result.data[0].desc}\n`)
 
-                 ppid =result.data[0].pid
+                    ppid = result.data[0].pid
                     await $.wait(2000)
                     await qxqlotto()
 
@@ -427,7 +426,7 @@ function qxqlotto(timeout = 0) {
         let url = {
             url: `https://api.xqustar.com/api/lotto/v2/partake`,
             headers: JSON.parse(qxqhd),
-         body: `{
+            body: `{
             "seconds": 27,
             "pid": "${ppid}",
             "plat": "app",
@@ -489,7 +488,7 @@ function qxqlottodb(timeout = 0) {
                 if (result.code == 200) {
 
                     console.log(`【抽奖翻倍】：${result.message}\n`)
-                   
+
 
                 } else {
 
@@ -510,141 +509,144 @@ function qxqlottodb(timeout = 0) {
 
 
 
-// //砍价信息获取
-// function qxqhaggleinfo(timeout = 0) {
-//     return new Promise((resolve) => {
+//砍价信息获取
+function qxqhaggleinfo(timeout = 0) {
+    return new Promise((resolve) => {
 
-//         let url = {
-//             url: `https://api.xqustar.com/api/haggle/v2/products?pn=1&ps=10`,
-//             headers: JSON.parse(qxqhd),
-         
-//         }
-//         $.get(url, async (err, resp, data) => {
-//             try {
+        let url = {
+            url: `https://api.xqustar.com/api/haggle/v2/products?pn=1&ps=10`,
+            headers: JSON.parse(qxqhd),
 
-//                 const result = JSON.parse(data)
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
 
-//                 if (result.code == 200) {
+                const result = JSON.parse(data)
 
-//                     console.log(`【获取到砍价信息】：${result.data.productList[0].desc}\n`)
-//                     let pid1 =result.data.productList[0].pid
-//                     await $.wait(2000)
-//                     await qxqhaggle()
+                if (result.code == 200) {
 
-
-//                 } else {
-
-//                     console.log(`【获取到砍价信息失败】：${result.message}\n`)
-
-//                 }
-//             } catch (e) {
-
-//             } finally {
-
-//                 resolve()
-//             }
-//         }, timeout)
-//     })
-// }
-
-// //砍价
-// function qxqhaggle(timeout = 0) {
-//     return new Promise((resolve) => {
-
-//         let url = {
-//             url: `https://api.xqustar.com/api/haggle/partake`,
-//             headers: JSON.parse(qxqhd),
-//          body: `{
-//             "seconds": 27,
-//             "pid": "${pid1}",
-//             "plat": "app",
-//             "inviterid": "",
-//             "type": "video",
-//             "sm": {
-//               "shuMeiDeviceId": "",
-//               "appVersion": "",
-//               "os": "",
-//               "guestId": ""
-//             }
-//           }
-//           `
-//         }
-//         $.post(url, async (err, resp, data) => {
-//             try {
-
-//                 const result = JSON.parse(data)
-
-//                 if (result.code == 200) {
-
-//                     console.log(`【砍价成功，获得砍价码】：${result.data.code}\n`)
-//                     await $.wait(2000)
-//                     await qxqhaggledb()
+                    console.log(`【获取到砍价信息】：${result.data.productList[0].desc}\n`)
+                    pid1 = result.data.productList[0].pid
+                    await $.wait(2000)
+                    await qxqhaggle()
 
 
-//                 } else {
+                } else {
 
-//                     console.log(`【砍价失败】：${result.message}\n`)
+                    console.log(`【获取到砍价信息失败】：${result.message}\n`)
 
-//                 }
-//             } catch (e) {
+                }
+            } catch (e) {
 
-//             } finally {
+            } finally {
 
-//                 resolve()
-//             }
-//         }, timeout)
-//     })
-// }
+                resolve()
+            }
+        }, timeout)
+    })
+}
 
+//砍价
+function qxqhaggle(timeout = 0) {
+    return new Promise((resolve) => {
+        target = qxqurl.match(/target=(\w.{35})/)[1]
 
-// //砍价任务双倍奖励
-// function qxqhaggledb(timeout = 0) {
-//     return new Promise((resolve) => {
+        let url = {
+            url: `https://api.xqustar.com/api/haggle/partake`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+            "source": "app",
+            "pid": "${pid1}",
+            "plat": "app",
+            "target": "${target}",
+            "seconds": 45,
+            "addressid": "cafff2be-d3ea-4d7a-a6c0-9d643dc75bb8",
+            "type": "video",
+            "sm": {
+              "shuMeiDeviceId": "",
+              "appVersion": "",
+              "os": "",
+              "guestId": ""
+            }
+          }
+          `
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
 
-//         let url = {
-//             url: `https://api.xqustar.com/api/task/v2/receiveDiamond`,
-//             headers: JSON.parse(qxqhd),
-//             body: `{
-//                 "taskcode": "lotto",
-//                 "double": true
-//               }`,
-//         }
-//         $.post(url, async (err, resp, data) => {
-//             try {
+                const result = JSON.parse(data)
 
-//                 const result = JSON.parse(data)
+                if (result.code == 200) {
 
-//                 if (result.code == 200) {
-
-//                     console.log(`【砍价翻倍】：${result.message}\n`)
-                   
-
-//                 } else {
-
-//                     console.log(`【砍价翻倍失败】：${result.message}\n`)
-
-//                 }
-//             } catch (e) {
-
-//             } finally {
-
-//                 resolve()
-//             }
-//         }, timeout)
-//     })
-// }
+                    console.log(`【砍价成功，获得砍价码】：${result.data.code}\n`)
+                    await $.wait(2000)
+                    await qxqhaggledb()
 
 
+                } else {
+
+                    console.log(`【砍价失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
 
 
- //转盘信息获取
+//砍价任务双倍奖励
+function qxqhaggledb(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/task/v2/receiveDiamond`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+                "taskcode": "haggle",
+                "double": true
+              }`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【砍价翻倍】：${result.message}\n`)
+
+
+                } else {
+
+                    console.log(`【砍价翻倍失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+
+
+//转盘信息获取
 function qxqzpinfo(timeout = 0) {
     return new Promise((resolve) => {
 
         let url = {
             url: `https://api.xqustar.com/api/turntable/init`,
             headers: JSON.parse(qxqhd),
-          
+
         }
         $.get(url, async (err, resp, data) => {
             try {
@@ -656,7 +658,7 @@ function qxqzpinfo(timeout = 0) {
                     console.log(`【查询剩余转盘次数】：${result.data.times}\n`)
                     if (result.data.times == 0) {
                         console.log(`【转盘次数已用完】\n`)
-                    }else{
+                    } else {
                         console.log(`【开始转盘】：${result.data.times}\n`)
                         await qxqzp()
                         await $.wait(DD)
@@ -685,7 +687,7 @@ function qxqzp(timeout = 0) {
         let url = {
             url: `https://api.xqustar.com/api/turntable/start`,
             headers: JSON.parse(qxqhd),
-           
+
         }
         $.post(url, async (err, resp, data) => {
             try {
@@ -693,27 +695,27 @@ function qxqzp(timeout = 0) {
                 const result = JSON.parse(data)
 
                 if (result.code == 200) {
-                    
+
                     if (result.data.result == 2) {
 
-                    console.log(`【转盘获得金币】：${result.data.number}\n`)
-                    console.log(`【等待金币翻倍】\n`)
-                    idd=result.data.id
-                    await qxqzpdb()
+                        console.log(`【转盘获得金币】：${result.data.number}\n`)
+                        console.log(`【等待金币翻倍】\n`)
+                        idd = result.data.id
+                        await qxqzpdb()
                         if (result.data.times == 0) {
-                             console.log(`【转盘次数不足，停止转盘】\n`)
-                             }else{
-                             await qxqzpinfo()
-                             await $.wait(1000)
-                             }
-                    }else{
+                            console.log(`【转盘次数不足，停止转盘】\n`)
+                        } else {
+                            await qxqzpinfo()
+                            await $.wait(1000)
+                        }
+                    } else {
                         console.log(`【转盘未获得金币】\n`)
                         if (result.data.times == 0) {
                             console.log(`【转盘次数不足，停止转盘】\n`)
-                            }else{
+                        } else {
                             await qxqzpinfo()
                             await $.wait(1000)
-                            }
+                        }
                     }
 
                 } else {
@@ -740,7 +742,7 @@ function qxqzpdb(timeout = 0) {
         let url = {
             url: `https://api.xqustar.com/api/turntable/double`,
             headers: JSON.parse(qxqhd),
-           body:`{
+            body: `{
             "id": "${idd}"
           }`,
         }
@@ -750,11 +752,11 @@ function qxqzpdb(timeout = 0) {
                 const result = JSON.parse(data)
 
                 if (result.code == 200) {
-                    
-                  
+
+
 
                     console.log(`【转盘金币翻倍】：${result.message}\n`)
-                    
+
 
                 } else {
 
@@ -779,7 +781,7 @@ function qxqtxpage(timeout = 0) {
         let url = {
             url: `https://api.xqustar.com/api/withdraw/withdrawpage`,
             headers: JSON.parse(qxqhd),
-            
+
         }
         $.get(url, async (err, resp, data) => {
             try {
@@ -787,16 +789,16 @@ function qxqtxpage(timeout = 0) {
                 const result = JSON.parse(data)
 
                 if (result.code == 200) {
-                    if(result.data.activeList[3].amount == 0){
+                    if (result.data.activeList[3].amount == 0) {
                         console.log(`【金额未到88星钻，未解锁提现】\n`)
-                    }else{
+                    } else {
                         console.log(`【查询到每日提现金额】：${result.data.activeList[3].amount}\n`)
-                        amt=result.data.activeList[3].amount
+                        amt = result.data.activeList[3].amount
                         await $.wait(2000)
                         await qxqtxtj()
                     }
 
-                    
+
 
 
                 } else {
@@ -822,7 +824,7 @@ function qxqtxtj(timeout = 0) {
         let url = {
             url: `https://api.xqustar.com/api/task/diamondNumber`,
             headers: JSON.parse(qxqhd),
-            
+
         }
         $.get(url, async (err, resp, data) => {
             try {
@@ -830,11 +832,11 @@ function qxqtxtj(timeout = 0) {
                 const result = JSON.parse(data)
 
                 if (result.code == 200) {
-                    if(result.data.today >= 88) {
-                    console.log(`【今日已达88星钻，开始提现】\n`)
-                    await $.wait(1000)
-                    await qxqtx()
-                    }else{
+                    if (result.data.today >= 88) {
+                        console.log(`【今日已达88星钻，开始提现】\n`)
+                        await $.wait(1000)
+                        await qxqtx()
+                    } else {
                         console.log(`【今日未达88星钻，继续努力哦】\n`)
                     }
 
@@ -862,7 +864,7 @@ function qxqtx(timeout = 0) {
         let url = {
             url: `https://api.xqustar.com/api/withdraw/apply`,
             headers: JSON.parse(qxqhd),
-           body:`{
+            body: `{
             "amount": ${amt},
             "withdrawtype": "random",
             "ac": {}
@@ -874,8 +876,8 @@ function qxqtx(timeout = 0) {
                 const result = JSON.parse(data)
 
                 if (result.code == 200) {
-                    
-                  
+
+
 
                     console.log(`【提现】：${result.message}\n`)
                     $.message += `【提现】：${result.message}\n`
