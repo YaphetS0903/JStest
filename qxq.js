@@ -5,7 +5,7 @@
 脚本说明：趣星球。。。下载地址(带邀请码,介意自己appstore下载)https://api.xqustar.com/h5/sharelinkv2/index.html?inviteCode=1RN9GGWZ2W
 邀请码  1RN9GGWZ2W
 每天随机金额自动提现，测试了三天是一天3毛6，一天3毛5，一天3毛2，提现全部秒到
-一天150-300星钻左右（100星钻1毛），加入自动夺宝5次，运气号一天1000多星钻，测试两天中了一次
+一天220-300星钻左右（100星钻1毛），加入自动夺宝5次，运气好一天1000多星钻，测试两天中了一次
 还有很多任务没写，后续慢慢更新其他任务。
 本脚本以学习为主
 获取数据： 进入软件后点击赚钱，下拉刷新后自动获取数据
@@ -14,7 +14,7 @@ TG电报交流群: https://t.me/tom_210120
 boxjs地址 :  
 https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 趣星球
-圈X配置如下，其他自行测试，一天运行五次即可,主要为了五次夺宝机会
+圈X配置如下，其他自行测试，时间随意，一天运行五次即可,主要为了五次夺宝机会
 [task_local]
 #趣星球
 0 8-18/2 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/qxq.js, tag=趣星球, enabled=true
