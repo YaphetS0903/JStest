@@ -8,21 +8,26 @@
 一天220-300星钻左右（100星钻1毛），加入自动夺宝5次，运气好一天1000多星钻，测试两天中了一次
 还有很多任务没写，后续慢慢更新其他任务。
 本脚本以学习为主
-获取数据： 进入软件，点击我的，点击砍价免费拿，随便点一个免费拿，获取url和header数据
+获取数据： 进入软件，点击赚钱，下拉刷新获取数据
 TG通知群:https://t.me/tom_ww
 TG电报交流群: https://t.me/tom_210120
 boxjs地址 :  
 https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 趣星球
 圈X配置如下，其他自行测试，时间随意，一天运行五次即可,主要为了五次夺宝机会
+
 [task_local]
 #趣星球
 0 8-18/2 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/qxq.js, tag=趣星球, enabled=true
+
 [rewrite_local]
+
 #趣星球
-https://api.xqustar.com/api/haggle/productDetail? url script-request-header https://raw.githubusercontent.com/YaphetS0903/JStest/main/qxq.js
+https://api.xqustar.com/api/task/v2/list url script-request-header https://raw.githubusercontent.com/YaphetS0903/JStest/main/qxq.js
+
 [MITM]
 hostname = api.xqustar.com
+
 */
 const $ = new Env('趣星球');
 let status;
@@ -105,7 +110,7 @@ $.message = ''
 
 
 function qxqck() {
-    if ($request.url.indexOf("productDetail?") > -1) {
+    if ($request.url.indexOf("task/v2/list") > -1) {
         const qxqurl = $request.url
         if (qxqurl) $.setdata(qxqurl, `qxqurl${status}`)
         $.log(qxqurl)
@@ -164,6 +169,8 @@ function qxqsign(timeout = 0) {
         }, timeout)
     })
 }
+
+
 
 
 //签到翻倍
@@ -528,7 +535,7 @@ function qxqhaggleinfo(timeout = 0) {
                     console.log(`【获取到砍价信息】：${result.data.productList[0].desc}\n`)
                     pid1 = result.data.productList[0].pid
                     await $.wait(2000)
-                    await qxqhaggle()
+                    await qxqhuid()
 
 
                 } else {
@@ -546,11 +553,46 @@ function qxqhaggleinfo(timeout = 0) {
     })
 }
 
+//uid获取
+function qxqhuid(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/invite/invitepage`,
+            headers: JSON.parse(qxqhd),
+
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【获取userid】：${result.data.userid}\n`)
+                    target = result.data.userid
+                    await $.wait(2000)
+                    await qxqhaggle()
+
+
+                } else {
+
+                    console.log(`【获取userid失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
 //砍价
 function qxqhaggle(timeout = 0) {
     return new Promise((resolve) => {
-        target = qxqurl.match(/target=(\w.{35})/)[1]
-
         let url = {
             url: `https://api.xqustar.com/api/haggle/partake`,
             headers: JSON.parse(qxqhd),
