@@ -578,14 +578,14 @@ function qxqhaggle(timeout = 0) {
 
                 if (result.code == 200) {
 
-                    console.log(`【砍价成功，获得砍价码】：${result.data.code}\n`)
+                    console.log(`【完成砍价任务】\n`)
                     await $.wait(2000)
                     await qxqhaggledb()
 
 
                 } else {
 
-                    console.log(`【砍价失败】：${result.message}\n`)
+                    console.log(`【砍价任务失败】：${result.message}\n`)
 
                 }
             } catch (e) {
