@@ -13,9 +13,10 @@ TG通知群:https://t.me/tom_ww
 TG电报交流群: https://t.me/tom_210120
 boxjs地址 :  
 https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
+
 趣星球
-圈X配置如下，其他自行测试，时间随意，一天运行五次即可,主要为了五次夺宝机会
 青龙环境配置(@隔开)export qxqhd='抓取的header1@抓取的header2'
+圈X配置如下，其他自行测试，时间随意，一天运行五次即可,主要为了五次夺宝机会
 [task_local]
 #趣星球
 0 8-18/2 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/qxq.js, tag=趣星球, enabled=true
