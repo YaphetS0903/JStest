@@ -137,7 +137,7 @@ let qxqhds = ""
         await qxqlottoinfo()//抽奖
         await $.wait(3000)
         await qxqtxpage()//提现
-        message()
+        //message()
     }
 }
 
