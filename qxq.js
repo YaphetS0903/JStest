@@ -467,7 +467,7 @@ function qxqlottoinfo(timeout = 0) {
 
 
 
-//抽奖
+//抽奖（视频）
 function qxqlotto(timeout = 0) {
     return new Promise((resolve) => {
 
@@ -500,10 +500,13 @@ function qxqlotto(timeout = 0) {
                     await qxqlottodb()
 
 
-                } else {
+                } else if (result.code == 10003){
 
+                    console.log(`【视频抽奖失败】：${result.message}\n`)
+                    await qxqlottoten()
+
+                }else{
                     console.log(`【抽奖失败】：${result.message}\n`)
-
                 }
             } catch (e) {
 
@@ -515,6 +518,54 @@ function qxqlotto(timeout = 0) {
     })
 }
 
+
+//抽奖10星钻
+function qxqlottoten(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/lotto/v2/partake`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+            "seconds": "",
+            "pid": "${ppid}",
+            "plat": "app",
+            "inviterid": "",
+            "type": "diamond",
+            "sm": {
+              "shuMeiDeviceId": "",
+              "appVersion": "",
+              "os": "",
+              "guestId": ""
+            }
+          }
+          `,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+                    console.log(`【星钻抽奖成功，获得抽奖码】\n`)
+                    await $.wait(2000)
+                    await qxqlottodb()
+
+
+                } else {
+
+                    console.log(`【星钻抽奖失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
 
 //抽奖任务双倍奖励
 function qxqlottodb(timeout = 0) {
