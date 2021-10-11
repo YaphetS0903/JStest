@@ -311,7 +311,7 @@ function qxqvideodb(timeout = 0) {
             headers: JSON.parse(qxqhd),
             body: `{
                 "taskcode": "watchappads",
-                "double": true
+                "double": false
               }`,
         }
         $.post(url, async (err, resp, data) => {
@@ -394,7 +394,7 @@ function qxqsharedb(timeout = 0) {
             headers: JSON.parse(qxqhd),
             body: `{
                 "taskcode": "share",
-                "double": true
+                "double": false
               }`,
         }
         $.post(url, async (err, resp, data) => {
@@ -525,7 +525,7 @@ function qxqlottodb(timeout = 0) {
             headers: JSON.parse(qxqhd),
             body: `{
                 "taskcode": "lotto",
-                "double": true
+                "double": false
               }`,
         }
         $.post(url, async (err, resp, data) => {
@@ -691,7 +691,7 @@ function qxqhaggledb(timeout = 0) {
             headers: JSON.parse(qxqhd),
             body: `{
                 "taskcode": "haggle",
-                "double": true
+                "double": false
               }`,
         }
         $.post(url, async (err, resp, data) => {
