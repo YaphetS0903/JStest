@@ -389,6 +389,12 @@
                         "val": "1",
                         "type": "number",
                         "desc": "0关闭通知，1打开通知"
+                    }, {
+                        "id": "tx",
+                        "name": "钻石夺宝开关",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "0关闭钻石夺宝，1打开钻石夺宝"
                     }],
                         "repo": "https://github.com/YaphetS0903/JStest/blob/main/qxq.js",
             "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
