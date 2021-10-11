@@ -3,8 +3,9 @@
 更新时间：2021-10-11 @YaphetS0903
 脚本说明：多福盒子。。。下载地址(带邀请码,介意自己appstore搜索下载)http://www.duofuhezi.com/h5/share/invite.html?id=H62392
 邀请码  H62392
-垃圾毛，一天1多(脚本还能刷个2块的bug，但是没开启，不怕黑的自己在脚本中打开202行的代码，开了然后一天三四块)，能抢现金和实物
-每日0.3和10元提现要抢，每天9点开抢，0.3数量每天88个，脚本自动抢，测试了一次抢0.3，一直显示提现失败，气的换了垃圾袋，还不知道能不能发货
+垃圾毛，一天1左右，能抢现金和实物
+每日0.3和10元提现要抢，每天9点开抢，0.3数量每天88个，脚本自动抢。
+测试了一次抢0.3，一直显示提现失败，气的换了垃圾袋，还不知道能不能发货
 目前看是个垃圾毛。
 本脚本以学习为主
 获取数据： 进入软件，点击换鸡蛋，随便完成一个元宝视频任务即可获取数据
@@ -194,15 +195,16 @@ function dfhztasklist(timeout = 0) {
 
                     if (result.data[1].list[0].finishtimes >= 1) {
                         console.log(`【今日刷视频任务已完成】\n`)
-                    } else {
-                        console.log(`【开始刷视频任务】\n`)
-                        for (let m = 0; m < 10; m++) {
-                            await dfhzsp()
-                            await $.wait(DD)
-                        }
+                    } 
+//                     else {
+//                         console.log(`【开始刷视频任务】\n`)
+//                         for (let m = 0; m < 10; m++) {
+//                             await dfhzsp()
+//                             await $.wait(DD)
+//                         }
                         //await dfhzvideo()
-                        await $.wait(2000)
-                    }
+//                         await $.wait(2000)
+//                     }
 
                     if (result.data[1].list[2].finishtimes >= 1) {
                         console.log(`【今日分享祝福任务已完成】\n`)
@@ -231,6 +233,11 @@ function dfhztasklist(timeout = 0) {
                         console.log(`【开始超级元宝视频任务】\n`)
                         await dfhzcjybsp()
                         await $.wait(3000)
+                        console.log(`【开始刷视频任务】\n`)
+                        for (let m = 0; m < 5; m++) {
+                            await dfhzsp()
+                            await $.wait(DD)
+                        }
                     }
 
                 } else {
