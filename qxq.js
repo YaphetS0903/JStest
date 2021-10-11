@@ -501,10 +501,13 @@ function qxqlotto(timeout = 0) {
 
 
                 } else if (result.code == 10003){
-
                     console.log(`【视频抽奖失败】：${result.message}\n`)
+                    if(tx == 1){
+                    console.log(`【开始钻石抽奖】\n`)
                     await qxqlottoten()
-
+                    }else{
+                        console.log(`【请在boxjs设置tx=1可以花费钻石夺宝】\n`)
+                    }
                 }else{
                     console.log(`【抽奖失败】：${result.message}\n`)
                 }
