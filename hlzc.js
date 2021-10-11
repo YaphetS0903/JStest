@@ -63,7 +63,7 @@ let hlzcsphd = $.getdata('hlzcsphd')
           $.index = i + 1;
           console.log(`\n开始【欢乐找茬${$.index}】`)
    
-    for(let j=0; j < 10;j++){
+    for(let j=0; j < 1500;j++){
          await hlzcsp();
          }
 
@@ -142,7 +142,7 @@ let url = {
     const result = JSON.parse(data)
         if (data && data.length >= 80) {
   $.log(`\n欢乐找茬视频观看成功`)
-    await $.wait(5000)
+    await $.wait(50)
    await hlzchb();
     
 } else {
