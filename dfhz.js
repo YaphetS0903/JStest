@@ -387,7 +387,7 @@ function dfhzsharereward(timeout = 0) {
             url: `http://api.duofu.xqustar.com/api/task/receiveDiamond`,
             headers: JSON.parse(dfhzhd),
             body: `{
-  "double": "true",
+  "double": "false",
   "taskcode": "share"
 }`,
         }
@@ -467,7 +467,7 @@ function dfhzybjlspreward(timeout = 0) {
             url: `http://api.duofu.xqustar.com/api/task/receiveDiamond`,
             headers: JSON.parse(dfhzhd),
             body: `{
-  "double": "true",
+  "double": "false",
   "taskcode": "csjjlios"
 }`,
         }
@@ -551,7 +551,7 @@ function dfhzybjlspreward(timeout = 0) {
             url: `http://api.duofu.xqustar.com/api/task/receiveDiamond`,
             headers: JSON.parse(dfhzhd),
             body: `{
-  "double": "true",
+  "double": "false",
   "taskcode": "gdtjlios"
 }`,
         }
@@ -632,7 +632,7 @@ function dfhzcjybspreward(timeout = 0) {
             url: `http://api.duofu.xqustar.com/api/task/receiveDiamond`,
             headers: JSON.parse(dfhzhd),
             body: `{
-  "double": "true",
+  "double": "false",
   "taskcode": "ksjlios"
 }`,
         }
