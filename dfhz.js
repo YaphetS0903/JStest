@@ -33,7 +33,7 @@ let dfhzurl = $.getdata('dfhzurl')
 let dfhzhd = $.isNode() ? (process.env.dfhzhd ? process.env.dfhzhd : "") : ($.getdata('dfhzhd') ? $.getdata('dfhzhd') : "")
 
 let b = Math.round(new Date().getTime() / 1000).toString();
-let DD = RT(2000, 3500)
+let DD = RT(15000, 20000)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
 let id = '', txid = '', aid = '', pid = ''
