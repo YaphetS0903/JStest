@@ -157,9 +157,9 @@ function ysyboxcd(timeout = 0) {
                     await ysybox()
                     await $.wait(3000)
                    }else{
-                    console.log(`【开宝箱冷却时间未到，开始看视频开宝箱】\n`)
-                    await ysyspbox()
-                    await $.wait(3000)
+                    console.log(`【开宝箱冷却时间未到】\n`)
+                    
+                    await $.wait(1500)
                    }
 
 
