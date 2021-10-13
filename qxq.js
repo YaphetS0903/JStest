@@ -1,5 +1,5 @@
 /*
-软件名称:趣星球(已黑)
+软件名称:趣星球(已黑)一运行就黑
 更新时间：2021-10-9 @YaphetS0903
 脚本说明：趣星球。。。下载地址(appstore下载)
 
@@ -74,7 +74,7 @@ let qxqhds = ""
 
 
                 $.index = i + 1;
-                console.log(`\n\n开始【趣星球${$.index}】`)
+                console.log(`\n\n开始【趣星球${$.index}，运行就黑，垃圾毛】`)
 
                 await qxqsign()//签到
                 await $.wait(3000)
