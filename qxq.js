@@ -74,7 +74,7 @@ let qxqhds = ""
 
 
                 $.index = i + 1;
-                console.log(`\n\n开始【趣星球${$.index}，运行就黑，垃圾毛】`)
+                console.log(`\n\n开始【趣星球${$.index}，恭喜你运行成功，接下来等待黑号。】`)
 
                 await qxqsign()//签到
                 await $.wait(3000)
