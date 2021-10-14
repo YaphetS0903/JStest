@@ -280,39 +280,39 @@ function ysytaskList(timeout = 0) {
 
                     if (result.taskList[0].taskCompleteNum != result.taskList[0].taskNum) {
                         console.log(`【开始签到任务】\n`)
-                        // await ysysign()
+                        await ysysign()
                         
-//签到任务
-    return new Promise((resolve) => {
+// //签到任务
+//     return new Promise((resolve) => {
 
-        let url = {
-            url: `https://api.ys7.com/v3/videoclips/user/check_in`,
-            headers: JSON.parse(ysyhd),
+//         let url = {
+//             url: `https://api.ys7.com/v3/videoclips/user/check_in`,
+//             headers: JSON.parse(ysyhd),
         
-        }
-        $.post(url, async (err, resp, data) => {
-            try {
+//         }
+//         $.post(url, async (err, resp, data) => {
+//             try {
 
-                const result = JSON.parse(data)
+//                 const result = JSON.parse(data)
 
-                if (result.meta.code == 200) {
+//                 if (result.meta.code == 200) {
 
 
-                    console.log(`【签到】：${result.meta.message}\n`)
-                    console.log(`【获得莹豆】：${result.data.score}\n`)
+//                     console.log(`【签到】：${result.meta.message}\n`)
+//                     console.log(`【获得莹豆】：${result.data.score}\n`)
 
-                } else {
+//                 } else {
 
-                    console.log(`【签到失败】：${result.meta.message}\n`)
-                }
-            } catch (e) {
+//                     console.log(`【签到失败】：${result.meta.message}\n`)
+//                 }
+//             } catch (e) {
 
-            } finally {
+//             } finally {
 
-                resolve()
-            }
-        }, timeout)
-    })
+//                 resolve()
+//             }
+//         }, timeout)
+//     })
 
 
 
@@ -440,39 +440,39 @@ function ysyplvideo(timeout = 0) {
     })
 }
 
-// //签到任务
-// function ysysign(timeout = 0) {
-//     return new Promise((resolve) => {
+//签到任务
+function ysysign(timeout = 0) {
+    return new Promise((resolve) => {
 
-//         let url = {
-//             url: `https://api.ys7.com/v3/videoclips/user/check_in`,
-//             headers: JSON.parse(ysyhd),
+        let url = {
+            url: `https://api.ys7.com/v3/videoclips/user/check_in`,
+            headers: JSON.parse(ysyhd),
         
-//         }
-//         $.post(url, async (err, resp, data) => {
-//             try {
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
 
-//                 const result = JSON.parse(data)
+                const result = JSON.parse(data)
 
-//                 if (result.meta.code == 200) {
+                if (result.meta.code == 200) {
 
 
-//                     console.log(`【签到】：${result.meta.message}\n`)
-//                     console.log(`【获得莹豆】：${result.data.score}\n`)
+                    console.log(`【签到】：${result.meta.message}\n`)
+                    console.log(`【获得莹豆】：${result.data.score}\n`)
 
-//                 } else {
+                } else {
 
-//                     console.log(`【签到失败】：${result.meta.message}\n`)
-//                 }
-//             } catch (e) {
+                    console.log(`【签到失败】：${result.meta.message}\n`)
+                }
+            } catch (e) {
 
-//             } finally {
+            } finally {
 
-//                 resolve()
-//             }
-//         }, timeout)
-//     })
-// }
+                resolve()
+            }
+        }, timeout)
+    })
+}
 
 
 
