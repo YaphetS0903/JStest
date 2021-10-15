@@ -20,7 +20,7 @@ https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 https://api.ys7.com/v3/users/login/v2
 cookie获取
 https://api.ys7.com/v3/integral/yd/getUserOpenBoxCd
-环境配置(@隔开)export ysyhd='抓取的header1@抓取的header2'
+环境配置(多账号@隔开)export ysyhd='抓取的header1@抓取的header2'
 例：
 export ysyhd='{"clientType":"1","Accept-Encoding":"gzip, deflate, br","netType":"WIFI","Co..........Content-Length":"450"}@账号2的数据'
 export ysybody='"account=123456&biz.......callTokenType%5C%22%3A1%7D%22%7D%5D&smsCode="@账号2的数据'
