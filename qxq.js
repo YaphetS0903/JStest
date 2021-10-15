@@ -1,155 +1,145 @@
 /*
-软件名称:萤石云视频
-更新时间：2021-10-13 @YaphetS0903
-感谢tom大哥连线指导
-脚本说明：萤石云。。。下载地址，appstore搜索下载
-一天1毛到3毛，3毛提现，自动提现后续抓到包了加
-评论有时候会获得0金币，是软件bug，手动评论也不增加
-10.15更新，解决ck一天失效问题，需要重新抓取数据，
-本来想直接手机号密码登录，可惜不会处理featurecode和token
-目前莹豆还不够提现，抓到提现包了再更新提现，从群友反馈看安卓的豆子多一些，一天一毛五左右，苹果很少
+软件名称:趣星球(已黑)一运行就黑
+更新时间：2021-10-9 @YaphetS0903
+脚本说明：趣星球。。。下载地址(appstore下载)
+
+每天随机金额自动提现
+一天220-300星钻左右（100星钻1毛），加入自动夺宝5次(50人自动开奖)，五十分之一概率中奖，运气好1000多星钻，中了一次
+测试了四天自动提现金额是一天3毛6，一天3毛5，一天3毛2，一天3毛3提现全部秒到
+还有几个任务没写，后续慢慢更新其他任务。
 本脚本以学习为主
-获取数据： 登录输入手机号密码获得登录数据，然后进入软件点击我的获取cookie
+获取数据： 进入软件，点击赚钱，下拉刷新获取数据
 TG通知群:https://t.me/tom_ww
 TG电报交流群: https://t.me/tom_210120
 boxjs地址 :  
 https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
-萤石云
-青龙环境抓取链接
-登录的header和body
-https://api.ys7.com/v3/users/login/v2
-cookie获取
-https://api.ys7.com/v3/integral/yd/getUserOpenBoxCd
-环境配置(@隔开)export ysyhd='抓取的header1@抓取的header2'
-例：
-export ysyhd='{"clientType":"1","Accept-Encoding":"gzip, deflate, br","netType":"WIFI","Co..........Content-Length":"450"}@账号2的数据'
-export ysybody='"account=123456&biz.......callTokenType%5C%22%3A1%7D%22%7D%5D&smsCode="@账号2的数据'
-export cookie='ASG_DisplayName=f1zp0w; ....... C_TYPE=1; C_VER=6.1.3.1262766@账号2的数据'
-圈X配置如下，其他自行测试，加了判断，运行时间一小时一次
+
+趣星球
+青龙环境配置(@隔开)export qxqhd='抓取的header1@抓取的header2'
+圈X配置如下，其他自行测试，时间随意，一天运行五次即可,主要为了五次夺宝机会
 [task_local]
-#萤石云
-0 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/ysy.js, tag=萤石云, enabled=true
+#趣星球
+0 8-18/2 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/qxq.js, tag=趣星球, enabled=true
 [rewrite_local]
-#萤石云登录数据获取
-https://api.ys7.com/v3/users/login/v2 url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/ysy.js
-#萤石云cookie获取
-https://api.ys7.com/v3/integral/yd/getUserOpenBoxCd url script-request-header https://raw.githubusercontent.com/YaphetS0903/JStest/main/ysy.js
+#趣星球
+https://api.xqustar.com/api/task/v2/list url script-request-header https://raw.githubusercontent.com/YaphetS0903/JStest/main/qxq.js
 [MITM]
-hostname = api.ys7.com
+hostname = api.xqustar.com
 */
-const $ = new Env('萤石云视频');
+const $ = new Env('趣星球');
 let status;
 
-status = (status = ($.getval("ysystatus") || "1")) > 1 ? `${status}` : "";
-let ysyurlArr = [], ysyhdArr = [],ysybodyArr = [], cookieArr = [],ysycount = ''
-let ysyurl = $.getdata('ysyurl')
-let ysyhd = $.isNode() ? (process.env.ysyhd ? process.env.ysyhd : "") : ($.getdata('ysyhd') ? $.getdata('ysyhd') : "")
-let ysybody = $.isNode() ? (process.env.ysybody  ? process.env.ysybody  : "") : ($.getdata('ysybody ') ? $.getdata('ysybody ') : "")
-let cookie =$.isNode() ? (process.env.cookie  ? process.env.cookie  : "") : ($.getdata('cookie ') ? $.getdata('cookie ') : "")
+status = (status = ($.getval("qxqstatus") || "1")) > 1 ? `${status}` : "";
+let qxqurlArr = [], qxqhdArr = [], qxqcount = ''
+let qxqurl = $.getdata('qxqurl')
+let qxqhd= $.isNode() ? (process.env.qxqhd ? process.env.qxqhd : "") : ($.getdata('qxqhd') ? $.getdata('qxqhd') : "")
+
 let b = Math.round(new Date().getTime() / 1000).toString();
-let DD = RT(2000, 3500)
+let DD = RT(1000, 1500)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
-let id = '', txid = '', aid = '',  sessionId= '', featurecode= ''
+let id = '', txid = '', ppid = '', amt = '', idd = '', pid1 = ''
+let target = ''
 $.message = ''
-let ysyhds = "",ysybodys = "",cookies = ""
+let qxqhds = ""
 
 
 
 
 !(async () => {
     if (typeof $request !== "undefined") {
-        await ysyck()
+        await qxqck()
     } else {
-        if (!$.isNode()) {
-            ysyurlArr.push($.getdata('ysyurl'))
-            ysyhdArr.push($.getdata('ysyhd'))
-            ysybodyArr.push($.getdata('ysybody'))
-            cookieArr.push($.getdata('cookie'))
-            let ysycount = ($.getval('ysycount') || '1');
-            for (let i = 2; i <= ysycount; i++) {
-                ysyurlArr.push($.getdata(`ysyurl${i}`))
-                ysyhdArr.push($.getdata(`ysyhd${i}`))
-                ysybodyArr.push($.getdata(`ysybody${i}`))
-                cookieArr.push($.getdata(`cookie${i}`))
-            }
-            console.log(
-                `\n\n=============================================== 脚本执行 - 北京时间(UTC+8)：${new Date(
-                    new Date().getTime() +
-                    new Date().getTimezoneOffset() * 60 * 1000 +
-                    8 * 60 * 60 * 1000
-                ).toLocaleString()} ===============================================\n`);
-            for (let i = 0; i < ysyhdArr.length; i++) {
-                if (ysyhdArr[i]) {
+        if(!$.isNode()){
+        qxqurlArr.push($.getdata('qxqurl'))
+        qxqhdArr.push($.getdata('qxqhd'))
 
-                    ysyurl = ysyurlArr[i];
-                    ysyhd = ysyhdArr[i];
-                    ysybody = ysybodyArr[i];
-                    cookie = cookieArr[i];
-                    $.index = i + 1;
-                    console.log(`\n\n开始【萤石云${$.index}】`)
-                    await ysylogin()
-                    // await ysytaskList()
-                    // await $.wait(1500)
-                    // await ysyboxcd()
-                   
-                    
-                    //message()
-                }
-            }
-        } else {
-            if (process.env.ysyhd && process.env.ysyhd.indexOf('@') > -1) {
-                ysyhdArr = process.env.ysyhd.split('@');
-                console.log(`您选择的是用"@"隔开\n`)
-            } else {
-                ysyhds = [process.env.ysyhd]
-            };
-            Object.keys(ysyhds).forEach((item) => {
-                if (ysyhds[item]) {
-                    ysyhdArr.push(ysyhds[item])
-                }
-            })
-            if (process.env.ysybody && process.env.ysybody.indexOf('@') > -1) {
-                ysybodyArr = process.env.ysybody.split('@');
-                console.log(`您选择的是用"@"隔开\n`)
-            } else {
-                ysybodys = [process.env.ysybody]
-            };
-            Object.keys(ysybodys).forEach((item) => {
-                if (ysybodys[item]) {
-                    ysybodyArr.push(ysybodys[item])
-                }
-            })
+        let qxqcount = ($.getval('qxqcount') || '1');
+        for (let i = 2; i <= qxqcount; i++) {
+            qxqurlArr.push($.getdata(`qxqurl${i}`))
+            qxqhdArr.push($.getdata(`qxqhd${i}`))
 
-            if (process.env.cookie && process.env.cookie.indexOf('@') > -1) {
-                cookieArr = process.env.cookie.split('@');
-                console.log(`您选择的是用"@"隔开\n`)
-            } else {
-                cookies = [process.env.cookie]
-            };
-            Object.keys(cookies).forEach((item) => {
-                if (cookies[item]) {
-                    cookieArr.push(cookies[item])
-                }
-            })
+        }
+        console.log(
+            `\n\n=============================================== 脚本执行 - 北京时间(UTC+8)：${new Date(
+                new Date().getTime() +
+                new Date().getTimezoneOffset() * 60 * 1000 +
+                8 * 60 * 60 * 1000
+            ).toLocaleString()} ===============================================\n`);
+        for (let i = 0; i < qxqhdArr.length; i++) {
+            if (qxqhdArr[i]) {
+
+                qxqurl = qxqurlArr[i];
+                qxqhd = qxqhdArr[i];
 
 
-            console.log(`共${ysyhdArr.length}个cookie`)
-            for (let k = 0; k < ysyhdArr.length; k++) {
-                $.message = ""
-                ysyurl = ysyurlArr[k];
-                    ysyhd = ysyhdArr[k];
-                    ysybody = ysybodyArr[k];
-                    cookie = cookieArr[k];
-                $.index = k + 1;
-                console.log(`\n开始【萤石云${$.index}】`)
-                    // await ysytaskList()
-                    // await $.wait(1500)
-                    // await ysyboxcd()
-                    await ysylogin()
-                //message()
+                $.index = i + 1;
+                console.log(`\n\n开始【趣星球${$.index}，恭喜你运行成功，接下来等待黑号。】`)
+
+                await qxqsign()//签到
+                await $.wait(3000)
+
+                await qxqzpinfo()//转盘
+                await $.wait(5000)
+                await qxqhaggleinfo()//砍价
+                await $.wait(3000)
+                for (let p = 0; p < 2; p++) {
+                    $.index = p+ 1
+                    console.log(`\n【开始第${p + 1}个看创意视频任务!】\n等待2秒开始看创意视频任务`)
+                    await qxqvideo()
+                    await $.wait(20000)
+                }
+
+
+                await qxqshare()//分享
+                await $.wait(3000)
+                await qxqlottoinfo()//抽奖
+                await $.wait(3000)
+                await qxqtxpage()//提现
+               //message()
             }
         }
+       }else {
+        if (process.env.qxqhd && process.env.qxqhd.indexOf('@') > -1) {
+            qxqhdArr = process.env.qxqhd.split('@');
+          console.log(`您选择的是用"@"隔开\n`)
+      } else {
+        qxqhds = [process.env.qxqhd]
+      };
+      Object.keys(qxqhds).forEach((item) => {
+      if (qxqhds[item]) {
+        qxqhdArr.push(qxqhds[item])
+      }
+  })
+        console.log(`共${qxqhdArr.length}个cookie`)
+          for (let k = 0; k < qxqhdArr.length; k++) {
+              $.message = ""
+              qxqhd = qxqhdArr[k]
+              $.index = k + 1;
+        console.log(`\n开始【趣星球${$.index}】`)
+        await qxqsign()//签到
+        await $.wait(3000)
+
+        await qxqzpinfo()//转盘
+        await $.wait(5000)
+        await qxqhaggleinfo()//砍价
+        await $.wait(3000)
+        for (let p = 0; p < 2; p++) {
+            $.index = p+ 1
+            console.log(`\n【开始第${p + 1}个看创意视频任务!】\n等待2秒开始看创意视频任务`)
+            await qxqvideo()
+            await $.wait(30000)
+        }
+
+
+        await qxqshare()//分享
+        await $.wait(3000)
+        await qxqlottoinfo()//抽奖
+        await $.wait(3000)
+        await qxqtxpage()//提现
+        //message()
+    }
+}
 
     }
 })()
@@ -160,54 +150,56 @@ let ysyhds = "",ysybodys = "",cookies = ""
 
 
 
+function qxqck() {
+    if ($request.url.indexOf("task/v2/list") > -1) {
+        const qxqurl = $request.url
+        if (qxqurl) $.setdata(qxqurl, `qxqurl${status}`)
+        $.log(qxqurl)
 
-function ysyck() {
-    if ($request.url.indexOf("login/v2") > -1) {
-        const ysyurl = $request.url
-        if (ysyurl) $.setdata(ysyurl, `ysyurl${status}`)
-        $.log(ysyurl)
-
-        const ysyhd = JSON.stringify($request.headers)
-        if (ysyhd) $.setdata(ysyhd, `ysyhd${status}`)
-        $.log(ysyhd)
-        const ysybody = JSON.stringify($request.body)
-        if (ysybody) $.setdata(ysybody, `ysybody${status}`)
-        $.log(ysybody)
+        const qxqhd = JSON.stringify($request.headers)
+        if (qxqhd) $.setdata(qxqhd, `qxqhd${status}`)
+        $.log(qxqhd)
 
 
-        $.msg($.name, "", `萤石云${status}获取登录数据成功`)
 
-    }else if($request.url.indexOf("yd/getUserOpenBoxCd") > -1) {
-        const cookie = JSON.stringify($request.headers.Cookie)
-        if (cookie) $.setdata(cookie, `cookie${status}`)
-        $.log(cookie)
-        $.msg($.name, "", `萤石云${status}获取cookie数据成功`)
+        $.msg($.name, "", `趣星球${status}获取数据成功`)
+
     }
 }
 
-//登录
-function ysylogin(timeout = 0) {
+
+//签到
+function qxqsign(timeout = 0) {
     return new Promise((resolve) => {
 
         let url = {
-            url: `https://api.ys7.com/v3/users/login/v2`,
-            headers: JSON.parse(ysyhd),
-            body:JSON.parse(ysybody),
+            url: `https://api.xqustar.com/api/task/signin`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+                "sm": {
+                  "shuMeiDeviceId": "",
+                  "appVersion": "",
+                  "os": "",
+                  "guestId": ""
+                }
+              }`,
         }
         $.post(url, async (err, resp, data) => {
             try {
 
                 const result = JSON.parse(data)
 
-                if (result.meta.code == 200) {
-                    console.log(`【登录】：${result.meta.message}\n`)
-                    sessionId =result.sessionInfo.sessionId
-                    await ysytaskList()
-                    await $.wait(1500)
-                    await ysyboxcd()
+                if (result.code == 200) {
 
-                }else{
-                    console.log(`【登录】：${result.meta.message}\n`)
+                    console.log(`【签到】：${result.message}\n`)
+                    await $.wait(2000)
+                    await qxqsigndb()
+
+
+                } else {
+
+                    console.log(`【签到失败】：${result.message}\n`)
+
                 }
             } catch (e) {
 
@@ -220,33 +212,228 @@ function ysylogin(timeout = 0) {
 }
 
 
-//开宝箱冷却查询
-function ysyboxcd(timeout = 0) {
-    return new Promise((resolve) => {
-        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
-        const sphd ={
-            "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-cn",
-        "Connection": "keep-alive",
-        "Content-Length": "31",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
-        "Host": "api.ys7.com",
-        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
-        "appid": "ys",
-        "clientno": "undefined",
-        "clienttype": "1",
-        "clientversion": "6.1.3.1262766",
-        "featurecode": featurecode,
-        "language": "undefined",
-        "nettype": "WIFI",
-        "sessionid": sessionId
-        }
+
+//签到翻倍
+function qxqsigndb(timeout = 0) {
+    return new Promise((resolve) => {
+
         let url = {
-            url: `https://api.ys7.com/v3/integral/yd/getUserOpenBoxCd`,
-            headers: sphd,
+            url: `https://api.xqustar.com/api/task/signinDouble`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+                "sm": {
+                  "shuMeiDeviceId": "",
+                  "appVersion": "",
+                  "os": "",
+                  "guestId": ""
+                }
+              }`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【签到翻倍】：${result.message}\n`)
+
+
+                } else {
+
+                    console.log(`【签到翻倍失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+
+//看创意视频
+function qxqvideo(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/task/v2/watchVideo`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+  "sm": {
+    "shuMeiDeviceId": "",
+    "appVersion": "",
+    "os": "",
+    "guestId": ""
+  },
+  "taskcode": "watchappads"
+}`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【看创意视频】：${result.message}\n`)
+                    await $.wait(2000)
+                    await qxqvideodb()
+
+                } else {
+
+                    console.log(`【看创意视频失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+
+//看创意视频领取双倍奖励
+function qxqvideodb(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/task/v2/receiveDiamond`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+                "taskcode": "watchappads",
+                "double": false
+              }`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【看创意视频翻倍】：${result.message}\n`)
+
+
+                } else {
+
+                    console.log(`【看创意视频翻倍失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+
+//分享任务
+function qxqshare(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/task/share`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+                "sm": {
+                  "shuMeiDeviceId": "",
+                  "appVersion": "",
+                  "os": "",
+                  "guestId": ""
+                }
+              }`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【分享任务】：${result.message}\n`)
+                    await $.wait(2000)
+                    await qxqsharedb()
+
+
+                } else {
+
+                    console.log(`【分享任务失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+//分享任务双倍奖励
+function qxqsharedb(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/task/v2/receiveDiamond`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+                "taskcode": "share",
+                "double": false
+              }`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【分享任务翻倍】：${result.message}\n`)
+
+
+                } else {
+
+                    console.log(`【分享任务翻倍失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+
+
+
+
+//抽奖信息获取
+function qxqlottoinfo(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/lotto/v2/products?catid=recommend&pn=1&ps=10`,
+            headers: JSON.parse(qxqhd),
 
         }
         $.get(url, async (err, resp, data) => {
@@ -254,23 +441,18 @@ function ysyboxcd(timeout = 0) {
 
                 const result = JSON.parse(data)
 
-                if (result.meta.code == 200) {
-                    console.log(`【开宝箱冷却查询】：${result.meta.message}\n`)
-                   if(result.expireTime ==0){
-                    console.log(`【开宝箱】\n`)
-                    await ysybox()
-                    await $.wait(3000)
-                   }else{
-                    console.log(`【开宝箱冷却时间未到】\n`)
-                    
-                    await $.wait(1500)
-                   }
+                if (result.code == 200) {
+
+                    console.log(`【获取到抽奖信息】：${result.data[0].desc}\n`)
+
+                    ppid = result.data[0].pid
+                    await $.wait(2000)
+                    await qxqlotto()
 
 
                 } else {
 
-                    console.log(`【开宝箱冷却查询失败】：${result.message}\n`)
-
+                    console.log(`【获取到抽奖信息失败】：${result.message}\n`)
 
                 }
             } catch (e) {
@@ -283,58 +465,137 @@ function ysyboxcd(timeout = 0) {
     })
 }
 
-//开宝箱
-function ysybox(timeout = 0) {
+
+
+//抽奖（视频）
+function qxqlotto(timeout = 0) {
     return new Promise((resolve) => {
-        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
-        const sphd ={
-            "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-cn",
-        "Connection": "keep-alive",
-        "Content-Length": "31",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
-        "Host": "api.ys7.com",
-        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
-        "appid": "ys",
-        "clientno": "undefined",
-        "clienttype": "1",
-        "clientversion": "6.1.3.1262766",
-        "featurecode": featurecode,
-        "language": "undefined",
-        "nettype": "WIFI",
-        "sessionid": sessionId
-        }
         let url = {
-            url: `https://api.ys7.com/v3/integral/yd/openYdBox`,
-            headers: sphd,
-
+            url: `https://api.xqustar.com/api/lotto/v2/partake`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+            "seconds": 27,
+            "pid": "${ppid}",
+            "plat": "app",
+            "inviterid": "",
+            "type": "video",
+            "sm": {
+              "shuMeiDeviceId": "",
+              "appVersion": "",
+              "os": "",
+              "guestId": ""
+            }
+          }
+          `,
         }
         $.post(url, async (err, resp, data) => {
             try {
 
                 const result = JSON.parse(data)
 
-                if (result.meta.code == 200) {
-                    console.log(`【开宝箱获得莹豆】：${result.ydValue}\n`)
-                   
+                if (result.code == 200) {
+                    console.log(`【抽奖成功，获得抽奖码】\n`)
+                    await $.wait(2000)
+                    await qxqlottodb()
 
 
-                } else if (result.meta.code == 10361){
-
-                    console.log(`【开宝箱失败】：${result.meta.message}\n`)
-                    console.log(`【开始看视频开宝箱】\n`)
-                    await ysyspbox()
-                    await $.wait(3000)
-                }else if (result.meta.code == 10362){
-                    console.log(`${result.meta.message}\n`)
-                    console.log(`【开始看视频开宝箱】\n`)
-                    await ysyspbox()
-                    await $.wait(3000)
+                } else if (result.code == 10003){
+                    console.log(`【视频抽奖失败】：${result.message}\n`)
+                    if(tx == 1){
+                    console.log(`【开始钻石抽奖】\n`)
+                    await qxqlottoten()
+                    }else{
+                        console.log(`【请在boxjs设置tx=1可以花费钻石夺宝】\n`)
+                    }
                 }else{
-                    console.log(`${result.meta.message}\n`)
+                    console.log(`【抽奖失败】：${result.message}\n`)
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+//抽奖10星钻
+function qxqlottoten(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/lotto/v2/partake`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+            "seconds": "",
+            "pid": "${ppid}",
+            "plat": "app",
+            "inviterid": "",
+            "type": "diamond",
+            "sm": {
+              "shuMeiDeviceId": "",
+              "appVersion": "",
+              "os": "",
+              "guestId": ""
+            }
+          }
+          `,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+                    console.log(`【星钻抽奖成功，获得抽奖码】\n`)
+                    await $.wait(2000)
+                    await qxqlottodb()
+
+
+                } else {
+
+                    console.log(`【星钻抽奖失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+//抽奖任务双倍奖励
+function qxqlottodb(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/task/v2/receiveDiamond`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+                "taskcode": "lotto",
+                "double": false
+              }`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【抽奖翻倍】：${result.message}\n`)
+
+
+                } else {
+
+                    console.log(`【抽奖翻倍失败】：${result.message}\n`)
+
                 }
             } catch (e) {
 
@@ -349,47 +610,33 @@ function ysybox(timeout = 0) {
 
 
 
-//视频开宝箱
-function ysyspbox(timeout = 0) {
-    return new Promise((resolve) => {
-        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
-        const sphd ={
-            "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-cn",
-        "Connection": "keep-alive",
-        "Content-Length": "31",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
-        "Host": "api.ys7.com",
-        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
-        "appid": "ys",
-        "clientno": "undefined",
-        "clienttype": "1",
-        "clientversion": "6.1.3.1262766",
-        "featurecode": featurecode,
-        "language": "undefined",
-        "nettype": "WIFI",
-        "sessionid": sessionId
-        }
+//砍价信息获取
+function qxqhaggleinfo(timeout = 0) {
+    return new Promise((resolve) => {
+
         let url = {
-            url: `https://api.ys7.com/v3/integral/task/complete`,
-            headers: sphd,
-            body:`eventkey=1013&filterParam=12345`,
+            url: `https://api.xqustar.com/api/haggle/v2/products?pn=1&ps=10`,
+            headers: JSON.parse(qxqhd),
+
         }
-        $.post(url, async (err, resp, data) => {
+        $.get(url, async (err, resp, data) => {
             try {
 
                 const result = JSON.parse(data)
 
-                if (result.meta.code == 200) {
-                    console.log(`【看视频开宝箱获得莹豆】：${result.taskIntegral}\n`)
-                   
+                if (result.code == 200) {
+
+                    console.log(`【获取到砍价信息】：${result.data.productList[0].desc}\n`)
+                    pid1 = result.data.productList[0].pid
+                    await $.wait(2000)
+                    await qxqhuid()
 
 
-                }else{
-                    console.log(`【看视频开宝箱获得莹豆失败】：${result.meta.message}\n`)
+                } else {
+
+                    console.log(`【获取到砍价信息失败】：${result.message}\n`)
+
                 }
             } catch (e) {
 
@@ -401,122 +648,338 @@ function ysyspbox(timeout = 0) {
     })
 }
 
-//任务列表
-function ysytaskList(timeout = 0) {
+//uid获取
+function qxqhuid(timeout = 0) {
     return new Promise((resolve) => {
-        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
-        const sphd ={
-            "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-cn",
-        "Connection": "keep-alive",
-        "Content-Length": "31",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
-        "Host": "api.ys7.com",
-        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
-        "appid": "ys",
-        "clientno": "undefined",
-        "clienttype": "1",
-        "clientversion": "6.1.3.1262766",
-        "featurecode": featurecode,
-        "language": "undefined",
-        "nettype": "WIFI",
-        "sessionid": sessionId
-        }
         let url = {
-            url: `https://api.ys7.com/v3/integral/task/list`,
-            headers: sphd,
-            body: `pageNum=0
-            &
-            pageSize=20
-            &
-            vipId=`,
+            url: `https://api.xqustar.com/api/invite/invitepage`,
+            headers: JSON.parse(qxqhd),
+
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【获取userid】：${result.data.userid}\n`)
+                    target = result.data.userid
+                    await $.wait(2000)
+                    await qxqhaggle()
+
+
+                } else {
+
+                    console.log(`【获取userid失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+//砍价
+function qxqhaggle(timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `https://api.xqustar.com/api/haggle/partake`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+            "source": "app",
+            "pid": "${pid1}",
+            "plat": "app",
+            "target": "${target}",
+            "seconds": 45,
+            "addressid": "cafff2be-d3ea-4d7a-a6c0-9d643dc75bb8",
+            "type": "video",
+            "sm": {
+              "shuMeiDeviceId": "",
+              "appVersion": "",
+              "os": "",
+              "guestId": ""
+            }
+          }
+          `
         }
         $.post(url, async (err, resp, data) => {
             try {
 
                 const result = JSON.parse(data)
-//result.taskList[0].taskCompleteNum
-                if (result.meta.code == 200) {
-                    console.log(`【查询任务列表列表】：${result.meta.message}\n`)
 
-                    if (result.taskList[0].taskCompleteNum != result.taskList[0].taskNum) {
-                        console.log(`【开始签到任务】\n`)
-                        await ysysign()
-                        
-// //签到任务
-//     return new Promise((resolve) => {
+                if (result.code == 200) {
 
-//         let url = {
-//             url: `https://api.ys7.com/v3/videoclips/user/check_in`,
-//             headers: JSON.parse(ysyhd),
-        
-//         }
-//         $.post(url, async (err, resp, data) => {
-//             try {
-
-//                 const result = JSON.parse(data)
-
-//                 if (result.meta.code == 200) {
+                    console.log(`【完成砍价任务】\n`)
+                    await $.wait(2000)
+                    await qxqhaggledb()
 
 
-//                     console.log(`【签到】：${result.meta.message}\n`)
-//                     console.log(`【获得莹豆】：${result.data.score}\n`)
+                } else {
 
-//                 } else {
+                    console.log(`【砍价任务失败】：${result.message}\n`)
 
-//                     console.log(`【签到失败】：${result.meta.message}\n`)
-//                 }
-//             } catch (e) {
+                }
+            } catch (e) {
 
-//             } finally {
+            } finally {
 
-//                 resolve()
-//             }
-//         }, timeout)
-//     })
-
+                resolve()
+            }
+        }, timeout)
+    })
+}
 
 
+//砍价任务双倍奖励
+function qxqhaggledb(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/task/v2/receiveDiamond`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+                "taskcode": "haggle",
+                "double": false
+              }`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【砍价翻倍】：${result.message}\n`)
+
+
+                } else {
+
+                    console.log(`【砍价翻倍失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+
+
+//转盘信息获取
+function qxqzpinfo(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/turntable/init`,
+            headers: JSON.parse(qxqhd),
+
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    console.log(`【查询剩余转盘次数】：${result.data.times}\n`)
+                    if (result.data.times == 0) {
+                        console.log(`【转盘次数已用完】\n`)
                     } else {
-                        console.log(`【今日签到任务已完成】\n`)
+                        console.log(`【开始转盘】：${result.data.times}\n`)
+                        await qxqzp()
+                        await $.wait(DD)
+                    }
+                } else {
+
+                    console.log(`【查询剩余转盘次数】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+
+//转盘任务
+function qxqzp(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/turntable/start`,
+            headers: JSON.parse(qxqhd),
+
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+                    if (result.data.result == 2) {
+
+                        console.log(`【转盘获得金币】：${result.data.number}\n`)
+                        console.log(`【等待金币翻倍】\n`)
+                        idd = result.data.id
+                        await qxqzpdb()
+                        if (result.data.times == 0) {
+                            console.log(`【转盘次数不足，停止转盘】\n`)
+                        } else {
+                            await qxqzpinfo()
+                            await $.wait(1000)
+                        }
+                    } else {
+                        console.log(`【转盘未获得金币】\n`)
+                        if (result.data.times == 0) {
+                            console.log(`【转盘次数不足，停止转盘】\n`)
+                        } else {
+                            await qxqzpinfo()
+                            await $.wait(1000)
+                        }
+                    }
+
+                } else {
+
+                    console.log(`【转盘失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+
+//转盘翻倍
+function qxqzpdb(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/turntable/double`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+            "id": "${idd}"
+          }`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+
+
+
+                    console.log(`【转盘金币翻倍】：${result.message}\n`)
+
+
+                } else {
+
+                    console.log(`【转盘金币翻倍失败】：${result.message}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+//提现页面
+function qxqtxpage(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/withdraw/withdrawpage`,
+            headers: JSON.parse(qxqhd),
+
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+                    if (result.data.activeList[3].amount == 0) {
+                        console.log(`【金额未到88星钻，未解锁提现】\n`)
+                    } else {
+                        console.log(`【查询到每日提现金额】：${result.data.activeList[3].amount}\n`)
+                        amt = result.data.activeList[3].amount
+                        await $.wait(2000)
+                        await qxqtxtj()
                     }
 
 
 
 
-                    
-                    if (result.taskList[1].taskCompleteNum != result.taskList[1].taskNum) {
-                        await $.wait(1500)
-                        console.log(`【开始上传短视频任务】\n`)
-                        await ysyvideo()
-                        await $.wait(3000)
+                } else {
 
- 
+                    console.log(`【查询每日提现金额失败】：${result.message}\n`)
 
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+//提现条件
+function qxqtxtj(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let url = {
+            url: `https://api.xqustar.com/api/task/diamondNumber`,
+            headers: JSON.parse(qxqhd),
+
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 200) {
+                    if (result.data.today >= 88) {
+                        console.log(`【今日已达88星钻，开始提现】\n`)
+                        await $.wait(1000)
+                        await qxqtx()
                     } else {
-                        console.log(`【今日上传短视频任务已完成】\n`)
+                        console.log(`【今日未达88星钻，继续努力哦】\n`)
                     }
 
-
-
-
-
-                    if (result.taskList[2].taskCompleteNum != result.taskList[2].taskNum) {
-                        console.log(`【开始评论短视频任务】\n`)
-                        await ysyplvideo()
-                        await $.wait(3000)
-                    } else {
-                        console.log(`【今日评论短视频任务已完成】\n`)
-                    }
-
-                  
-
                 } else {
 
-                    console.log(`【查询任务列表失败】：${result.meta.message}\n`)
+                    console.log(`【查询今日星钻失败】：${result.message}\n`)
 
                 }
             } catch (e) {
@@ -531,50 +994,33 @@ function ysytaskList(timeout = 0) {
 
 
 
-
-//上传短视频任务
-function ysyvideo(timeout = 0) {
+//提现
+function qxqtx(timeout = 0) {
     return new Promise((resolve) => {
-        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
-        const sphd ={
-            "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-cn",
-        "Connection": "keep-alive",
-        "Content-Length": "31",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
-        "Host": "api.ys7.com",
-        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
-        "appid": "ys",
-        "clientno": "undefined",
-        "clienttype": "1",
-        "clientversion": "6.1.3.1262766",
-        "featurecode": featurecode,
-        "language": "undefined",
-        "nettype": "WIFI",
-        "sessionid": sessionId
-        }
         let url = {
-            url: `https://api.ys7.com/v3/integral/task/complete?eventkey=1007&filterParam=video`,
-            headers: sphd,
-   
+            url: `https://api.xqustar.com/api/withdraw/apply`,
+            headers: JSON.parse(qxqhd),
+            body: `{
+            "amount": ${amt},
+            "withdrawtype": "random",
+            "ac": {}
+          }`,
         }
         $.post(url, async (err, resp, data) => {
             try {
 
                 const result = JSON.parse(data)
 
-                if (result.meta.code == 200) {
+                if (result.code == 200) {
 
-                    console.log(`【上传短视频任务】：${result.meta.message}\n`)
-                    console.log(`【获得莹豆】：${result.taskIntegral}\n`)
 
+
+                    console.log(`【提现】：${result.message}\n`)
+                    $.message += `【提现】：${result.message}\n`
                 } else {
 
-                    console.log(`【上传短视频任务失败】：${result.meta.message}\n`)
-
+                    console.log(`【提现失败】：${result.message}\n`)
 
                 }
             } catch (e) {
@@ -586,133 +1032,12 @@ function ysyvideo(timeout = 0) {
         }, timeout)
     })
 }
-
-
-
-
-//评论短视频任务
-function ysyplvideo(timeout = 0) {
-    return new Promise((resolve) => {
-        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
-
-        const sphd ={
-            "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-cn",
-        "Connection": "keep-alive",
-        "Content-Length": "31",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
-        "Host": "api.ys7.com",
-        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
-        "appid": "ys",
-        "clientno": "undefined",
-        "clienttype": "1",
-        "clientversion": "6.1.3.1262766",
-        "featurecode": featurecode,
-        "language": "undefined",
-        "nettype": "WIFI",
-        "sessionid": sessionId
-        }
-        let url = {
-            url: `https://api.ys7.com/v3/integral/task/complete?eventkey=1008&filterParam=video`,
-            headers: sphd,
-        
-        }
-        $.post(url, async (err, resp, data) => {
-            try {
-
-                const result = JSON.parse(data)
-
-                if (result.meta.code == 200) {
-
-
-                    console.log(`【评论短视频任务】：${result.meta.message}\n`)
-                    console.log(`【获得莹豆】：${result.taskIntegral}\n`)
-
-                } else {
-
-                    console.log(`【评论短视频任务失败】：${result.meta.message}\n`)
-                }
-            } catch (e) {
-
-            } finally {
-
-                resolve()
-            }
-        }, timeout)
-    })
-}
-
-//签到任务
-function ysysign(timeout = 0) {
-    return new Promise((resolve) => {
-        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
-
-        const sphd ={
-            "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-cn",
-        "Connection": "keep-alive",
-        "Content-Length": "31",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
-        "Host": "api.ys7.com",
-        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
-        "appid": "ys",
-        "clientno": "undefined",
-        "clienttype": "1",
-        "clientversion": "6.1.3.1262766",
-        "featurecode": featurecode,
-        "language": "undefined",
-        "nettype": "WIFI",
-        "sessionid": sessionId
-        }
-        let url = {
-            url: `https://api.ys7.com/v3/videoclips/user/check_in`,
-            headers: sphd,
-        
-        }
-        $.post(url, async (err, resp, data) => {
-            try {
-
-                const result = JSON.parse(data)
-
-                if (result.meta.code == 200) {
-
-
-                    console.log(`【签到】：${result.meta.message}\n`)
-                    console.log(`【获得莹豆】：${result.data.score}\n`)
-
-                } else {
-
-                    console.log(`【签到失败】：${result.meta.message}\n`)
-                }
-            } catch (e) {
-
-            } finally {
-
-                resolve()
-            }
-        }, timeout)
-    })
-}
-
-
-
-
 
 
 
 function message() {
     if (tz == 1) { $.msg($.name, "", $.message) }
 }
-//时间
-nowTimes = new Date(
-    new Date().getTime() +
-    new Date().getTimezoneOffset() * 60 * 1000 +
-    8 * 60 * 60 * 1000
-);
 
 function RT(X, Y) {
     do rt = Math.floor(Math.random() * Y);
@@ -752,5 +1077,542 @@ function getCurrentDate() {
 
 
 
+function Env(name, opts) {
+    class Http {
+        constructor(env) {
+            this.env = env
+        }
+        send(opts, method = 'GET') {
+            opts = typeof opts === 'string' ? {
+                url: opts
+            } : opts
+            let sender = this.get
+            if (method === 'POST') {
+                sender = this.post
+            }
+            return new Promise((resolve, reject) => {
+                sender.call(this, opts, (err, resp, body) => {
+                    if (err) reject(err)
+                    else resolve(resp)
+                })
+            })
+        }
+        get(opts) {
+            return this.send.call(this.env, opts)
+        }
+        post(opts) {
+            return this.send.call(this.env, opts, 'POST')
+        }
+    }
+    return new (class {
+        constructor(name, opts) {
+            this.name = name
+            this.http = new Http(this)
+            this.data = null
+            this.dataFile = 'box.dat'
+            this.logs = []
+            this.isMute = false
+            this.isNeedRewrite = false
+            this.logSeparator = '\n'
+            this.startTime = new Date().getTime()
+            Object.assign(this, opts)
+            this.log('', `🔔${this.name
+                }, 开始!`)
+        }
+        isNode() {
+            return 'undefined' !== typeof module && !!module.exports
+        }
+        isQuanX() {
+            return 'undefined' !== typeof $task
+        }
+        isSurge() {
+            return 'undefined' !== typeof $httpClient && 'undefined' === typeof $loon
+        }
+        isLoon() {
+            return 'undefined' !== typeof $loon
+        }
+        isShadowrocket() {
+            return 'undefined' !== typeof $rocket
+        }
+        toObj(str, defaultValue = null) {
+            try {
+                return JSON.parse(str)
+            } catch {
+                return defaultValue
+            }
+        }
+        toStr(obj, defaultValue = null) {
+            try {
+                return JSON.stringify(obj)
+            } catch {
+                return defaultValue
+            }
+        }
+        getjson(key, defaultValue) {
+            let json = defaultValue
+            const val = this.getdata(key)
+            if (val) {
+                try {
+                    json = JSON.parse(this.getdata(key))
+                } catch { }
+            }
+            return json
+        }
+        setjson(val, key) {
+            try {
+                return this.setdata(JSON.stringify(val), key)
+            } catch {
+                return false
+            }
+        }
+        getScript(url) {
+            return new Promise((resolve) => {
+                this.get({
+                    url
+                }, (err, resp, body) => resolve(body))
+            })
+        }
+        runScript(script, runOpts) {
+            return new Promise((resolve) => {
+                let httpapi = this.getdata('@chavy_boxjs_userCfgs.httpapi')
+                httpapi = httpapi ? httpapi.replace(/\n/g, '').trim() : httpapi
+                let httpapi_timeout = this.getdata('@chavy_boxjs_userCfgs.httpapi_timeout')
+                httpapi_timeout = httpapi_timeout ? httpapi_timeout * 1 : 20
+                httpapi_timeout = runOpts && runOpts.timeout ? runOpts.timeout : httpapi_timeout
+                const [key, addr] = httpapi.split('@')
+                const opts = {
+                    url: `http: //${addr}/v1/scripting/evaluate`,
+                    body: {
+                        script_text: script,
+                        mock_type: 'cron',
+                        timeout: httpapi_timeout
+                    },
+                    headers: {
+                        'X-Key': key,
+                        'Accept': '*/*'
+                    }
+                }
+                this.post(opts, (err, resp, body) => resolve(body))
+            }).catch((e) => this.logErr(e))
+        }
+        loaddata() {
+            if (this.isNode()) {
+                this.fs = this.fs ? this.fs : require('fs')
+                this.path = this.path ? this.path : require('path')
+                const curDirDataFilePath = this.path.resolve(this.dataFile)
+                const rootDirDataFilePath = this.path.resolve(process.cwd(), this.dataFile)
+                const isCurDirDataFile = this.fs.existsSync(curDirDataFilePath)
+                const isRootDirDataFile = !isCurDirDataFile && this.fs.existsSync(rootDirDataFilePath)
+                if (isCurDirDataFile || isRootDirDataFile) {
+                    const datPath = isCurDirDataFile ? curDirDataFilePath : rootDirDataFilePath
+                    try {
+                        return JSON.parse(this.fs.readFileSync(datPath))
+                    } catch (e) {
+                        return {}
+                    }
+                } else return {}
+            } else return {}
+        }
+        writedata() {
+            if (this.isNode()) {
+                this.fs = this.fs ? this.fs : require('fs')
+                this.path = this.path ? this.path : require('path')
+                const curDirDataFilePath = this.path.resolve(this.dataFile)
+                const rootDirDataFilePath = this.path.resolve(process.cwd(), this.dataFile)
+                const isCurDirDataFile = this.fs.existsSync(curDirDataFilePath)
+                const isRootDirDataFile = !isCurDirDataFile && this.fs.existsSync(rootDirDataFilePath)
+                const jsondata = JSON.stringify(this.data)
+                if (isCurDirDataFile) {
+                    this.fs.writeFileSync(curDirDataFilePath, jsondata)
+                } else if (isRootDirDataFile) {
+                    this.fs.writeFileSync(rootDirDataFilePath, jsondata)
+                } else {
+                    this.fs.writeFileSync(curDirDataFilePath, jsondata)
+                }
+            }
+        }
+        lodash_get(source, path, defaultValue = undefined) {
+            const paths = path.replace(/[(d+)]/g, '.$1').split('.')
+            let result = source
+            for (const p of paths) {
+                result = Object(result)[p]
+                if (result === undefined) {
+                    return defaultValue
+                }
+            }
+            return result
+        }
+        lodash_set(obj, path, value) {
+            if (Object(obj) !== obj) return obj
+            if (!Array.isArray(path)) path = path.toString().match(/[^.[]]+/g) || []
+            path
+                .slice(0, -1)
+                .reduce((a, c, i) => (Object(a[c]) === a[c] ? a[c] : (a[c] = Math.abs(path[i + 1]) >> 0 === +path[i + 1] ? [] : {})), obj)[
+                path[path.length - 1]
+            ] = value
+            return obj
+        }
+        getdata(key) {
+            let val = this.getval(key)
+            // 如果以 @
+            if (/^@/.test(key)) {
+                const [, objkey, paths] = /^@(.*?).(.*?)$/.exec(key)
+                const objval = objkey ? this.getval(objkey) : ''
+                if (objval) {
+                    try {
+                        const objedval = JSON.parse(objval)
+                        val = objedval ? this.lodash_get(objedval, paths, '') : val
+                    } catch (e) {
+                        val = ''
+                    }
+                }
+            }
+            return val
+        }
+        setdata(val, key) {
+            let issuc = false
+            if (/^@/.test(key)) {
+                const [, objkey, paths] = /^@(.*?).(.*?)$/.exec(key)
+                const objdat = this.getval(objkey)
+                const objval = objkey ? (objdat === 'null' ? null : objdat || '{}') : '{}'
+                try {
+                    const objedval = JSON.parse(objval)
+                    this.lodash_set(objedval, paths, val)
+                    issuc = this.setval(JSON.stringify(objedval), objkey)
+                } catch (e) {
+                    const objedval = {}
+                    this.lodash_set(objedval, paths, val)
+                    issuc = this.setval(JSON.stringify(objedval), objkey)
+                }
+            } else {
+                issuc = this.setval(val, key)
+            }
+            return issuc
+        }
+        getval(key) {
+            if (this.isSurge() || this.isLoon()) {
+                return $persistentStore.read(key)
+            } else if (this.isQuanX()) {
+                return $prefs.valueForKey(key)
+            } else if (this.isNode()) {
+                this.data = this.loaddata()
+                return this.data[key]
+            } else {
+                return (this.data && this.data[key]) || null
+            }
+        }
+        setval(val, key) {
+            if (this.isSurge() || this.isLoon()) {
+                return $persistentStore.write(val, key)
+            } else if (this.isQuanX()) {
+                return $prefs.setValueForKey(val, key)
+            } else if (this.isNode()) {
+                this.data = this.loaddata()
+                this.data[key] = val
+                this.writedata()
+                return true
+            } else {
+                return (this.data && this.data[key]) || null
+            }
+        }
+        initGotEnv(opts) {
+            this.got = this.got ? this.got : require('got')
+            this.cktough = this.cktough ? this.cktough : require('tough-cookie')
+            this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar()
+            if (opts) {
+                opts.headers = opts.headers ? opts.headers : {}
+                if (undefined === opts.headers.Cookie && undefined === opts.cookieJar) {
+                    opts.cookieJar = this.ckjar
+                }
+            }
+        }
+        get(opts, callback = () => { }) {
+            if (opts.headers) {
+                delete opts.headers['Content-Type']
+                delete opts.headers['Content-Length']
+            }
+            if (this.isSurge() || this.isLoon()) {
+                if (this.isSurge() && this.isNeedRewrite) {
+                    opts.headers = opts.headers || {}
+                    Object.assign(opts.headers, {
+                        'X-Surge-Skip-Scripting': false
+                    })
+                }
+                $httpClient.get(opts, (err, resp, body) => {
+                    if (!err && resp) {
+                        resp.body = body
+                        resp.statusCode = resp.status
+                    }
+                    callback(err, resp, body)
+                })
+            } else if (this.isQuanX()) {
+                if (this.isNeedRewrite) {
+                    opts.opts = opts.opts || {}
+                    Object.assign(opts.opts, {
+                        hints: false
+                    })
+                }
+                $task.fetch(opts).then(
+                    (resp) => {
+                        const {
+                            statusCode: status,
+                            statusCode,
+                            headers,
+                            body
+                        } = resp
+                        callback(null, {
+                            status,
+                            statusCode,
+                            headers,
+                            body
+                        }, body)
+                    },
+                    (err) => callback(err)
+                )
+            } else if (this.isNode()) {
+                this.initGotEnv(opts)
+                this.got(opts)
+                    .on('redirect', (resp, nextOpts) => {
+                        try {
+                            if (resp.headers['set-cookie']) {
+                                const ck = resp.headers['set-cookie'].map(this.cktough.Cookie.parse).toString()
+                                if (ck) {
+                                    this.ckjar.setCookieSync(ck, null)
+                                }
+                                nextOpts.cookieJar = this.ckjar
+                            }
+                        } catch (e) {
+                            this.logErr(e)
+                        }
+                        // this.ckjar.setCookieSync(resp.headers['set-cookie'].map(Cookie.parse).toString())
+                    })
+                    .then(
+                        (resp) => {
+                            const {
+                                statusCode: status,
+                                statusCode,
+                                headers,
+                                body
+                            } = resp
+                            callback(null, {
+                                status,
+                                statusCode,
+                                headers,
+                                body
+                            }, body)
+                        },
+                        (err) => {
+                            const {
+                                message: error,
+                                response: resp
+                            } = err
+                            callback(error, resp, resp && resp.body)
+                        }
+                    )
+            }
+        }
+        post(opts, callback = () => { }) {
+            const method = opts.method ? opts.method.toLocaleLowerCase() : 'post'
+            // 如果指定了请求体, 但没指定`Content-Type`, 则自动生成
+            if (opts.body && opts.headers && !opts.headers['Content-Type']) {
+                opts.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+            }
+            if (opts.headers) delete opts.headers['Content-Length']
+            if (this.isSurge() || this.isLoon()) {
+                if (this.isSurge() && this.isNeedRewrite) {
+                    opts.headers = opts.headers || {}
+                    Object.assign(opts.headers, {
+                        'X-Surge-Skip-Scripting': false
+                    })
+                }
+                $httpClient[method](opts, (err, resp, body) => {
+                    if (!err && resp) {
+                        resp.body = body
+                        resp.statusCode = resp.status
+                    }
+                    callback(err, resp, body)
+                })
+            } else if (this.isQuanX()) {
+                opts.method = method
+                if (this.isNeedRewrite) {
+                    opts.opts = opts.opts || {}
+                    Object.assign(opts.opts, {
+                        hints: false
+                    })
+                }
+                $task.fetch(opts).then(
+                    (resp) => {
+                        const {
+                            statusCode: status,
+                            statusCode,
+                            headers,
+                            body
+                        } = resp
+                        callback(null, {
+                            status,
+                            statusCode,
+                            headers,
+                            body
+                        }, body)
+                    },
+                    (err) => callback(err)
+                )
+            } else if (this.isNode()) {
+                this.initGotEnv(opts)
+                const {
+                    url,
+                    ..._opts
+                } = opts
+                this.got[method](url, _opts).then(
+                    (resp) => {
+                        const {
+                            statusCode: status,
+                            statusCode,
+                            headers,
+                            body
+                        } = resp
+                        callback(null, {
+                            status,
+                            statusCode,
+                            headers,
+                            body
+                        }, body)
+                    },
+                    (err) => {
+                        const {
+                            message: error,
+                            response: resp
+                        } = err
+                        callback(error, resp, resp && resp.body)
+                    }
+                )
+            }
+        }
+        /**
+         *
+         * 示例:$.time('yyyy-MM-dd qq HH:mm:ss.S')
+         *    :$.time('yyyyMMddHHmmssS')
+         *    y:年 M:月 d:日 q:季 H:时 m:分 s:秒 S:毫秒
+         *    其中y可选0-4位占位符、S可选0-1位占位符，其余可选0-2位占位符
+         * @param {string} fmt 格式化参数
+         * @param {number} 可选: 根据指定时间戳返回格式化日期
+         *
+         */
+        time(fmt, ts = null) {
+            const date = ts ? new Date(ts) : new Date()
+            let o = {
+                'M+': date.getMonth() + 1,
+                'd+': date.getDate(),
+                'H+': date.getHours(),
+                'm+': date.getMinutes(),
+                's+': date.getSeconds(),
+                'q+': Math.floor((date.getMonth() + 3) / 3),
+                'S': date.getMilliseconds()
+            }
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+            for (let k in o)
+                if (new RegExp('(' + k + ')').test(fmt))
+                    fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length))
+            return fmt
+        }
+        /**
+         * 系统通知
+         *
+         * > 通知参数: 同时支持 QuanX 和 Loon 两种格式, EnvJs根据运行环境自动转换, Surge 环境不支持多媒体通知
+         *
+         * 示例:
+         * $.msg(title, subt, desc, 'twitter://')
+         * $.msg(title, subt, desc, { 'open-url': 'twitter://', 'media-url': 'https://github.githubassets.com/images/modules/open_graph/github-mark.png' })
+         * $.msg(title, subt, desc, { 'open-url': 'https://bing.com', 'media-url': 'https://github.githubassets.com/images/modules/open_graph/github-mark.png' })
+         *
+         * @param {*} title 标题
+         * @param {*} subt 副标题
+         * @param {*} desc 通知详情
+         * @param {*} opts 通知参数
+         *
+         */
+        msg(title = name, subt = '', desc = '', opts) {
+            const toEnvOpts = (rawopts) => {
+                if (!rawopts) return rawopts
+                if (typeof rawopts === 'string') {
+                    if (this.isLoon()) return rawopts
+                    else if (this.isQuanX()) return {
+                        'open-url': rawopts
+                    }
+                    else if (this.isSurge()) return {
+                        url: rawopts
+                    }
+                    else return undefined
+                } else if (typeof rawopts === 'object') {
+                    if (this.isLoon()) {
+                        let openUrl = rawopts.openUrl || rawopts.url || rawopts['open-url']
+                        let mediaUrl = rawopts.mediaUrl || rawopts['media-url']
+                        return {
+                            openUrl,
+                            mediaUrl
+                        }
+                    } else if (this.isQuanX()) {
+                        let openUrl = rawopts['open-url'] || rawopts.url || rawopts.openUrl
+                        let mediaUrl = rawopts['media-url'] || rawopts.mediaUrl
+                        return {
+                            'open-url': openUrl,
+                            'media-url': mediaUrl
+                        }
+                    } else if (this.isSurge()) {
+                        let openUrl = rawopts.url || rawopts.openUrl || rawopts['open-url']
+                        return {
+                            url: openUrl
+                        }
+                    }
+                } else {
+                    return undefined
+                }
+            }
+            if (!this.isMute) {
+                if (this.isSurge() || this.isLoon()) {
+                    $notification.post(title, subt, desc, toEnvOpts(opts))
+                } else if (this.isQuanX()) {
+                    $notify(title, subt, desc, toEnvOpts(opts))
+                }
+            }
+            if (!this.isMuteLog) {
+                let logs = ['', '==============📣系统通知📣==============']
+                logs.push(title)
+                subt ? logs.push(subt) : ''
+                desc ? logs.push(desc) : ''
+                console.log(logs.join('\n'))
+                this.logs = this.logs.concat(logs)
+            }
+        }
+        log(...logs) {
+            if (logs.length > 0) {
+                this.logs = [...this.logs, ...logs]
+            }
+            console.log(logs.join(this.logSeparator))
+        }
+        logErr(err, msg) {
+            const isPrintSack = !this.isSurge() && !this.isQuanX() && !this.isLoon()
+            if (!isPrintSack) {
+                this.log('', `❗️${this.name
+                    }, 错误!`, err)
+            } else {
+                this.log('', `❗️${this.name
+                    }, 错误!`, err.stack)
+            }
+        }
+        wait(time) {
+            return new Promise((resolve) => setTimeout(resolve, time))
+        }
+        done(val = {}) {
+            const endTime = new Date().getTime()
+            const costTime = (endTime - this.startTime) / 1000
+            this.log('', `🔔${this.name
+                }, 结束!🕛${costTime}秒`)
+            this.log()
+            if (this.isSurge() || this.isQuanX() || this.isLoon()) {
+                $done(val)
+            }
+        }
+    })(name, opts)
+}
 
-function Env(t, e) { class s { constructor(t) { this.env = t } send(t, e = "GET") { t = "string" == typeof t ? { url: t } : t; let s = this.get; return "POST" === e && (s = this.post), new Promise((e, i) => { s.call(this, t, (t, s, r) => { t ? i(t) : e(s) }) }) } get(t) { return this.send.call(this.env, t) } post(t) { return this.send.call(this.env, t, "POST") } } return new class { constructor(t, e) { this.name = t, this.http = new s(this), this.data = null, this.dataFile = "box.dat", this.logs = [], this.isMute = !1, this.isNeedRewrite = !1, this.logSeparator = "\n", this.startTime = (new Date).getTime(), Object.assign(this, e), this.log("", `\ud83d\udd14${this.name}, \u5f00\u59cb!`) } isNode() { return "undefined" != typeof module && !!module.exports } isQuanX() { return "undefined" != typeof $task } isSurge() { return "undefined" != typeof $httpClient && "undefined" == typeof $loon } isLoon() { return "undefined" != typeof $loon } toObj(t, e = null) { try { return JSON.parse(t) } catch { return e } } toStr(t, e = null) { try { return JSON.stringify(t) } catch { return e } } getjson(t, e) { let s = e; const i = this.getdata(t); if (i) try { s = JSON.parse(this.getdata(t)) } catch { } return s } setjson(t, e) { try { return this.setdata(JSON.stringify(t), e) } catch { return !1 } } getScript(t) { return new Promise(e => { this.get({ url: t }, (t, s, i) => e(i)) }) } runScript(t, e) { return new Promise(s => { let i = this.getdata("@chavy_boxjs_userCfgs.httpapi"); i = i ? i.replace(/\n/g, "").trim() : i; let r = this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout"); r = r ? 1 * r : 20, r = e && e.timeout ? e.timeout : r; const [o, h] = i.split("@"), a = { url: `http://${h}/v1/scripting/evaluate`, body: { script_text: t, mock_type: "cron", timeout: r }, headers: { "X-Key": o, Accept: "*/*" } }; this.post(a, (t, e, i) => s(i)) }).catch(t => this.logErr(t)) } loaddata() { if (!this.isNode()) return {}; { this.fs = this.fs ? this.fs : require("fs"), this.path = this.path ? this.path : require("path"); const t = this.path.resolve(this.dataFile), e = this.path.resolve(process.cwd(), this.dataFile), s = this.fs.existsSync(t), i = !s && this.fs.existsSync(e); if (!s && !i) return {}; { const i = s ? t : e; try { return JSON.parse(this.fs.readFileSync(i)) } catch (t) { return {} } } } } writedata() { if (this.isNode()) { this.fs = this.fs ? this.fs : require("fs"), this.path = this.path ? this.path : require("path"); const t = this.path.resolve(this.dataFile), e = this.path.resolve(process.cwd(), this.dataFile), s = this.fs.existsSync(t), i = !s && this.fs.existsSync(e), r = JSON.stringify(this.data); s ? this.fs.writeFileSync(t, r) : i ? this.fs.writeFileSync(e, r) : this.fs.writeFileSync(t, r) } } lodash_get(t, e, s) { const i = e.replace(/\[(\d+)\]/g, ".$1").split("."); let r = t; for (const t of i) if (r = Object(r)[t], void 0 === r) return s; return r } lodash_set(t, e, s) { return Object(t) !== t ? t : (Array.isArray(e) || (e = e.toString().match(/[^.[\]]+/g) || []), e.slice(0, -1).reduce((t, s, i) => Object(t[s]) === t[s] ? t[s] : t[s] = Math.abs(e[i + 1]) >> 0 == +e[i + 1] ? [] : {}, t)[e[e.length - 1]] = s, t) } getdata(t) { let e = this.getval(t); if (/^@/.test(t)) { const [, s, i] = /^@(.*?)\.(.*?)$/.exec(t), r = s ? this.getval(s) : ""; if (r) try { const t = JSON.parse(r); e = t ? this.lodash_get(t, i, "") : e } catch (t) { e = "" } } return e } setdata(t, e) { let s = !1; if (/^@/.test(e)) { const [, i, r] = /^@(.*?)\.(.*?)$/.exec(e), o = this.getval(i), h = i ? "null" === o ? null : o || "{}" : "{}"; try { const e = JSON.parse(h); this.lodash_set(e, r, t), s = this.setval(JSON.stringify(e), i) } catch (e) { const o = {}; this.lodash_set(o, r, t), s = this.setval(JSON.stringify(o), i) } } else s = this.setval(t, e); return s } getval(t) { return this.isSurge() || this.isLoon() ? $persistentStore.read(t) : this.isQuanX() ? $prefs.valueForKey(t) : this.isNode() ? (this.data = this.loaddata(), this.data[t]) : this.data && this.data[t] || null } setval(t, e) { return this.isSurge() || this.isLoon() ? $persistentStore.write(t, e) : this.isQuanX() ? $prefs.setValueForKey(t, e) : this.isNode() ? (this.data = this.loaddata(), this.data[e] = t, this.writedata(), !0) : this.data && this.data[e] || null } initGotEnv(t) { this.got = this.got ? this.got : require("got"), this.cktough = this.cktough ? this.cktough : require("tough-cookie"), this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar, t && (t.headers = t.headers ? t.headers : {}, void 0 === t.headers.Cookie && void 0 === t.cookieJar && (t.cookieJar = this.ckjar)) } get(t, e = (() => { })) { t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"]), this.isSurge() || this.isLoon() ? (this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, { "X-Surge-Skip-Scripting": !1 })), $httpClient.get(t, (t, s, i) => { !t && s && (s.body = i, s.statusCode = s.status), e(t, s, i) })) : this.isQuanX() ? (this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, { hints: !1 })), $task.fetch(t).then(t => { const { statusCode: s, statusCode: i, headers: r, body: o } = t; e(null, { status: s, statusCode: i, headers: r, body: o }, o) }, t => e(t))) : this.isNode() && (this.initGotEnv(t), this.got(t).on("redirect", (t, e) => { try { if (t.headers["set-cookie"]) { const s = t.headers["set-cookie"].map(this.cktough.Cookie.parse).toString(); this.ckjar.setCookieSync(s, null), e.cookieJar = this.ckjar } } catch (t) { this.logErr(t) } }).then(t => { const { statusCode: s, statusCode: i, headers: r, body: o } = t; e(null, { status: s, statusCode: i, headers: r, body: o }, o) }, t => { const { message: s, response: i } = t; e(s, i, i && i.body) })) } post(t, e = (() => { })) { if (t.body && t.headers && !t.headers["Content-Type"] && (t.headers["Content-Type"] = "application/x-www-form-urlencoded"), t.headers && delete t.headers["Content-Length"], this.isSurge() || this.isLoon()) this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, { "X-Surge-Skip-Scripting": !1 })), $httpClient.post(t, (t, s, i) => { !t && s && (s.body = i, s.statusCode = s.status), e(t, s, i) }); else if (this.isQuanX()) t.method = "POST", this.isNeedRewrite && (t.opts = t.opts || {}, Object.assign(t.opts, { hints: !1 })), $task.fetch(t).then(t => { const { statusCode: s, statusCode: i, headers: r, body: o } = t; e(null, { status: s, statusCode: i, headers: r, body: o }, o) }, t => e(t)); else if (this.isNode()) { this.initGotEnv(t); const { url: s, ...i } = t; this.got.post(s, i).then(t => { const { statusCode: s, statusCode: i, headers: r, body: o } = t; e(null, { status: s, statusCode: i, headers: r, body: o }, o) }, t => { const { message: s, response: i } = t; e(s, i, i && i.body) }) } } time(t) { let e = { "M+": (new Date).getMonth() + 1, "d+": (new Date).getDate(), "H+": (new Date).getHours(), "m+": (new Date).getMinutes(), "s+": (new Date).getSeconds(), "q+": Math.floor(((new Date).getMonth() + 3) / 3), S: (new Date).getMilliseconds() }; /(y+)/.test(t) && (t = t.replace(RegExp.$1, ((new Date).getFullYear() + "").substr(4 - RegExp.$1.length))); for (let s in e) new RegExp("(" + s + ")").test(t) && (t = t.replace(RegExp.$1, 1 == RegExp.$1.length ? e[s] : ("00" + e[s]).substr(("" + e[s]).length))); return t } msg(e = t, s = "", i = "", r) { const o = t => { if (!t) return t; if ("string" == typeof t) return this.isLoon() ? t : this.isQuanX() ? { "open-url": t } : this.isSurge() ? { url: t } : void 0; if ("object" == typeof t) { if (this.isLoon()) { let e = t.openUrl || t.url || t["open-url"], s = t.mediaUrl || t["media-url"]; return { openUrl: e, mediaUrl: s } } if (this.isQuanX()) { let e = t["open-url"] || t.url || t.openUrl, s = t["media-url"] || t.mediaUrl; return { "open-url": e, "media-url": s } } if (this.isSurge()) { let e = t.url || t.openUrl || t["open-url"]; return { url: e } } } }; this.isMute || (this.isSurge() || this.isLoon() ? $notification.post(e, s, i, o(r)) : this.isQuanX() && $notify(e, s, i, o(r))); let h = ["", "==============\ud83d\udce3\u7cfb\u7edf\u901a\u77e5\ud83d\udce3=============="]; h.push(e), s && h.push(s), i && h.push(i), console.log(h.join("\n")), this.logs = this.logs.concat(h) } log(...t) { t.length > 0 && (this.logs = [...this.logs, ...t]), console.log(t.join(this.logSeparator)) } logErr(t, e) { const s = !this.isSurge() && !this.isQuanX() && !this.isLoon(); s ? this.log("", `\u2757\ufe0f${this.name}, \u9519\u8bef!`, t.stack) : this.log("", `\u2757\ufe0f${this.name}, \u9519\u8bef!`, t) } wait(t) { return new Promise(e => setTimeout(e, t)) } done(t = {}) { const e = (new Date).getTime(), s = (e - this.startTime) / 1e3; this.log("", `\ud83d\udd14${this.name}, \u7ed3\u675f! \ud83d\udd5b ${s} \u79d2`), this.log(), (this.isSurge() || this.isQuanX() || this.isLoon()) && $done(t) } }(t, e) }
