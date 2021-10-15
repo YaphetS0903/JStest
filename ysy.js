@@ -23,8 +23,8 @@ https://api.ys7.com/v3/integral/yd/getUserOpenBoxCd
 环境配置(多账号@隔开)export ysyhd='抓取的header1@抓取的header2'
 例：
 export ysyhd='{"clientType":"1","Accept-Encoding":"gzip, deflate, br","netType":"WIFI","Co..........Content-Length":"450"}@账号2的数据'
-export ysybody='"account=123456&biz.......callTokenType%5C%22%3A1%7D%22%7D%5D&smsCode="@账号2的数据'
-export cookie='ASG_DisplayName=f1zp0w; ....... C_TYPE=1; C_VER=6.1.3.1262766@账号2的数据'
+export ysybody='account=123456&biz.......callTokenType%5C%22%3A1%7D%22%7D%5D&smsCode=@账号2的数据'
+export cookie='"ASG_DisplayName=pgekc1; C_SS.............GBBehbyvORvekQPYYT87ps8gAtU; C_TYPE=1; C_VER=6.1.3.1262766"@账号2的数据'
 圈X配置如下，其他自行测试，加了判断，运行时间一小时一次
 [task_local]
 #萤石云
