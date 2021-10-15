@@ -5,22 +5,35 @@
 脚本说明：萤石云。。。下载地址，appstore搜索下载
 一天1毛到3毛，3毛提现，自动提现后续抓到包了加
 评论有时候会获得0金币，是软件bug，手动评论也不增加
+10.15更新，解决ck一天失效问题，需要重新抓取数据，
+本来想直接手机号密码登录，可惜不会处理featurecode和token
+目前莹豆还不够提现，抓到提现包了再更新提现，从群友反馈看安卓的豆子多一些，一天一毛五左右，苹果很少
 本脚本以学习为主
-获取数据： 进入软件，点击我的，点击开宝箱，开完宝箱后再点宝箱，观看一个视频开宝箱获取数据
+获取数据： 登录输入手机号密码获得登录数据，然后进入软件点击我的获取cookie
 TG通知群:https://t.me/tom_ww
 TG电报交流群: https://t.me/tom_210120
 boxjs地址 :  
 https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 萤石云
-青龙环境抓取链接https://api.ys7.com/v3/integral/task/complete
-环境配置(@隔开，json格式)export ysyhd='抓取的header1@抓取的header2'
+青龙环境抓取链接
+登录的header和body
+https://api.ys7.com/v3/users/login/v2
+cookie获取
+https://api.ys7.com/v3/integral/yd/getUserOpenBoxCd
+环境配置(@隔开)export ysyhd='抓取的header1@抓取的header2'
+例：
+export ysyhd='{"clientType":"1","Accept-Encoding":"gzip, deflate, br","netType":"WIFI","Co..........Content-Length":"450"}@账号2的数据'
+export ysybody='"account=123456&biz.......callTokenType%5C%22%3A1%7D%22%7D%5D&smsCode="@账号2的数据'
+export cookie='ASG_DisplayName=f1zp0w; ....... C_TYPE=1; C_VER=6.1.3.1262766@账号2的数据'
 圈X配置如下，其他自行测试，加了判断，运行时间一小时一次
 [task_local]
 #萤石云
 0 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/ysy.js, tag=萤石云, enabled=true
 [rewrite_local]
-#萤石云
-https://api.ys7.com/v3/integral/task/complete url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/ysy.js
+#萤石云登录数据获取
+https://api.ys7.com/v3/users/login/v2 url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/ysy.js
+#萤石云cookie获取
+https://api.ys7.com/v3/integral/yd/getUserOpenBoxCd url script-request-header https://raw.githubusercontent.com/YaphetS0903/JStest/main/ysy.js
 [MITM]
 hostname = api.ys7.com
 */
@@ -28,17 +41,18 @@ const $ = new Env('萤石云视频');
 let status;
 
 status = (status = ($.getval("ysystatus") || "1")) > 1 ? `${status}` : "";
-let ysyurlArr = [], ysyhdArr = [], ysycount = ''
+let ysyurlArr = [], ysyhdArr = [],ysybodyArr = [], cookieArr = [],ysycount = ''
 let ysyurl = $.getdata('ysyurl')
 let ysyhd = $.isNode() ? (process.env.ysyhd ? process.env.ysyhd : "") : ($.getdata('ysyhd') ? $.getdata('ysyhd') : "")
-
+let ysybody = $.isNode() ? (process.env.ysybody  ? process.env.ysybody  : "") : ($.getdata('ysybody ') ? $.getdata('ysybody ') : "")
+let cookie =$.isNode() ? (process.env.cookie  ? process.env.cookie  : "") : ($.getdata('cookie ') ? $.getdata('cookie ') : "")
 let b = Math.round(new Date().getTime() / 1000).toString();
 let DD = RT(2000, 3500)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
-let id = '', txid = '', aid = '', pid = ''
+let id = '', txid = '', aid = '',  sessionId= '', featurecode= ''
 $.message = ''
-let ysyhds = ""
+let ysyhds = "",ysybodys = "",cookies = ""
 
 
 
@@ -50,12 +64,14 @@ let ysyhds = ""
         if (!$.isNode()) {
             ysyurlArr.push($.getdata('ysyurl'))
             ysyhdArr.push($.getdata('ysyhd'))
-
+            ysybodyArr.push($.getdata('ysybody'))
+            cookieArr.push($.getdata('cookie'))
             let ysycount = ($.getval('ysycount') || '1');
             for (let i = 2; i <= ysycount; i++) {
                 ysyurlArr.push($.getdata(`ysyurl${i}`))
                 ysyhdArr.push($.getdata(`ysyhd${i}`))
-
+                ysybodyArr.push($.getdata(`ysybody${i}`))
+                cookieArr.push($.getdata(`cookie${i}`))
             }
             console.log(
                 `\n\n=============================================== 脚本执行 - 北京时间(UTC+8)：${new Date(
@@ -68,13 +84,14 @@ let ysyhds = ""
 
                     ysyurl = ysyurlArr[i];
                     ysyhd = ysyhdArr[i];
-
-
+                    ysybody = ysybodyArr[i];
+                    cookie = cookieArr[i];
                     $.index = i + 1;
                     console.log(`\n\n开始【萤石云${$.index}】`)
-                    await ysytaskList()
-                    await $.wait(1500)
-                    await ysyboxcd()
+                    await ysylogin()
+                    // await ysytaskList()
+                    // await $.wait(1500)
+                    // await ysyboxcd()
                    
                     
                     //message()
@@ -92,16 +109,44 @@ let ysyhds = ""
                     ysyhdArr.push(ysyhds[item])
                 }
             })
+            if (process.env.ysybody && process.env.ysybody.indexOf('@') > -1) {
+                ysybodyArr = process.env.ysybody.split('@');
+                console.log(`您选择的是用"@"隔开\n`)
+            } else {
+                ysybodys = [process.env.ysybody]
+            };
+            Object.keys(ysybodys).forEach((item) => {
+                if (ysybodys[item]) {
+                    ysybodyArr.push(ysybodys[item])
+                }
+            })
+
+            if (process.env.cookie && process.env.cookie.indexOf('@') > -1) {
+                cookieArr = process.env.cookie.split('@');
+                console.log(`您选择的是用"@"隔开\n`)
+            } else {
+                cookies = [process.env.cookie]
+            };
+            Object.keys(cookies).forEach((item) => {
+                if (cookies[item]) {
+                    cookieArr.push(cookies[item])
+                }
+            })
+
+
             console.log(`共${ysyhdArr.length}个cookie`)
             for (let k = 0; k < ysyhdArr.length; k++) {
                 $.message = ""
-                ysyhd = ysyhdArr[k]
+                ysyurl = ysyurlArr[k];
+                    ysyhd = ysyhdArr[k];
+                    ysybody = ysybodyArr[k];
+                    cookie = cookieArr[k];
                 $.index = k + 1;
                 console.log(`\n开始【萤石云${$.index}】`)
-                    await ysytaskList()
-                    await $.wait(1500)
-                    await ysyboxcd()
-                    
+                    // await ysytaskList()
+                    // await $.wait(1500)
+                    // await ysyboxcd()
+                    await ysylogin()
                 //message()
             }
         }
@@ -117,7 +162,7 @@ let ysyhds = ""
 
 
 function ysyck() {
-    if ($request.url.indexOf("task/complete") > -1) {
+    if ($request.url.indexOf("login/v2") > -1) {
         const ysyurl = $request.url
         if (ysyurl) $.setdata(ysyurl, `ysyurl${status}`)
         $.log(ysyurl)
@@ -125,24 +170,83 @@ function ysyck() {
         const ysyhd = JSON.stringify($request.headers)
         if (ysyhd) $.setdata(ysyhd, `ysyhd${status}`)
         $.log(ysyhd)
+        const ysybody = JSON.stringify($request.body)
+        if (ysybody) $.setdata(ysybody, `ysybody${status}`)
+        $.log(ysybody)
 
 
+        $.msg($.name, "", `萤石云${status}获取登录数据成功`)
 
-        $.msg($.name, "", `萤石云${status}获取headers成功`)
-
+    }else if($request.url.indexOf("yd/getUserOpenBoxCd") > -1) {
+        const cookie = JSON.stringify($request.headers.Cookie)
+        if (cookie) $.setdata(cookie, `cookie${status}`)
+        $.log(cookie)
+        $.msg($.name, "", `萤石云${status}获取cookie数据成功`)
     }
 }
 
+//登录
+function ysylogin(timeout = 0) {
+    return new Promise((resolve) => {
 
+        let url = {
+            url: `https://api.ys7.com/v3/users/login/v2`,
+            headers: JSON.parse(ysyhd),
+            body:JSON.parse(ysybody),
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.meta.code == 200) {
+                    console.log(`【登录】：${result.meta.message}\n`)
+                    sessionId =result.sessionInfo.sessionId
+                    await ysytaskList()
+                    await $.wait(1500)
+                    await ysyboxcd()
+
+                }else{
+                    console.log(`【登录】：${result.meta.message}\n`)
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
 
 
 //开宝箱冷却查询
 function ysyboxcd(timeout = 0) {
     return new Promise((resolve) => {
+        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
+        const sphd ={
+            "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Content-Length": "31",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": cookie,
+        "Host": "api.ys7.com",
+        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
+        "appid": "ys",
+        "clientno": "undefined",
+        "clienttype": "1",
+        "clientversion": "6.1.3.1262766",
+        "featurecode": featurecode,
+        "language": "undefined",
+        "nettype": "WIFI",
+        "sessionid": sessionId
+        }
         let url = {
             url: `https://api.ys7.com/v3/integral/yd/getUserOpenBoxCd`,
-            headers: JSON.parse(ysyhd),
+            headers: sphd,
 
         }
         $.get(url, async (err, resp, data) => {
@@ -182,10 +286,30 @@ function ysyboxcd(timeout = 0) {
 //开宝箱
 function ysybox(timeout = 0) {
     return new Promise((resolve) => {
+        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
+        const sphd ={
+            "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Content-Length": "31",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": cookie,
+        "Host": "api.ys7.com",
+        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
+        "appid": "ys",
+        "clientno": "undefined",
+        "clienttype": "1",
+        "clientversion": "6.1.3.1262766",
+        "featurecode": featurecode,
+        "language": "undefined",
+        "nettype": "WIFI",
+        "sessionid": sessionId
+        }
         let url = {
             url: `https://api.ys7.com/v3/integral/yd/openYdBox`,
-            headers: JSON.parse(ysyhd),
+            headers: sphd,
 
         }
         $.post(url, async (err, resp, data) => {
@@ -228,10 +352,30 @@ function ysybox(timeout = 0) {
 //视频开宝箱
 function ysyspbox(timeout = 0) {
     return new Promise((resolve) => {
+        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
+        const sphd ={
+            "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Content-Length": "31",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": cookie,
+        "Host": "api.ys7.com",
+        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
+        "appid": "ys",
+        "clientno": "undefined",
+        "clienttype": "1",
+        "clientversion": "6.1.3.1262766",
+        "featurecode": featurecode,
+        "language": "undefined",
+        "nettype": "WIFI",
+        "sessionid": sessionId
+        }
         let url = {
             url: `https://api.ys7.com/v3/integral/task/complete`,
-            headers: JSON.parse(ysyhd),
+            headers: sphd,
             body:`eventkey=1013&filterParam=12345`,
         }
         $.post(url, async (err, resp, data) => {
@@ -260,10 +404,30 @@ function ysyspbox(timeout = 0) {
 //任务列表
 function ysytaskList(timeout = 0) {
     return new Promise((resolve) => {
+        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
+        const sphd ={
+            "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Content-Length": "31",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": cookie,
+        "Host": "api.ys7.com",
+        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
+        "appid": "ys",
+        "clientno": "undefined",
+        "clienttype": "1",
+        "clientversion": "6.1.3.1262766",
+        "featurecode": featurecode,
+        "language": "undefined",
+        "nettype": "WIFI",
+        "sessionid": sessionId
+        }
         let url = {
             url: `https://api.ys7.com/v3/integral/task/list`,
-            headers: JSON.parse(ysyhd),
+            headers: sphd,
             body: `pageNum=0
             &
             pageSize=20
@@ -371,10 +535,30 @@ function ysytaskList(timeout = 0) {
 //上传短视频任务
 function ysyvideo(timeout = 0) {
     return new Promise((resolve) => {
+        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
+        const sphd ={
+            "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Content-Length": "31",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": cookie,
+        "Host": "api.ys7.com",
+        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
+        "appid": "ys",
+        "clientno": "undefined",
+        "clienttype": "1",
+        "clientversion": "6.1.3.1262766",
+        "featurecode": featurecode,
+        "language": "undefined",
+        "nettype": "WIFI",
+        "sessionid": sessionId
+        }
         let url = {
             url: `https://api.ys7.com/v3/integral/task/complete?eventkey=1007&filterParam=video`,
-            headers: JSON.parse(ysyhd),
+            headers: sphd,
    
         }
         $.post(url, async (err, resp, data) => {
@@ -409,10 +593,30 @@ function ysyvideo(timeout = 0) {
 //评论短视频任务
 function ysyplvideo(timeout = 0) {
     return new Promise((resolve) => {
+        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
+        const sphd ={
+            "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Content-Length": "31",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": cookie,
+        "Host": "api.ys7.com",
+        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
+        "appid": "ys",
+        "clientno": "undefined",
+        "clienttype": "1",
+        "clientversion": "6.1.3.1262766",
+        "featurecode": featurecode,
+        "language": "undefined",
+        "nettype": "WIFI",
+        "sessionid": sessionId
+        }
         let url = {
             url: `https://api.ys7.com/v3/integral/task/complete?eventkey=1008&filterParam=video`,
-            headers: JSON.parse(ysyhd),
+            headers: sphd,
         
         }
         $.post(url, async (err, resp, data) => {
@@ -443,10 +647,30 @@ function ysyplvideo(timeout = 0) {
 //签到任务
 function ysysign(timeout = 0) {
     return new Promise((resolve) => {
+        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
+        const sphd ={
+            "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Content-Length": "31",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": cookie,
+        "Host": "api.ys7.com",
+        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
+        "appid": "ys",
+        "clientno": "undefined",
+        "clienttype": "1",
+        "clientversion": "6.1.3.1262766",
+        "featurecode": featurecode,
+        "language": "undefined",
+        "nettype": "WIFI",
+        "sessionid": sessionId
+        }
         let url = {
             url: `https://api.ys7.com/v3/videoclips/user/check_in`,
-            headers: JSON.parse(ysyhd),
+            headers: sphd,
         
         }
         $.post(url, async (err, resp, data) => {
