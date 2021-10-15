@@ -170,7 +170,7 @@ function ysyck() {
         const ysyhd = JSON.stringify($request.headers)
         if (ysyhd) $.setdata(ysyhd, `ysyhd${status}`)
         $.log(ysyhd)
-        const ysybody = JSON.stringify($request.body)
+        const ysybody = $request.body
         if (ysybody) $.setdata(ysybody, `ysybody${status}`)
         $.log(ysybody)
 
@@ -192,7 +192,7 @@ function ysylogin(timeout = 0) {
         let url = {
             url: `https://api.ys7.com/v3/users/login/v2`,
             headers: JSON.parse(ysyhd),
-            body:JSON.parse(ysybody),
+            body:ysybody,
         }
         $.post(url, async (err, resp, data) => {
             try {
