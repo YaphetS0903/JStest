@@ -116,7 +116,7 @@ let qxqhds = ""
               $.message = ""
               qxqhd = qxqhdArr[k]
               $.index = k + 1;
-        console.log(`\n开始【趣星球${$.index}】`)
+        console.log(`\n开始【趣星球${$.index}】恭喜你运行成功，接下来等待黑号。`)
         await qxqsign()//签到
         await $.wait(3000)
 
