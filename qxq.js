@@ -1,5 +1,5 @@
 /*
-软件名称:趣星球(已黑)一运行就黑
+软件名称:趣星球(已黑)一运行就黑，自动提现3毛没了
 更新时间：2021-10-9 @YaphetS0903
 脚本说明：趣星球。。。下载地址(appstore下载)
 
@@ -94,8 +94,8 @@ let qxqhds = ""
                 await qxqshare()//分享
                 await $.wait(3000)
                 await qxqlottoinfo()//抽奖
-                await $.wait(3000)
-                await qxqtxpage()//提现
+//                 await $.wait(3000)
+//                 await qxqtxpage()//提现
                //message()
             }
         }
@@ -838,12 +838,13 @@ function qxqzp(timeout = 0) {
                         console.log(`【转盘获得金币】：${result.data.number}\n`)
                         console.log(`【等待金币翻倍】\n`)
                         idd = result.data.id
+                         await $.wait(10000)
                         await qxqzpdb()
                         if (result.data.times == 0) {
                             console.log(`【转盘次数不足，停止转盘】\n`)
                         } else {
                             await qxqzpinfo()
-                            await $.wait(1000)
+                            await $.wait(5000)
                         }
                     } else {
                         console.log(`【转盘未获得金币】\n`)
@@ -851,7 +852,7 @@ function qxqzp(timeout = 0) {
                             console.log(`【转盘次数不足，停止转盘】\n`)
                         } else {
                             await qxqzpinfo()
-                            await $.wait(1000)
+                            await $.wait(5000)
                         }
                     }
 
