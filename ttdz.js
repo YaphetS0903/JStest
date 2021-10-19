@@ -9,7 +9,7 @@ TG通知群:https://t.me/tom_ww
 TG电报交流群: https://t.me/tom_210120
 boxjs地址 :  
 https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
-萤石云
+图图点赞
 青龙环境抓取链接https://api.tutudianzan.cn:28084/api/task/getTaskModelList
 环境配置(@隔开，json格式)export ttdztoken='抓取的token1@抓取的token2'
 圈X配置如下，其他自行测试，
