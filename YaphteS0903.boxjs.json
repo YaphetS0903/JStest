@@ -480,6 +480,33 @@
                         "repo": "https://github.com/YaphetS0903/JStest/blob/main/ttdz.js",
             "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ttdz.js"
+  },{
+    "id": "hhd",
+        "name": "呵护多",
+            "keys": ["hhdAuthorization","hhdAuthorization2","hhdAuthorization3","hhdAuthorization4","hhdAuthorization5","hhdAuthorization6","hhdAuthorization7","hhdAuthorization8","hhdAuthorization9","hhdAuthorization10"],
+                "author": "@YaphetS0903",
+                    "settings": [{
+                        "id": "hhdstatus",
+                        "name": "当前账号",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "当前抓取ck记录的账号序号，如：1、2、3、4"
+                    }, {
+                        "id": "hhdcount",
+                        "name": "账号个数",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
+                    }, {
+                        "id": "tz",
+                        "name": "通知",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "0关闭通知，1打开通知"
+                    }],
+                        "repo": "https://github.com/YaphetS0903/JStest/blob/main/hhd.js",
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/hhd.js"
   }
 	]
 }
