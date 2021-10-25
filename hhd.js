@@ -16,7 +16,7 @@ https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 圈X配置如下，其他自行测试，
 [task_local]
 #呵护多
-10 8 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/hhd.js, tag=呵护多, enabled=true
+10 6-23 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/hhd.js, tag=呵护多, enabled=true
 [rewrite_local]
 #呵护多
 http://test.hehuzhuan.com/api/v1/user/info url script-request-header https://raw.githubusercontent.com/YaphetS0903/JStest/main/hhd.js
