@@ -228,7 +228,7 @@ function djxsbox(timeout = 0) {
                     await djxsboxdb()
 
                 } else {
-                    console.log(`【开宝箱失败】：${result.message}\n`)
+                    console.log(`【开宝箱失败】：${result.msg}\n`)
 
                 }
             } catch (e) {
@@ -270,7 +270,7 @@ function djxsboxdb(timeout = 0) {
                     console.log(`【获得金币】：${result.body.coin}\n`)
 
                 } else {
-                    console.log(`【开宝箱翻倍失败】：${result.message}\n`)
+                    console.log(`【开宝箱翻倍失败】：${result.msg}\n`)
 
                 }
             } catch (e) {
