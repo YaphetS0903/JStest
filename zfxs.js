@@ -166,6 +166,12 @@ function zfxssignpd(timeout = 0) {
                         console.log(`【今日签到获得金币】：${result.data.todaysignincan}\n`)
                         console.log(`【明日签到获得金币】：${result.data.tomorrowgold}\n`)
                         console.log(`【当前金币余额】：${result.data.gold}\n`)
+                        
+                         $.message += `【今日已签到】\n`
+                          $.message += `【连续签到天数】：${result.data.continuitySigninDays}\n`
+                           $.message += `【今日签到获得金币】：${result.data.todaysignincan}\n`
+                            $.message += `【明日签到获得金币】：${result.data.tomorrowgold}\n`
+                             $.message += `【当前金币余额】：${result.data.gold}\n`
                     }else{
                         await $.wait(10000)
                         await zfxssign()
@@ -410,9 +416,11 @@ function zfxstime (timeout = 0) {
 
                     console.log(`【开始刷时长】：${result.message}\n`)
                     if(result.data.next_tasks == null){
-                        console.log(`【刷时长失败，请稍后再来试】：${result.message}\n`)
+                        console.log(`【刷时长失败，请稍后再来试】\n`)
+                        $.message += `【刷时长失败，请稍后再来试】\n`
                     }else{
                         console.log(`【刷时长】：${result.message}\n`)
+                        $.message += `【刷时长】：${result.message}\n`
                     }
 
 
