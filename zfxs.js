@@ -34,7 +34,7 @@ let zfxshd= $.isNode() ? (process.env.zfxshd ? process.env.zfxshd : "") : ($.get
 
 let b = Math.round(new Date().getTime() / 1000).toString();
 let DD = RT(0, 999)
-let PP = RT(30, 40)
+let PP = RT(25, 35)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
 let id = '', txid = '', ppid = '', amt = '', redid2 = '', redid = ''
