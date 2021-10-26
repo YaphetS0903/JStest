@@ -34,6 +34,7 @@ let zfxshd= $.isNode() ? (process.env.zfxshd ? process.env.zfxshd : "") : ($.get
 
 let b = Math.round(new Date().getTime() / 1000).toString();
 let DD = RT(0, 999)
+let PP = RT(30, 40)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
 let id = '', txid = '', ppid = '', amt = '', redid2 = '', redid = ''
@@ -395,17 +396,11 @@ function zfxsred(timeout = 0) {
 //刷时长
 function zfxstime (timeout = 0) {
     return new Promise((resolve) => {
-
+        const zfxstimebody=`book_id=4140&number=${DD}&read_time=${PP}&speed=6.000000`
         let url = {
             url: `https://book.beiyinapp.com/app/UserReadHistory/ReadRecord`,
             headers: JSON.parse(zfxshd),
-            body: `book_id=4140
-            &
-            number=5
-            &
-            read_time=15.170000
-            &
-            speed=5.000000`,
+            body: zfxstimebody,
         }
         $.post(url, async (err, resp, data) => {
             try {
@@ -415,7 +410,7 @@ function zfxstime (timeout = 0) {
                  if (result.status == 200) {
 
                     console.log(`【开始刷时长】：${result.message}\n`)
-                    if(result.data.next_tasks == "null"){
+                    if(result.data.next_tasks == null){
                         console.log(`【刷时长失败，请稍后再来试】\n`)
                         $.message += `【刷时长失败，请稍后再来试】\n`
                     }else{
