@@ -267,7 +267,7 @@ function djxsboxdb(timeout = 0) {
 
                 if (result.code == 0) {
                     console.log(`【开宝箱翻倍】：${result.msg}\n`)
-                    console.log(`【获得金币】：${result.body.coin}\n`)
+                    console.log(`【剩余次数】：${result.body.remainingCount}\n`)
 
                 } else {
                     console.log(`【开宝箱翻倍失败】：${result.msg}\n`)
