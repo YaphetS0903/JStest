@@ -85,7 +85,7 @@ let zfxshds = ""
                 await $.wait(3000)
 
                         
-               //message()
+               message()
             }
         }
        }else {
@@ -115,7 +115,7 @@ let zfxshds = ""
 
         await zfxstime()//砍价
         await $.wait(3000)
-        //message()
+        message()
     }
 }
 
