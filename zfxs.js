@@ -33,7 +33,7 @@ let zfxsurl = $.getdata('zfxsurl')
 let zfxshd= $.isNode() ? (process.env.zfxshd ? process.env.zfxshd : "") : ($.getdata('zfxshd') ? $.getdata('zfxshd') : "")
 
 let b = Math.round(new Date().getTime() / 1000).toString();
-let DD = RT(30, 40)
+let DD = RT(0, 999)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
 let id = '', txid = '', ppid = '', amt = '', redid2 = '', redid = ''
@@ -403,9 +403,9 @@ function zfxstime (timeout = 0) {
             &
             number=${DD}
             &
-            read_time=30.550000
+            read_time=15.${DD}000
             &
-            speed=6.000000`,
+            speed=5.000000`,
         }
         $.post(url, async (err, resp, data) => {
             try {
