@@ -401,7 +401,7 @@ function zfxstime (timeout = 0) {
             headers: JSON.parse(zfxshd),
             body: `book_id=4140
             &
-            number=50
+            number=5
             &
             read_time=15.170000
             &
