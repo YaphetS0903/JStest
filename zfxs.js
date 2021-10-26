@@ -283,15 +283,12 @@ function zfxsid(timeout = 0) {
                 const result = JSON.parse(data)
 
                 if (result.status == 200) {
-                    if(result.data[2].today == 1){
-                        console.log(`【今日红包已拆完】\n`)
-                    
-                    }else{
+                  
                         console.log(`【获得拆红包id】：${result.data[2].id}\n`)
                         redid =result.data[2].id
                         await $.wait(2000)
                         await zfxsredinfo()
-                    }
+                    
 
                 
                 } else {
@@ -330,9 +327,13 @@ function zfxsredinfo(timeout = 0) {
                     console.log(`【查询拆红包信息】：${result.message}\n`)
                     for(let p=0;p<4;p++){
                         redid2=result.data[p].id
+                        if(result.data[p].status ==0){
                         await $.wait(5000)
                         await zfxsred(redid2)
                         await $.wait(10000)
+                            }else{
+                            console.log(`【此红包已拆】\n`)
+                        }
                     }
 
                 } else {
@@ -396,7 +397,7 @@ function zfxstime (timeout = 0) {
             &
             number=2
             &
-            read_time=${DD}.${DD}0000
+            read_time=30.550000
             &
             speed=6.000000`,
         }
