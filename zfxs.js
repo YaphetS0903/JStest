@@ -399,9 +399,9 @@ function zfxstime (timeout = 0) {
         let url = {
             url: `https://book.beiyinapp.com/app/UserReadHistory/ReadRecord`,
             headers: JSON.parse(zfxshd),
-            body: `book_id=4049
+            body: `book_id=4140
             &
-            number=2
+            number=${DD}
             &
             read_time=30.550000
             &
