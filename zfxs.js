@@ -406,14 +406,19 @@ function zfxstime (timeout = 0) {
 
                 const result = JSON.parse(data)
 
-                if (result.status == 200) {
+                 if (result.status == 200) {
 
-                    console.log(`【刷时长】：${result.message}\n`)
+                    console.log(`【开始刷时长】：${result.message}\n`)
+                    if(result.data.next_tasks == null){
+                        console.log(`【刷时长失败，请稍后再来试】：${result.message}\n`)
+                    }else{
+                        console.log(`【刷时长】：${result.message}\n`)
+                    }
 
 
                 } else {
 
-                    console.log(`【刷时长失败】：${result.message}\n`)
+                    console.log(`【开始刷时长失败】：${result.message}\n`)
 
                 }
             } catch (e) {
