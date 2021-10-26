@@ -534,6 +534,33 @@
                         "repo": "https://github.com/YaphetS0903/JStest/blob/main/zfxs.js",
             "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/zfxs.js"
+  },{
+    "id": "djxs",
+        "name": "得间小说",
+            "keys": ["djxsCookie","djxsReferer","djxsCookie2","djxsReferer2","djxsCookie3","djxsReferer3","djxsCookie4","djxsReferer4","djxsCookie5","djxsReferer5","djxsCookie6","djxsReferer6","djxsCookie7","djxsReferer7","djxsCookie8","djxsReferer8","djxsCookie9","djxsReferer9","djxsCookie10","djxsReferer10"],
+                "author": "@YaphetS0903",
+                    "settings": [{
+                        "id": "djxsstatus",
+                        "name": "当前账号",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "当前抓取ck记录的账号序号，如：1、2、3、4"
+                    }, {
+                        "id": "djxscount",
+                        "name": "账号个数",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
+                    }, {
+                        "id": "tz",
+                        "name": "通知",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "0关闭通知，1打开通知"
+                    }],
+                        "repo": "https://github.com/YaphetS0903/JStest/blob/main/djxs.js",
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/djxs.js"
   }
 	]
 }
