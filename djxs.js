@@ -182,7 +182,7 @@ function djxsvideo(timeout = 0) {
                     
 
                 } else {
-                    console.log(`【看视频失败】：${result.message}\n`)
+                    console.log(`【看视频失败】：${result.msg}\n`)
 
                 }
             } catch (e) {
