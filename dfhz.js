@@ -74,9 +74,9 @@ let dfhzhds = ""
                     $.index = i + 1;
                     console.log(`\n\n开始【多福盒子${$.index}】`)
                     await dfhzaddress()
-                    await $.wait(1500)
+                    await $.wait(15000)
                     await dfhztasklist()
-                    await $.wait(3000)
+                    await $.wait(15000)
                     
                     //message()
                 }
@@ -100,9 +100,9 @@ let dfhzhds = ""
                 $.index = k + 1;
                 console.log(`\n开始【多福盒子${$.index}】`)
                     await dfhzaddress()
-                    await $.wait(1500)
+                    await $.wait(15000)
                     await dfhztasklist()
-                    await $.wait(3000)
+                    await $.wait(15000)
                 //message()
             }
         }
@@ -209,33 +209,37 @@ function dfhztasklist(timeout = 0) {
                         console.log(`【今日分享祝福任务已完成】\n`)
                     } else {
                         console.log(`【开始分享祝福任务】\n`)
+                        await $.wait(20000)
                         await dfhzshare()
-                        await $.wait(3000)
+                       
                     }
                     if (result.data[1].list[3].finishtimes >= 10) {
                         console.log(`【今日元宝奖励视频任务已完成】\n`)
                     } else {
                         console.log(`【开始元宝奖励视频任务】\n`)
+                        await $.wait(20000)
                         await dfhzybjlsp()
-                        await $.wait(3000)
+                       
                     }
                     if (result.data[1].list[4].finishtimes >= 10) {
                         console.log(`【今日元宝福利视频任务已完成】\n`)
                     } else {
                         console.log(`【开始元宝福利视频任务】\n`)
+                        await $.wait(20000)
                         await dfhzybflsp()
-                        await $.wait(3000)
+                       
                     }
                     if (result.data[1].list[5].finishtimes >= 10) {
                         console.log(`【今日超级元宝视频任务已完成】\n`)
                     } else {
                         console.log(`【开始超级元宝视频任务】\n`)
+                        await $.wait(20000)
                         await dfhzcjybsp()
-                        await $.wait(3000)
+                        
                         console.log(`【开始刷视频任务】\n`)
                         for (let m = 0; m < 5; m++) {
                             await dfhzsp()
-                            await $.wait(DD)
+                            await $.wait(20000)
                         }
                     }
 
@@ -278,7 +282,7 @@ function dfhzvideo(timeout = 0) {
 
                     console.log(`【短视频任务】：${result.message}\n`)
                     await dfhzvideoreward()
-                    await $.wait(3000)
+                    await $.wait(15000)
 
                 } else {
 
@@ -358,7 +362,7 @@ function dfhzshare(timeout = 0) {
 
                     console.log(`【分享任务】：${result.message}\n`)
                     await dfhzsharereward()
-                    await $.wait(3000)
+                    await $.wait(15000)
 
                 } else {
 
@@ -437,7 +441,7 @@ function dfhzybjlsp(timeout = 0) {
 
                     console.log(`【元宝奖励视频任务】：${result.message}\n`)
                     await dfhzybjlspreward()
-                    await $.wait(3000)
+                   await $.wait(15000)
 
 
                 } else {
@@ -521,7 +525,7 @@ function dfhzybflsp(timeout = 0) {
                     console.log(`【元宝福利视频任务】：${result.message}\n`)
 
                     await dfhzybjlspreward()
-                    await $.wait(3000)
+                    await $.wait(15000)
 
 
                 } else {
@@ -603,7 +607,7 @@ function dfhzcjybsp(timeout = 0) {
                     console.log(`【超级元宝视频任务】：${result.message}\n`)
 
                     await dfhzcjybspreward()
-                    await $.wait(3000)
+                  await $.wait(15000)
 
                 } else {
 
@@ -713,6 +717,7 @@ function dfhzgoodlist(timeout = 0) {
                 if (result.code == 200) {
                     console.log(`【查询兑换0.3兑换id】：${result.message}\n`)
                     pid =result.data.list[0].id
+                    await $.wait(5000)
                     await dfhztx()
                 } else {
 
