@@ -78,7 +78,7 @@ let flgCookies = "",flgReferers= ""
                  
                   
                     $.index = i + 1;
-                    console.log(`\n\n开始【返利购${$.index}】`)
+                    console.log(`\n\n开始【返利购${$.index}作者@YaphetS0903】`)
                     await flgvideoinfo()
                 await $.wait(2000)
                 await flgsigninfo()
@@ -117,7 +117,7 @@ let flgCookies = "",flgReferers= ""
                 flgReferer = flgRefererArr[k];
                    
                 $.index = k + 1;
-                console.log(`\n开始【返利购${$.index}】`)
+                console.log(`\n开始【返利购${$.index}作者@YaphetS0903】`)
                     
                 await flgvideoinfo()
                 await $.wait(2000)
