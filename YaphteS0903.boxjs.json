@@ -561,6 +561,33 @@
                         "repo": "https://github.com/YaphetS0903/JStest/blob/main/djxs.js",
             "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/djxs.js"
+  },{
+    "id": "flg",
+        "name": "返利购",
+            "keys": ["flgCookie","flgReferer","flgCookie2","flgReferer2","flgCookie3","flgReferer3","flgCookie4","flgReferer4","flgCookie5","flgReferer5","flgCookie6","flgReferer6","flgCookie7","flgReferer7","flgCookie8","flgReferer8","flgCookie9","flgReferer9","flgCookie10","flgReferer10"],
+                "author": "@YaphetS0903",
+                    "settings": [{
+                        "id": "flgstatus",
+                        "name": "当前账号",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "当前抓取ck记录的账号序号，如：1、2、3、4"
+                    }, {
+                        "id": "flgcount",
+                        "name": "账号个数",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
+                    }, {
+                        "id": "tz",
+                        "name": "通知",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "0关闭通知，1打开通知"
+                    }],
+                        "repo": "https://github.com/YaphetS0903/JStest/blob/main/flg.js",
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/flg.js"
   }
 	]
 }
