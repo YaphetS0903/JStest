@@ -1,11 +1,13 @@
 /*
 软件名称:返利购
-完成时间：2021-10-27 @YaphetS0903
+完成时间：2021-10-29 @YaphetS0903
 脚本说明：返利购。。。下载地址带邀请https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/flg.png
 保存到相册微信扫码下载
 邀请码AN4717
-和以前的返利网很像，一天3毛到4毛，1000金币兑换1元到钱包，钱包2元提现
+和以前的返利网很像，签到0.05-0.2现金，任务一天390金币(3毛9)，1000金币兑换1元现金到钱包，钱包2元提现
 还有两个任务暂时没抓到包，后续慢慢更新
+10.30更新，只需要抓一个referer, 删掉抓cookie，解决"&"出错问题，感谢@Tom大佬建议和群友提供的任务包，增加浏览任务和每日首单任务
+请更新脚本和boxjs。
 本脚本以学习为主
 获取数据： 进入软件，点击我的，点击金币获得数据
 TG通知群:https://t.me/tom_ww
@@ -15,7 +17,6 @@ https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 返利购
 青龙环境抓取链接https://api.flgflg.com/htmmall/api/gold/finishedVideoNum
 环境配置(@隔开，json格式)
-export flgCookie='抓取的Cookie1@抓取的Cookie2'
 export flgReferer='抓取的Referer1@抓取的Referer2'
 圈X配置如下，其他自行测试，运行一次即可
 [task_local]
@@ -32,10 +33,8 @@ const $ = new Env('返利购');
 let status;
 
 status = (status = ($.getval("flgstatus") || "1")) > 1 ? `${status}` : "";
-let flgRefererArr = [], flgCookieArr = [],flgcount = ''
-let flgCookie = $.isNode() ? (process.env.flgCookie ? process.env.flgCookie : "") : ($.getdata('flgCookie') ? $.getdata('flgCookie') : "")
+let flgRefererArr = [], flgcount = ''
 let flgReferer = $.isNode() ? (process.env.flgReferer ? process.env.flgReferer : "") : ($.getdata('flgReferer') ? $.getdata('flgReferer') : "")
-let b = Math.round(new Date().getTime() / 1000).toString();
 //13位时间戳
 let times = new Date().getTime()
 let DD = RT(2000, 3500)
@@ -43,7 +42,7 @@ let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
 let id = '', txid = '',flgtoken = '',flgchannel = ''
 $.message = ''
-let flgCookies = "",flgReferers= ""
+let flgReferers= ""
 
 
 
@@ -54,13 +53,13 @@ let flgCookies = "",flgReferers= ""
     } else {
         if (!$.isNode()) {
             flgRefererArr.push($.getdata('flgReferer'))
-            flgCookieArr.push($.getdata('flgCookie'))
+            
          
            
             let flgcount = ($.getval('flgcount') || '1');
             for (let i = 2; i <= flgcount; i++) {
                 flgRefererArr.push($.getdata(`flgReferer${i}`))
-                flgCookieArr.push($.getdata(`flgCookie${i}`))
+                
              
                
             }
@@ -70,11 +69,11 @@ let flgCookies = "",flgReferers= ""
                     new Date().getTimezoneOffset() * 60 * 1000 +
                     8 * 60 * 60 * 1000
                 ).toLocaleString()} ===============================================\n`);
-            for (let i = 0; i < flgCookieArr.length; i++) {
-                if (flgCookieArr[i]) {
+            for (let i = 0; i < flgRefererArr.length; i++) {
+                if (flgRefererArr[i]) {
 
                     flgReferer = flgRefererArr[i];
-                    flgCookie = flgCookieArr[i];
+                   
                  
                   
                     $.index = i + 1;
@@ -86,17 +85,7 @@ let flgCookies = "",flgReferers= ""
                 }
             }
         } else {
-            if (process.env.flgCookie && process.env.flgCookie.indexOf('@') > -1) {
-                flgCookieArr = process.env.flgCookie.split('@');
-                console.log(`您选择的是用"@"隔开\n`)
-            } else {
-                flgCookies = [process.env.flgCookie]
-            };
-            Object.keys(flgCookies).forEach((item) => {
-                if (flgCookies[item]) {
-                    flgCookieArr.push(flgCookies[item])
-                }
-            })
+            
             if (process.env.flgReferer && process.env.flgReferer.indexOf('@') > -1) {
                 flgRefererArr = process.env.flgReferer.split('@');
                 console.log(`您选择的是用"@"隔开\n`)
@@ -109,11 +98,11 @@ let flgCookies = "",flgReferers= ""
                 }
             })
             
-            console.log(`共${flgCookieArr.length}个cookie`)
-            for (let k = 0; k < flgCookieArr.length; k++) {
+            console.log(`共${flgRefererArr.length}个cookie`)
+            for (let k = 0; k < flgRefererArr.length; k++) {
                 $.message = ""
                 
-                flgCookie = flgCookieArr[k];
+               
                 flgReferer = flgRefererArr[k];
                    
                 $.index = k + 1;
@@ -140,9 +129,7 @@ function flgck() {
         if (flgReferer) $.setdata(flgReferer, `flgReferer${status}`)
         $.log(flgReferer)
 
-        const flgCookie = $request.headers.Cookie
-        if (flgCookie) $.setdata(flgCookie, `flgCookie${status}`)
-        $.log(flgCookie)
+
 
         $.msg($.name, "", `返利购${status}获取数据成功`)
 
@@ -150,7 +137,7 @@ function flgck() {
 }
 
 flgchannel=flgReferer.match(/channel=(\w+)/)[1]
-flgtoken=flgReferer.match(/token=(\w.+)&/)[1]
+flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
 
 
 
@@ -158,7 +145,7 @@ flgtoken=flgReferer.match(/token=(\w.+)&/)[1]
 function flgvideoinfo(timeout = 0) {
     return new Promise((resolve) => {
         flgchannel=flgReferer.match(/channel=(\w+)/)[1]
-flgtoken=flgReferer.match(/token=(\w.+)&/)[1]
+        flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
 let referer="https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4"
         const hd ={
         "Accept": "application/json, text/javascript, */*; q=0.01",
@@ -167,7 +154,6 @@ let referer="https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&
         "Connection": "keep-alive",
         "Content-Length": "116",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Cookie": flgCookie,
         "Host": "api.flgflg.com",
         "Origin": "https://api.flgflg.com",
         "Referer": referer,
@@ -189,10 +175,20 @@ let referer="https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&
                     if(result.data >= 5){
                         console.log(`【今日激励视频已看完】\n`)
                         console.log(`【开始搜索商品任务】\n`)
-                        await $.wait(5000)
+                        await $.wait(8000)
                         await flgsearch()
-                        await $.wait(10000)
+                        console.log(`【开始分享商品任务】\n`)
+                        await $.wait(8000)
                         await flgshare()
+                        console.log(`【开始浏览商品任务】\n`)
+                        for(let u=0;u<5;u++){
+                            await $.wait(8000)
+                            await flgwatch()
+                        }
+                        console.log(`【开始每日首单任务】\n`)
+                        await $.wait(8000)
+                        await flgfirst()
+
                     }else{
                         await $.wait(2000)
                         await flgvideo()
@@ -222,7 +218,6 @@ function flgvideo(timeout = 0) {
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "zh-Hans-CN;q=1",
         "Connection": "keep-alive",
-        "Cookie": flgCookie,
         "Host": "api.flgflg.com",
         "User-Agent": "Litaoyouxuan/2.0.4 (iPhone; iOS 14.4.1; Scale/3.00)"}
         let url = {
@@ -262,7 +257,6 @@ function flgsearch(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "510",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": flgCookie,
         "Host": "api.flgflg.com",
         "User-Agent": "Litaoyouxuan/2.0.4 (iPhone; iOS 14.4.1; Scale/3.00)"}
         let url = {
@@ -299,7 +293,7 @@ function flgsearch(timeout = 0) {
 function flgshare(timeout = 0) {
     return new Promise((resolve) => {
         flgchannel=flgReferer.match(/channel=(\w+)/)[1]
-        flgtoken=flgReferer.match(/token=(\w.+)&/)[1]
+        flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
         let referer="http://api.flgflg.com/htmmall/page/adv/share-commission.html?itemId=616612945566&source=1&goodsSign=undefined?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}"
         const hd ={"Accept": "application/json, text/javascript, */*; q=0.01",
         "Accept-Encoding": "gzip, deflate",
@@ -307,7 +301,6 @@ function flgshare(timeout = 0) {
         "Connection": "close",
         "Content-Length": "144",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Cookie": flgCookie,
         "Host": "api.flgflg.com",
         "Origin": "http://api.flgflg.com",
         "Referer": referer,
@@ -342,17 +335,107 @@ function flgshare(timeout = 0) {
 }
 
 
+//浏览商品任务
+function flgwatch(timeout = 0) {
+    return new Promise((resolve) => {
+        flgchannel=flgReferer.match(/channel=(\w+)/)[1]
+        flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
+        let referer="http://api.flgflg.com/htmmall/page/adv/share-commission.html?itemId=616612945566&source=1&goodsSign=undefined?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}"
+        const hd ={"Accept": "application/json, text/javascript, */*; q=0.01",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-cn",
+        "Connection": "close",
+        "Content-Length": "144",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Host": "api.flgflg.com",
+        "Origin": "http://api.flgflg.com",
+        "Referer": referer,
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+        "X-Requested-With": "XMLHttpRequest"}
+        let url = {
+            url: `http://api.flgflg.com/htmmall/api/gold/client/report`,
+            headers: hd,
+            body:`taskId=2&key=1635435725356&agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+                    console.log(`【浏览商品任务完成】：${result.msg}\n`)
+                    
+
+                } else {
+                    console.log(`【浏览商品任务完成失败】：${result.msg}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+//每日首单任务
+function flgfirst(timeout = 0) {
+    return new Promise((resolve) => {
+        flgchannel=flgReferer.match(/channel=(\w+)/)[1]
+        flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
+        let referer="http://api.flgflg.com/htmmall/page/adv/share-commission.html?itemId=616612945566&source=1&goodsSign=undefined?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}"
+        const hd ={"Accept": "application/json, text/javascript, */*; q=0.01",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-cn",
+        "Connection": "close",
+        "Content-Length": "144",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Host": "api.flgflg.com",
+        "Origin": "http://api.flgflg.com",
+        "Referer": referer,
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+        "X-Requested-With": "XMLHttpRequest"}
+        let url = {
+            url: `http://api.flgflg.com/htmmall/api/gold/client/report`,
+            headers: hd,
+            body:`taskId=3&key=1635435725356&agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+                    console.log(`【每日首单任务完成】：${result.msg}\n`)
+                    
+
+                } else {
+                    console.log(`【每日首单任务完成失败】：${result.msg}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
 //签到任务
 function flgsigninfo(timeout = 0) {
     return new Promise((resolve) => {
         flgchannel=flgReferer.match(/channel=(\w+)/)[1]
-        flgtoken=flgReferer.match(/token=(\w.+)&/)[1]
+        flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
         let referer="https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4"
         const hd ={"Accept": "application/json, text/javascript, */*; q=0.01",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "zh-cn","Connection": "keep-alive",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Cookie": flgCookie,
         "Host": "api.flgflg.com",
         "Referer": referer,
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
@@ -406,7 +489,7 @@ function flgsigninfo(timeout = 0) {
 function flgsign(timeout = 0) {
     return new Promise((resolve) => {
         flgchannel=flgReferer.match(/channel=(\w+)/)[1]
-        flgtoken=flgReferer.match(/token=(\w.+)&/)[1]
+        flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
         let referer="https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4"
         const hd ={"Accept": "application/json, text/javascript, */*; q=0.01",
         "Accept-Encoding": "gzip, deflate, br",
@@ -414,7 +497,6 @@ function flgsign(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "132",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Cookie": flgCookie,
         "Host": "api.flgflg.com",
         "Origin": "https://api.flgflg.com",
         "Referer": referer,
