@@ -561,10 +561,10 @@
                         "repo": "https://github.com/YaphetS0903/JStest/blob/main/djxs.js",
             "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/djxs.js"
-  },{
+  },,{
     "id": "flg",
         "name": "返利购",
-            "keys": ["flgCookie","flgReferer","flgCookie2","flgReferer2","flgCookie3","flgReferer3","flgCookie4","flgReferer4","flgCookie5","flgReferer5","flgCookie6","flgReferer6","flgCookie7","flgReferer7","flgCookie8","flgReferer8","flgCookie9","flgReferer9","flgCookie10","flgReferer10"],
+            "keys": ["flgReferer","flgReferer2","flgReferer3","flgReferer4","flgReferer5","flgReferer6","flgReferer7","flgReferer8","flgReferer9","flgReferer10"],
                 "author": "@YaphetS0903",
                     "settings": [{
                         "id": "flgstatus",
