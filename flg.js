@@ -36,13 +36,13 @@ status = (status = ($.getval("flgstatus") || "1")) > 1 ? `${status}` : "";
 let flgRefererArr = [], flgcount = ''
 let flgReferer = $.isNode() ? (process.env.flgReferer ? process.env.flgReferer : "") : ($.getdata('flgReferer') ? $.getdata('flgReferer') : "")
 //13位时间戳
-let times = new Date().getTime()
+let times = new Date().getTime()
 let DD = RT(2000, 3500)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
-let id = '', txid = '',flgtoken = '',flgchannel = ''
+let id = '', rwid = '', flgtoken = '', flgchannel = ''
 $.message = ''
-let flgReferers= ""
+let flgReferers = ""
 
 
 
@@ -53,15 +53,15 @@ let flgReferers= ""
     } else {
         if (!$.isNode()) {
             flgRefererArr.push($.getdata('flgReferer'))
-            
-         
-           
+
+
+
             let flgcount = ($.getval('flgcount') || '1');
             for (let i = 2; i <= flgcount; i++) {
                 flgRefererArr.push($.getdata(`flgReferer${i}`))
-                
-             
-               
+
+
+
             }
             console.log(
                 `\n\n=============================================== 脚本执行 - 北京时间(UTC+8)：${new Date(
@@ -73,19 +73,19 @@ let flgReferers= ""
                 if (flgRefererArr[i]) {
 
                     flgReferer = flgRefererArr[i];
-                   
-                 
-                  
+
+
+
                     $.index = i + 1;
                     console.log(`\n\n开始【返利购${$.index}作者@YaphetS0903】`)
                     await flgvideoinfo()
-                await $.wait(2000)
-                await flgsigninfo()
-                   message()
+                    await $.wait(2000)
+                    await flgsigninfo()
+                    message()
                 }
             }
         } else {
-            
+
             if (process.env.flgReferer && process.env.flgReferer.indexOf('@') > -1) {
                 flgRefererArr = process.env.flgReferer.split('@');
                 console.log(`您选择的是用"@"隔开\n`)
@@ -97,21 +97,21 @@ let flgReferers= ""
                     flgRefererArr.push(flgReferers[item])
                 }
             })
-            
+
             console.log(`共${flgRefererArr.length}个cookie`)
             for (let k = 0; k < flgRefererArr.length; k++) {
                 $.message = ""
-                
-               
+
+
                 flgReferer = flgRefererArr[k];
-                   
+
                 $.index = k + 1;
                 console.log(`\n开始【返利购${$.index}作者@YaphetS0903】`)
-                    
+
                 await flgvideoinfo()
                 await $.wait(2000)
                 await flgsigninfo()
-               message()
+                message()
             }
         }
 
@@ -122,48 +122,44 @@ let flgReferers= ""
     .finally(() => $.done())
 
 
-
+//https://api.flgflg.com/htmmall/api/gold/finishedVideoNum  多写一两个判定更加精准
 function flgck() {
-    if ($request.url.indexOf("finishedVideoNum") > -1) {
+    if ($request.url.indexOf("gold") > -1 && $request.url.indexOf("finishedVideoNum") > -1) {
         const flgReferer = $request.headers.Referer
         if (flgReferer) $.setdata(flgReferer, `flgReferer${status}`)
         $.log(flgReferer)
-
-
 
         $.msg($.name, "", `返利购${status}获取数据成功`)
 
     }
 }
 
-flgchannel=flgReferer.match(/channel=(\w+)/)[1]
-flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
+
 
 
 
 //查询激励视频次数
 function flgvideoinfo(timeout = 0) {
     return new Promise((resolve) => {
-        flgchannel=flgReferer.match(/channel=(\w+)/)[1]
-        flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
-let referer="https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4"
-        const hd ={
-        "Accept": "application/json, text/javascript, */*; q=0.01",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-cn",
-        "Connection": "keep-alive",
-        "Content-Length": "116",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Host": "api.flgflg.com",
-        "Origin": "https://api.flgflg.com",
-        "Referer": referer,
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-        "X-Requested-With": "XMLHttpRequest"
-    }
+        flgchannel = flgReferer.match(/channel=(\w+)/)[1]
+        flgtoken = flgReferer.match(/token=(\w.{35})/)[1]
+        let times = new Date().getTime()   //放在这里是实时时间  放在上面是固定的时间  脚本开始的时间
         let url = {
             url: `https://api.flgflg.com/htmmall/api/gold/finishedVideoNum`,
-            headers: hd,
-            body:`agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
+            headers: {
+                "Accept": "application/json, text/javascript, */*; q=0.01",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "zh-cn",
+                "Connection": "keep-alive",
+                "Content-Length": "116",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Host": "api.flgflg.com",
+                "Origin": "https://api.flgflg.com",
+                "Referer": `https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4`,
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: `agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
         }
         $.post(url, async (err, resp, data) => {
             try {
@@ -172,28 +168,38 @@ let referer="https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&
 
                 if (result.code == 0) {
                     console.log(`【查询激励视频次数】：${result.msg}【已看次数次数】：${result.data}\n`)
-                    if(result.data >= 5){
+                    if (result.data >= 5) {
                         console.log(`【今日激励视频已看完】\n`)
                         console.log(`【开始搜索商品任务】\n`)
                         await $.wait(8000)
                         await flgsearch()
-                        console.log(`【开始分享商品任务】\n`)
-                        await $.wait(8000)
-                        await flgshare()
-                        console.log(`【开始浏览商品任务】\n`)
-                        for(let u=0;u<5;u++){
-                            await $.wait(8000)
-                            await flgwatch()
+                        let bb = ['2', '3', '19']   
+                        for (let i = 0; i < bb.length; i++) {
+                            rwid = bb[i]
+                            if (rwid == 2) {
+                                
+                                for (let u = 0; u < 5; u++) {
+                                    console.log(`【开始浏览商品任务】\n`)
+                                    await $.wait(8000)
+                                    await flgtask(rwid)
+                                }
+                            }
+                            if(rwid == 3){
+                                console.log(`【开始每日首单任务】\n`)
+                                await $.wait(8000)
+                                await flgtask(rwid)
+                            }
+                            if(rwid == 19){
+                                console.log(`【开始分享商品任务】\n`)
+                                await $.wait(8000)
+                                await flgtask(rwid)
+                            }
                         }
-                        console.log(`【开始每日首单任务】\n`)
-                        await $.wait(8000)
-                        await flgfirst()
-
-                    }else{
+                    } else {
                         await $.wait(2000)
                         await flgvideo()
                     }
-                    
+
 
                 } else {
                     console.log(`【查询激励视频次数失败】：${result.msg}\n`)
@@ -214,15 +220,17 @@ let referer="https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&
 //看激励视频
 function flgvideo(timeout = 0) {
     return new Promise((resolve) => {
-        const hd ={"Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-Hans-CN;q=1",
-        "Connection": "keep-alive",
-        "Host": "api.flgflg.com",
-        "User-Agent": "Litaoyouxuan/2.0.4 (iPhone; iOS 14.4.1; Scale/3.00)"}
+        let times = new Date().getTime()
         let url = {
             url: `https://api.flgflg.com/htmmall/api/gold/client/report?agrtver=8.2&channel=${flgchannel}&ct=1&key=123456&taskId=12&token=${flgtoken}&ts=${times}&ver=2.0.4`,
-            headers: hd,
+            headers: {
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "zh-Hans-CN;q=1",
+                "Connection": "keep-alive",
+                "Host": "api.flgflg.com",
+                "User-Agent": "Litaoyouxuan/2.0.4 (iPhone; iOS 14.4.1; Scale/3.00)"
+            },
 
         }
         $.get(url, async (err, resp, data) => {
@@ -248,22 +256,25 @@ function flgvideo(timeout = 0) {
     })
 }
 
-//搜索商品任务
+pllist = ["罗技（G）PRO WIRELESS 无线游戏鼠标 吃鸡鼠标 绝地求生 gpw狗屁王一代/二代鼠标","步步升南京板鸭8090后怀旧膨化办公室小时候的零食品儿时麻辣小零食网红小包装休闲食品","小米路由器 AX6000 5G双频WIFI6 6000M速率 无线穿墙千兆家用智能电竞路由512MB","乱劈才方便米饭热水冲泡速食自热米饭食品户外快餐饭自热料理整箱1人份   川味卤肉1盒","康师傅方便面 泡面袋面劲爽拉面红烧牛肉味家庭装休闲零食 【24袋整箱】红烧8袋+香辣8袋"]
+//搜索商品任务  
 function flgsearch(timeout = 0) {
     return new Promise((resolve) => {
-        const hd ={"Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-Hans-CN;q=1",
-        "Connection": "keep-alive",
-        "Content-Length": "510",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Host": "api.flgflg.com",
-        "User-Agent": "Litaoyouxuan/2.0.4 (iPhone; iOS 14.4.1; Scale/3.00)"}
+        let times = new Date().getTime()
+        contentes = pllist[RT(0, pllist.length - 1)]
         let url = {
             url: `https://api.flgflg.com/htmmall/api/gs/item/byKw`,
-            headers: hd,
-            body:`agrtver=8.2&channel=${flgchannel}&ct=1&jdOwner=false&keyword=罗技（G）PRO WIRELESS 无线游戏鼠标 吃鸡鼠标 绝地求生 gpw狗屁王一代/二代鼠标 &maxPrice=&minPrice=&pageNo=1&pageSize=20&
-            sortType=1&source=3&token=${flgtoken}&ts=${times}&typeS=11&ver=2.0.4&volumeLimitVal=0&withCoupon=false`,
+            headers: {
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "zh-Hans-CN;q=1",
+                "Connection": "keep-alive",
+                "Content-Length": "510",
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Host": "api.flgflg.com",
+                "User-Agent": "Litaoyouxuan/2.0.4 (iPhone; iOS 14.4.1; Scale/3.00)"
+            },
+            body: `agrtver=8.2&channel=${flgchannel}&ct=1&jdOwner=false&keyword=${pllist}&maxPrice=&minPrice=&pageNo=1&pageSize=20&sortType=1&source=3&token=${flgtoken}&ts=${times}&typeS=11&ver=2.0.4&volumeLimitVal=0&withCoupon=false`,
         }
         $.post(url, async (err, resp, data) => {
             try {
@@ -272,7 +283,7 @@ function flgsearch(timeout = 0) {
 
                 if (result.code == 0) {
                     console.log(`【搜索商品任务完成】：${result.msg}\n`)
-                   
+
 
                 } else {
                     console.log(`【搜索商品任务完成失败】：${result.msg}\n`)
@@ -289,39 +300,35 @@ function flgsearch(timeout = 0) {
 }
 
 
-//分享商品任务
-function flgshare(timeout = 0) {
+function flgtask(rwid) {
+    let times = new Date().getTime()
     return new Promise((resolve) => {
-        flgchannel=flgReferer.match(/channel=(\w+)/)[1]
-        flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
-        let referer="http://api.flgflg.com/htmmall/page/adv/share-commission.html?itemId=616612945566&source=1&goodsSign=undefined?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}"
-        const hd ={"Accept": "application/json, text/javascript, */*; q=0.01",
-        "Accept-Encoding": "gzip, deflate",
-        "Accept-Language": "zh-cn",
-        "Connection": "close",
-        "Content-Length": "144",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Host": "api.flgflg.com",
-        "Origin": "http://api.flgflg.com",
-        "Referer": referer,
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-        "X-Requested-With": "XMLHttpRequest"}
         let url = {
             url: `http://api.flgflg.com/htmmall/api/gold/client/report`,
-            headers: hd,
-            body:`taskId=19&key=1635435725356&agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
+            headers: {
+                "Accept": "application/json, text/javascript, */*; q=0.01",
+                "Accept-Encoding": "gzip, deflate",
+                "Accept-Language": "zh-cn",
+                "Connection": "close",
+                "Content-Length": "144",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Host": "api.flgflg.com",
+                "Origin": "http://api.flgflg.com",
+                "Referer": `http://api.flgflg.com/htmmall/page/adv/share-commission.html?itemId=616612945566&source=1&goodsSign=undefined?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}`,
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: `taskId=${rwid}&key=1635435725356&agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
         }
         $.post(url, async (err, resp, data) => {
             try {
-
                 const result = JSON.parse(data)
-
                 if (result.code == 0) {
-                    console.log(`【分享商品任务完成】：${result.msg}\n`)
-                    
+                    console.log(`【任务完成】：${result.msg}\n`)
+
 
                 } else {
-                    console.log(`【分享商品任务完成失败】：${result.msg}\n`)
+                    console.log(`【任务完成失败】：${result.msg}\n`)
 
                 }
             } catch (e) {
@@ -330,120 +337,28 @@ function flgshare(timeout = 0) {
 
                 resolve()
             }
-        }, timeout)
-    })
-}
-
-
-//浏览商品任务
-function flgwatch(timeout = 0) {
-    return new Promise((resolve) => {
-        flgchannel=flgReferer.match(/channel=(\w+)/)[1]
-        flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
-        let referer="http://api.flgflg.com/htmmall/page/adv/share-commission.html?itemId=616612945566&source=1&goodsSign=undefined?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}"
-        const hd ={"Accept": "application/json, text/javascript, */*; q=0.01",
-        "Accept-Encoding": "gzip, deflate",
-        "Accept-Language": "zh-cn",
-        "Connection": "close",
-        "Content-Length": "144",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Host": "api.flgflg.com",
-        "Origin": "http://api.flgflg.com",
-        "Referer": referer,
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-        "X-Requested-With": "XMLHttpRequest"}
-        let url = {
-            url: `http://api.flgflg.com/htmmall/api/gold/client/report`,
-            headers: hd,
-            body:`taskId=2&key=1635435725356&agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
-        }
-        $.post(url, async (err, resp, data) => {
-            try {
-
-                const result = JSON.parse(data)
-
-                if (result.code == 0) {
-                    console.log(`【浏览商品任务完成】：${result.msg}\n`)
-                    
-
-                } else {
-                    console.log(`【浏览商品任务完成失败】：${result.msg}\n`)
-
-                }
-            } catch (e) {
-
-            } finally {
-
-                resolve()
-            }
-        }, timeout)
-    })
-}
-
-
-//每日首单任务
-function flgfirst(timeout = 0) {
-    return new Promise((resolve) => {
-        flgchannel=flgReferer.match(/channel=(\w+)/)[1]
-        flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
-        let referer="http://api.flgflg.com/htmmall/page/adv/share-commission.html?itemId=616612945566&source=1&goodsSign=undefined?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}"
-        const hd ={"Accept": "application/json, text/javascript, */*; q=0.01",
-        "Accept-Encoding": "gzip, deflate",
-        "Accept-Language": "zh-cn",
-        "Connection": "close",
-        "Content-Length": "144",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Host": "api.flgflg.com",
-        "Origin": "http://api.flgflg.com",
-        "Referer": referer,
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-        "X-Requested-With": "XMLHttpRequest"}
-        let url = {
-            url: `http://api.flgflg.com/htmmall/api/gold/client/report`,
-            headers: hd,
-            body:`taskId=3&key=1635435725356&agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
-        }
-        $.post(url, async (err, resp, data) => {
-            try {
-
-                const result = JSON.parse(data)
-
-                if (result.code == 0) {
-                    console.log(`【每日首单任务完成】：${result.msg}\n`)
-                    
-
-                } else {
-                    console.log(`【每日首单任务完成失败】：${result.msg}\n`)
-
-                }
-            } catch (e) {
-
-            } finally {
-
-                resolve()
-            }
-        }, timeout)
+        }, 0)
     })
 }
 
 //签到任务
 function flgsigninfo(timeout = 0) {
     return new Promise((resolve) => {
-        flgchannel=flgReferer.match(/channel=(\w+)/)[1]
-        flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
-        let referer="https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4"
-        const hd ={"Accept": "application/json, text/javascript, */*; q=0.01",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-cn","Connection": "keep-alive",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Host": "api.flgflg.com",
-        "Referer": referer,
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-        "X-Requested-With": "XMLHttpRequest"}
+        let times = new Date().getTime()
+
         let url = {
             url: `https://api.flgflg.com/htmmall/api/act/sign/info?agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
-            headers: hd,
-            
+            headers: {
+                "Accept": "application/json, text/javascript, */*; q=0.01",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "zh-cn", "Connection": "keep-alive",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Host": "api.flgflg.com",
+                "Referer": `https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4`,
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+
         }
         $.get(url, async (err, resp, data) => {
             try {
@@ -451,22 +366,22 @@ function flgsigninfo(timeout = 0) {
                 const result = JSON.parse(data)
 
                 if (result.code == 0) {
-                    if(result.data.needSign == false){
+                    if (result.data.needSign == false) {
                         console.log(`【签到完成】：${result.msg}\n`)
                         console.log(`【剩余金币】：${result.data.asset.remainIncomeGold}\n`)
                         console.log(`【剩余现金】：${result.data.asset.remainIncomeString}\n`)
                         $.message += `【签到完成】：${result.msg}\n`
                         $.message += `【剩余金币】：${result.data.asset.remainIncomeGold}\n`
                         $.message += `【剩余现金】：${result.data.asset.remainIncomeString}\n`
-                        
-                        
-                    }else{
+
+
+                    } else {
                         console.log(`【开始签到】\n`)
                         await $.wait(2000)
                         await flgsign()
                     }
-                    
-                    
+
+
 
                 } else {
                     console.log(`【签到任务失败】：${result.msg}\n`)
@@ -488,24 +403,25 @@ function flgsigninfo(timeout = 0) {
 //签到任务
 function flgsign(timeout = 0) {
     return new Promise((resolve) => {
-        flgchannel=flgReferer.match(/channel=(\w+)/)[1]
-        flgtoken=flgReferer.match(/token=(\w.{35})/)[1]
-        let referer="https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4"
-        const hd ={"Accept": "application/json, text/javascript, */*; q=0.01",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-cn",
-        "Connection": "keep-alive",
-        "Content-Length": "132",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Host": "api.flgflg.com",
-        "Origin": "https://api.flgflg.com",
-        "Referer": referer,
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-        "X-Requested-With": "XMLHttpRequest"}
+
+        let times = new Date().getTime()
+
         let url = {
             url: `https://api.flgflg.com/htmmall/api/sign/add`,
-            headers: hd,
-            body:`needReSign=true&agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
+            headers: {
+                "Accept": "application/json, text/javascript, */*; q=0.01",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "zh-cn",
+                "Connection": "keep-alive",
+                "Content-Length": "132",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Host": "api.flgflg.com",
+                "Origin": "https://api.flgflg.com",
+                "Referer": `https://api.flgflg.com/htmmall//page/user/sign_n1.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4`,
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: `needReSign=true&agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
         }
         $.post(url, async (err, resp, data) => {
             try {
@@ -514,7 +430,7 @@ function flgsign(timeout = 0) {
 
                 if (result.code == 0) {
                     console.log(`【签到任务】：${result.data}\n`)
-                    
+
 
                 } else {
                     console.log(`【签到任务失败】：${result.msg}\n`)
