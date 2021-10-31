@@ -8,7 +8,7 @@
 还有两个任务暂时没抓到包，后续慢慢更新
 
 10.30更新，只需要抓一个referer, 删掉抓cookie，解决"&"出错问题，感谢@Tom大佬建议和群友提供的任务包，增加浏览任务和每日首单任务
-10.31更新，加入报名打卡，早起打卡任务，使用app5分钟任务，兑换金币成现金，请务必在早上7-9点运行脚本
+10.31更新，加入报名打卡，早起打卡任务，使用app5分钟任务，兑换金币成现金，请务必在早上7-9点之间运行脚本
 
 请更新脚本和boxjs。
 本脚本以学习为主
@@ -22,9 +22,11 @@ https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 环境配置(@隔开，json格式)
 export flgReferer='抓取的Referer1@抓取的Referer2'
 圈X配置如下，其他自行测试，运行一次即可
+
+请务必在早上7-9点之间运行脚本
 [task_local]
 #返利购
-0 9 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/flg.js, tag=返利购, enabled=true
+0 8 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/flg.js, tag=返利购, enabled=true
 [rewrite_local]
 #返利购
 https://api.flgflg.com/htmmall/api/gold/finishedVideoNum url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/flg.js
