@@ -4,9 +4,12 @@
 脚本说明：返利购。。。下载地址带邀请https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/flg.png
 保存到相册微信扫码下载
 邀请码AN4717
-和以前的返利网很像，签到0.05-0.2现金，任务一天390金币(3毛9)，1000金币兑换1元现金到钱包，钱包2元提现
+和以前的返利网很像，签到0.05-0.2现金，任务一天390金币(3毛9)，打卡也有金币分成，1000金币兑换1元现金到钱包，钱包2元提现
 还有两个任务暂时没抓到包，后续慢慢更新
+
 10.30更新，只需要抓一个referer, 删掉抓cookie，解决"&"出错问题，感谢@Tom大佬建议和群友提供的任务包，增加浏览任务和每日首单任务
+10.31更新，加入报名打卡，早起打卡任务，使用app5分钟任务，兑换金币成现金，请务必在早上7-9点运行脚本
+
 请更新脚本和boxjs。
 本脚本以学习为主
 获取数据： 进入软件，点击我的，点击金币获得数据
@@ -35,8 +38,8 @@ let status;
 status = (status = ($.getval("flgstatus") || "1")) > 1 ? `${status}` : "";
 let flgRefererArr = [], flgcount = ''
 let flgReferer = $.isNode() ? (process.env.flgReferer ? process.env.flgReferer : "") : ($.getdata('flgReferer') ? $.getdata('flgReferer') : "")
-//13位时间戳
-let times = new Date().getTime()
+// //13位时间戳
+// let times = new Date().getTime()
 let DD = RT(2000, 3500)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
@@ -122,7 +125,7 @@ let flgReferers = ""
     .finally(() => $.done())
 
 
-//https://api.flgflg.com/htmmall/api/gold/finishedVideoNum  多写一两个判定更加精准
+//https://api.flgflg.com/htmmall/api/gold/finishedVideoNum 
 function flgck() {
     if ($request.url.indexOf("gold") > -1 && $request.url.indexOf("finishedVideoNum") > -1) {
         const flgReferer = $request.headers.Referer
@@ -195,6 +198,13 @@ function flgvideoinfo(timeout = 0) {
                                 await flgtask(rwid)
                             }
                         }
+                        console.log(`【开始使用5分钟app任务】\n`)
+                        await $.wait(8000)
+                        await flgfive()
+                        console.log(`【开始使用早起打卡任务】\n`)
+                        await $.wait(8000)
+                        await flgdktask()
+
                     } else {
                         await $.wait(2000)
                         await flgvideo()
@@ -301,8 +311,8 @@ function flgsearch(timeout = 0) {
 
 
 function flgtask(rwid) {
-    let times = new Date().getTime()
     return new Promise((resolve) => {
+        let times = new Date().getTime()
         let url = {
             url: `http://api.flgflg.com/htmmall/api/gold/client/report`,
             headers: {
@@ -367,13 +377,23 @@ function flgsigninfo(timeout = 0) {
 
                 if (result.code == 0) {
                     if (result.data.needSign == false) {
-                        console.log(`【签到完成】：${result.msg}\n`)
+                        console.log(`【签到已完成】：${result.msg}\n`)
                         console.log(`【剩余金币】：${result.data.asset.remainIncomeGold}\n`)
                         console.log(`【剩余现金】：${result.data.asset.remainIncomeString}\n`)
-                        $.message += `【签到完成】：${result.msg}\n`
+                        console.log(`【总金币收入】：${result.data.asset.totalIncomeGold}\n`)
+                        console.log(`【总现金收入】：${result.data.asset.totalIncomeString}\n`)
+                        console.log(`【开始判断是否能兑换现金】\n`)
+                        if(result.data.asset.remainIncomeGold >=1000){
+                        await $.wait(5000)
+                        await flgcoin()
+                        }else{
+                            console.log(`【金币不足，继续努力】\n`)
+                        }
+                        $.message += `【签到已完成】：${result.msg}\n`
                         $.message += `【剩余金币】：${result.data.asset.remainIncomeGold}\n`
                         $.message += `【剩余现金】：${result.data.asset.remainIncomeString}\n`
-
+                        $.message += `【总金币收入】：${result.data.asset.totalIncomeGold}\n`
+                        $.message += `【总现金收入】：${result.data.asset.totalIncomeString}\n`
 
                     } else {
                         console.log(`【开始签到】\n`)
@@ -400,7 +420,7 @@ function flgsigninfo(timeout = 0) {
 
 
 
-//签到任务
+//签到
 function flgsign(timeout = 0) {
     return new Promise((resolve) => {
 
@@ -445,6 +465,250 @@ function flgsign(timeout = 0) {
         }, timeout)
     })
 }
+
+
+//使用5分钟app
+function flgfive(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let times = new Date().getTime()
+
+        let url = {
+            url: `https://api.flgflg.com/htmmall/api/gold/client/report?agrtver=8.2&channel=${flgchannel}&ct=1&key=1635617326273_1635617326273&taskId=21&token=${flgtoken}&ts=${times}&ver=2.0.4`,
+            headers: {"Accept": "*/*",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-Hans-CN;q=1",
+            "Connection": "keep-alive",
+            "Host": "api.flgflg.com",
+            "User-Agent": "Litaoyouxuan/2.0.4 (iPhone; iOS 14.4.1; Scale/3.00)"},
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+                    console.log(`【使用5分钟app成功】：${result.msg}\n`)
+
+
+                } else {
+                    console.log(`【使用5分钟app失败，可能已领取】：${result.msg}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+//早起打卡信息获取
+function flgdktask(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let times = new Date().getTime()
+
+        let url = {
+            url: `https://api.flgflg.com/htmmall/api/act/getActMorningStatus`,
+            headers:{"Accept": "application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-cn","Connection": "keep-alive",
+            "Content-Length": "116","Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Host": "api.flgflg.com",
+            "Origin": "https://api.flgflg.com",
+            "Referer": `https://api.flgflg.com/htmmall//page/act/earlyChallenge/index.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4`,
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148","X-Requested-With": "XMLHttpRequest"
+        },
+            body: `agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+                    console.log(`【查询打卡信息】：${result.msg}\n`)
+                    if(result.data.canDoActMorning == true){
+                        console.log(`【已到打卡时间（早上7-9点之间执行），准备开始打卡】\n`)
+                        if (nowTimes.getHours() === 7 || nowTimes.getHours() === 8 ) {
+                        await $.wait(5000)
+                        await flgDoActMorning()
+                        }else{
+                            console.log(`【打卡时间未到，请在7-9点之间运行】\n`)
+                        }
+                    }else{
+                        console.log(`【打卡时间未到，或已打卡】\n`)
+                    }
+                    if(result.data.hasJoinToday == false){
+                        console.log(`【查询到未报名今日打卡，开始报名打卡】\n`)
+                        await $.wait(5000)
+                        await flgJoinToday()
+                    }else{
+                        console.log(`【今日已报名打卡，请明早7-9点准时打卡哦】\n`)
+                    }
+
+
+
+                } else {
+                    console.log(`【查询打卡信息失败】：${result.msg}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+
+//报名打卡
+function flgJoinToday(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let times = new Date().getTime()
+
+        let url = {
+            url: `https://api.flgflg.com/htmmall/api/act/joinActMorning?amount=100&agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
+            headers: {"Accept": "application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-cn",
+            "Connection": "keep-alive",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Host": "api.flgflg.com",
+            "Referer": `https://api.flgflg.com/htmmall//page/act/earlyChallenge/index.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4`,
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+            "X-Requested-With": "XMLHttpRequest"},
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+                    console.log(`【报名打卡成功】：${result.msg}\n`)
+
+
+                } else {
+                    console.log(`【报名打卡失败】：${result.msg}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+//打卡
+function flgDoActMorning(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let times = new Date().getTime()
+
+        let url = {
+            url: `https://api.flgflg.com/htmmall/api/act/doActMorning`,
+            headers: {"Accept": "application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-cn",
+            "Connection": "keep-alive",
+            "Content-Length": "116",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Host": "api.flgflg.com",
+            "Origin": "https://api.flgflg.com",
+            "Referer": `https://api.flgflg.com/htmmall//page/act/earlyChallenge/index.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4`,
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148","X-Requested-With": "XMLHttpRequest"},
+            body: `agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+                    console.log(`【打卡成功】：${result.data}\n`)
+
+
+                } else {
+                    console.log(`【打卡失败】：${result.msg}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+
+
+
+//兑换现金
+function flgcoin(timeout = 0) {
+    return new Promise((resolve) => {
+
+        let times = new Date().getTime()
+
+        let url = {
+            url: `https://api.flgflg.com/htmmall/api/gold/exchangeGold`,
+            headers: {
+                "Accept": "application/json, text/javascript, */*; q=0.01",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept-Language": "zh-cn",
+                "Connection": "keep-alive",
+                "Content-Length": "132",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Host": "api.flgflg.com","Origin": "https://api.flgflg.com",
+                "Referer": `https://api.flgflg.com/htmmall/page/assets/goldExchange.html?agrtver=8.2&ts=${times}&netType=1&ct=1&channel=${flgchannel}&token=${flgtoken}&ver=2.0.4`,
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148","X-Requested-With": "XMLHttpRequest"},
+            body: `type=0&amount=1&agrtver=8.2&netType=1&channel=${flgchannel}&ver=2.0.4&ct=1&ts=${times}&token=${flgtoken}`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.code == 0) {
+                    console.log(`【兑换现金】：${result.msg}\n`)
+                    $.message += `【兑换现金】：${result.msg}\n`
+
+                } else {
+                    console.log(`【兑换现金失败】：${result.msg}\n`)
+
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+
+
+
+
+
+
+
 
 
 
