@@ -201,7 +201,7 @@ function flgvideoinfo(timeout = 0) {
                         console.log(`【开始使用5分钟app任务】\n`)
                         await $.wait(8000)
                         await flgfive()
-                        console.log(`【开始使用早起打卡任务】\n`)
+                        console.log(`【开始早起打卡任务】\n`)
                         await $.wait(8000)
                         await flgdktask()
 
