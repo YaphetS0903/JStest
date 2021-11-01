@@ -26,7 +26,7 @@ export flgReferer='抓取的Referer1@抓取的Referer2'
 请务必在早上7-9点之间运行脚本
 [task_local]
 #返利购
-0 8 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/flg.js, tag=返利购, enabled=true
+0,30 8 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/flg.js, tag=返利购, enabled=true
 [rewrite_local]
 #返利购
 https://api.flgflg.com/htmmall/api/gold/finishedVideoNum url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/flg.js
