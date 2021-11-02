@@ -401,6 +401,23 @@ function flgsigninfo(timeout = 0) {
                         console.log(`【开始签到】\n`)
                         await $.wait(2000)
                         await flgsign()
+                        console.log(`【签到已完成】：${result.msg}\n`)
+                        console.log(`【剩余金币】：${result.data.asset.remainIncomeGold}\n`)
+                        console.log(`【剩余现金】：${result.data.asset.remainIncomeString}\n`)
+                        console.log(`【总金币收入】：${result.data.asset.totalIncomeGold}\n`)
+                        console.log(`【总现金收入】：${result.data.asset.totalIncomeString}\n`)
+                        console.log(`【开始判断是否能兑换现金】\n`)
+                        if(result.data.asset.remainIncomeGold >=1000){
+                        await $.wait(5000)
+                        await flgcoin()
+                        }else{
+                            console.log(`【金币不足，继续努力】\n`)
+                        }
+                        $.message += `【签到已完成】：${result.msg}\n`
+                        $.message += `【剩余金币】：${result.data.asset.remainIncomeGold}\n`
+                        $.message += `【剩余现金】：${result.data.asset.remainIncomeString}\n`
+                        $.message += `【总金币收入】：${result.data.asset.totalIncomeGold}\n`
+                        $.message += `【总现金收入】：${result.data.asset.totalIncomeString}\n`
                     }
 
 
