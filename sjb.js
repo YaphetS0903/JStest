@@ -129,7 +129,9 @@ function sjblogin(timeout = 0) {
         id3 = sjbua.split('|')[10].split('|')[0]
         let uanow = sjbua.replace(/\d{13}/g, `${times}000`) //匹配10或13位
         let uanow1 = uanow.replace(/\w{32}/, `${signid2}`)
-        let equipment = sjbua.match(/(\w{24})/)[1]
+
+        let equipment = sjbua.split('|')[4].split('|')[0]
+
         let url = {
             url: `https://mapi.shuijiaobao.cn/login/code`,
             headers: {
