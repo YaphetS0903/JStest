@@ -612,9 +612,36 @@
                         "type": "number",
                         "desc": "0关闭通知，1打开通知"
                     }],
-                        "repo": "https://github.com/YaphetS0903/JStest/blob/main/sjbua.js",
+                        "repo": "https://github.com/YaphetS0903/JStest/blob/main/sjb.js",
             "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
-            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/sjbua.js"
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/sjb.js"
+  },{
+    "id": "lsftoken",
+        "name": "来闪",
+            "keys": ["lsftoken","lsftoken2","lsftoken3","lsftoken4","lsftoken5","lsftoken6","lsftoken7","lsftoken8","lsftoken9","lsftoken10"],
+                "author": "@YaphetS0903",
+                    "settings": [{
+                        "id": "lsftokenstatus",
+                        "name": "当前账号",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "当前抓取ck记录的账号序号，如：1、2、3、4"
+                    }, {
+                        "id": "lsftokencount",
+                        "name": "账号个数",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
+                    }, {
+                        "id": "tz",
+                        "name": "通知",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "0关闭通知，1打开通知"
+                    }],
+                        "repo": "https://github.com/YaphetS0903/JStest/blob/main/ls.js",
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ls.js"
   }
 	]
 }
