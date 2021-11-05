@@ -163,7 +163,7 @@ function lstaskinfo(timeout = 0) {
                         await $.wait(20000)
                         await lsvideo()
                     }
-
+                    console.log(`【看视频任务已完成】\n`)
                     await $.wait(5000)
                     await lssigninfo()
 
