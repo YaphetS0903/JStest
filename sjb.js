@@ -8,13 +8,20 @@
 
 运行脚本会挤掉app登录，重新登陆下就行
 保存到相册微信扫码下载
-
 本脚本以学习为主
 获取数据： 登录获取数据
 TG通知群:https://t.me/tom_ww
 TG电报交流群: https://t.me/tom_210120
 boxjs地址 :  
 https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
+
+睡觉宝ua不要最后一串和设备名称
+睡觉宝ua不要最后一串和设备名称
+正确样式
+a|7.1.2|2.0.2|ql_sleep|abcdefghigklmnopqrstu|1200|1920|0|123456|1635935974000|d1e89118a283d9e2c373c76a586f07cb
+错误样式
+a|7.1.2|2.0.2|ql_sleep|abcdefghigklmnopqrstu|1200|1920|0|123456|1635935974000|d1e89118a283d9e2c373c76a586f07cb|4defg12hig65klmnopqrstu12dhd|Huawei
+
 睡觉宝
 青龙环境抓取链接https://mapi.shuijiaobao.cn/login/code (登录授权获取，不要乱抓ua，有些链接ua不能用)
 环境配置(@隔开，json格式)
