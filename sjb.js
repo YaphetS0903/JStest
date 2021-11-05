@@ -195,14 +195,7 @@ function sjblogin(timeout = 0) {
 function sjbtasklist(timeout = 0) {
     return new Promise((resolve) => {
         spid = sjbua.split('|')[8].split('|')[0]
-        let a = sjbua.match(/(\d{10,13})/)[1];
-        let sj = a.length
-        if (sj == 10) {
-            times = Math.round(new Date().getTime() / 1000).toString();
-        }
-        if (sj != 10) {
-            times = new Date().getTime()
-        }
+        times = new Date().getTime()
         signid2 = MD5_Encrypt(`${spid}4BmeNjXs6vLWpT8A${times}`)
 
         let uanow = sjbua.replace(/\d{10,13}/g, `${times}`) //匹配10或13位
@@ -534,14 +527,7 @@ function sjsign(timeout = 0) {
 function sjbtxinfo(timeout = 0) {
     return new Promise((resolve) => {
         spid = sjbua.split('|')[8].split('|')[0]
-        let a = sjbua.match(/(\d{10,13})/)[1];
-        let sj = a.length
-        if (sj == 10) {
-            times = Math.round(new Date().getTime() / 1000).toString();
-        }
-        if (sj != 10) {
-            times = new Date().getTime()
-        }
+        times = new Date().getTime()
         signid2 = MD5_Encrypt(`${spid}4BmeNjXs6vLWpT8A${times}`)
         let uanow = sjbua.replace(/\d{10,13}/g, `${times}`) //匹配10或13位
         let uanow1 = uanow.replace(/\w{32}/, `${signid2}`)
