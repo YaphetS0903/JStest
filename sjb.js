@@ -579,7 +579,7 @@ function sjbtx(typeid) {
             headers: {
                 "ua": `${uanow1}|${token}`
             },
-            body: `pay_type=1&sign=${signid2}&timeStamp=${timeid}&type=2`,
+            body: `sign=${signid2}&type=2&pay_type=1&timeStamp=${timeid}`,
         }
         $.post(url, async (err, resp, data) => {
             try {
