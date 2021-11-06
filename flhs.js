@@ -37,6 +37,8 @@ let status;
 status = (status = ($.getval("flhsstatus") || "1")) > 1 ? `${status}` : "";
 let flhsCookieArr = [], flhscount = ''
 let flhsCookie = $.isNode() ? (process.env.flhsCookie ? process.env.flhsCookie : "") : ($.getdata('flhsCookie') ? $.getdata('flhsCookie') : "")
+// //13位时间戳
+// let times = new Date().getTime()
 let DD = RT(2000, 3500)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
@@ -111,8 +113,7 @@ let flhsCookies = ""
                 await flhsvideoreceive()
                 await $.wait(10000)
                 await flhsboxid()
-
-//                message()
+                //                message()
             }
         }
 
