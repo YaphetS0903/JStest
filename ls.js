@@ -1,7 +1,7 @@
 /*
 软件名称:来闪
 完成时间：2021-11-6 @YaphetS0903
-脚本说明：来闪。。。下载地址带邀请https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/ls.png
+脚本说明：来闪。。。下载地址带邀请https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/ls2.png
 保存到相册微信扫码注册后下载
 收益：
 一天两块多，10元提现，提现需一元实名认证，身份证写同名的就行，不需要人脸
