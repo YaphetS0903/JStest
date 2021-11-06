@@ -34,8 +34,8 @@ hostname = app.lshan8.com
 const $ = new Env('来闪');
 let status;
 
-status = (status = ($.getval("lsstatus") || "1")) > 1 ? `${status}` : "";
-let lsftokenArr = [], lscount = ''
+status = (status = ($.getval("lsftokenstatus") || "1")) > 1 ? `${status}` : "";
+let lsftokenArr = [], lsftokencount = ''
 let lsftoken = $.isNode() ? (process.env.lsftoken ? process.env.lsftoken : "") : ($.getdata('lsftoken') ? $.getdata('lsftoken') : "")
 let DD = RT(2000, 3500)
 let tz = ($.getval('tz') || '1');
@@ -56,8 +56,8 @@ let lsftokens = ""
 
 
 
-            let lscount = ($.getval('lscount') || '1');
-            for (let i = 2; i <= lscount; i++) {
+            let lsftokencount = ($.getval('lsftokencount') || '1');
+            for (let i = 2; i <= lsftokencount; i++) {
                 lsftokenArr.push($.getdata(`lsftoken${i}`))
 
 
