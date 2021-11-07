@@ -3,7 +3,7 @@
 更新时间：2021-10-11 @YaphetS0903
 脚本说明：多福盒子。。。下载地址邀请(介意的话appstore搜索下载)https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/dfhz.png
 一天1左右，能抢现金和实物
-每日0.3和10元提现要抢，数量很少，每天9点开抢，0.3数量每天88个，脚本自动抢。
+每日0.3和10元提现要抢，数量很少，每天8点开抢，0.3数量每天88个，脚本自动抢。
 提醒：抢提现金额要绑定手机号和地址（地址乱填），不然抢不到
 本脚本以学习为主
 获取数据： 进入软件，点击换鸡蛋，随便完成一个元宝视频任务即可获取数据
@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 多福盒子
 青龙环境抓取链接http://api.duofu.xqustar.com/api/task/finshTask
 环境配置(@隔开，json格式)export dfhzhd='抓取的header1@抓取的header2'
-圈X配置如下，其他自行测试，加了判断，运行时间随意，早上九点刷新0.3，九点要运行一次自动抢
+圈X配置如下，其他自行测试，加了判断，运行时间随意，早上8点刷新0.3，九点要运行一次自动抢
 [task_local]
 #多福盒子
 0 0 8-18 * * * https://raw.githubusercontent.com/YaphetS0903/JStest/main/dfhz.js, tag=多福盒子, enabled=true
