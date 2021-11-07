@@ -141,7 +141,7 @@ function lstaskinfo(timeout = 0) {
     return new Promise((resolve) => {
 
         let url = {
-            url: `https://vue.lshan8.com/ls/flash/ecosp/intergral/integralInfoShow?type=2`,
+            url: `http://app.lshan8.com/ls/flash/ecosp/intergral/showUserTwoIntergral`,
             headers: {
                 "f-token": lsftoken,
             },
@@ -153,7 +153,7 @@ function lstaskinfo(timeout = 0) {
 
                 if (result.code == 0) {
                     console.log(`【查询任务列表】：${result.message}\n`)
-                    let cs=result.data[0].timeLo - result.data[0].userTmeLo
+                    let cs=result.data.sysLookVideoNum - result.data.myLookVideoNum
                     for (let u = 0; u < cs; u++) {
                         if (cs==0){
                         console.log(`【看视频任务已完成】\n`)
