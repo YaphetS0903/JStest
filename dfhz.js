@@ -679,12 +679,12 @@ function dfhzaddress(timeout = 0) {
                 const result = JSON.parse(data)
 
                 if (result.code == 200) {
-                    if(nowTimes.getHours() === 9){
+                    if(nowTimes.getHours() === 8){
                     console.log(`【开始准备提现0.3】\n`)
                     console.log(`【获得地址信息】：${result.data[0].id}\n`)
                     await dfhzgoodlist()
                     aid =result.data[0].id
-                    }else{console.log(`【未到9点，不能提现】\n`)}
+                    }else{console.log(`【未到8点，不能提现】\n`)}
                 } else {
 
                     console.log(`【获得地址信息失败】：${result.message}\n`)
