@@ -568,7 +568,7 @@ function sjbtx(typeid) {
         spid = sjbua.split('|')[8].split('|')[0]
         times = Math.round(new Date().getTime() / 1000).toString();
         id3 = sjbua.split('|')[10].split('|')[0]
-        let uanow = sjbua.replace(/\d{13}/g, `${times}`) //匹配10或13位
+        let uanow = sjbua.replace(/\d{10}/g, `${times}`) //匹配10或13位
         let timeid = uanow.match(/(\d{10})/)[1];
         signid2 = MD5_Encrypt(`${spid}4BmeNjXs6vLWpT8A${timeid}`)
         let uanow1 = uanow.replace(/\w{32}/, `${signid2}`)
