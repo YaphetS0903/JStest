@@ -2,12 +2,13 @@
 软件名称:萤石云视频
 完成时间：2021-10-13 @YaphetS0903
 脚本说明：萤石云。。。下载地址，appstore搜索下载
-一天1毛到3毛，3毛提现
+一天1毛到3毛，3毛提现，自动提现后续抓到包了加
 评论有时候会获得0金币，是软件bug，手动评论也不增加
 10.15更新，解决ck一天失效问题，需要重新抓取数据，
 10.16更新自动提现
-11.19更新开盲盒
+11.19更新开盲盒，不用再获取ysycookie，只获取登录hd和body就可以，但提现还需要提现body
 本来想直接手机号密码登录，可惜不会处理featurecode和token
+目前莹豆还不够提现，抓到提现包了再更新提现，从群友反馈看安卓的豆子多一些，一天一毛五左右，苹果很少
 本脚本以学习为主
 获取数据： 登录输入手机号密码获得登录数据，然后进入软件点击我的获取cookie，提现一次获取提现数据
 TG通知群:https://t.me/tom_ww
@@ -18,15 +19,12 @@ https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 青龙环境抓取链接：
 登录的header和body链接
 https://api.ys7.com/v3/users/login/v2
-cookie获取链接
-https://api.ys7.com/v3/integral/yd/getUserOpenBoxCd
 提现body链接
 https://api.ys7.com/v3/integral/yd/pay
 环境配置(多账号@隔开)export ysyhd='抓取的header1@抓取的header2'
 例：
 export ysyhd='{"clientType":"1","Accept-Encoding":"gzip, deflate, br","netType":"WIFI","Co..........Content-Length":"450"}@账号2的数据'
 export ysybody='account=123456&biz.......callTokenType%5C%22%3A1%7D%22%7D%5D&smsCode=@账号2的数据'
-export cookie='"ASG_DisplayName=pgekc1; C_SS.............GBBehbyvORvekQPYYT87ps8gAtU; C_TYPE=1; C_VER=6.1.3.1262766"@账号2的数据'
 export txbody='payCode=101005&receiverType=2&receiverId=123456789@账号2的数据'
 圈X配置如下，其他自行测试，加了判断，运行时间一小时一次
 [task_local]
@@ -35,8 +33,6 @@ export txbody='payCode=101005&receiverType=2&receiverId=123456789@账号2的数�
 [rewrite_local]
 #萤石云登录数据获取
 https://api.ys7.com/v3/users/login/v2 url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/ysy.js
-#萤石云cookie获取
-https://api.ys7.com/v3/integral/yd/getUserOpenBoxCd url script-request-header https://raw.githubusercontent.com/YaphetS0903/JStest/main/ysy.js
 #萤石云提现数据获取
 https://api.ys7.com/v3/integral/yd/pay url script-request-body https://raw.githubusercontent.com/YaphetS0903/JStest/main/ysy.js
 [MITM]
@@ -46,11 +42,10 @@ const $ = new Env('萤石云视频');
 let status;
 
 status = (status = ($.getval("ysystatus") || "1")) > 1 ? `${status}` : "";
-let ysyurlArr = [], ysyhdArr = [],ysybodyArr = [], cookieArr = [],txbodyArr = [],ysycount = ''
+let ysyurlArr = [], ysyhdArr = [],ysybodyArr = [], txbodyArr = [],ysycount = ''
 let ysyurl = $.getdata('ysyurl')
 let ysyhd = $.isNode() ? (process.env.ysyhd ? process.env.ysyhd : "") : ($.getdata('ysyhd') ? $.getdata('ysyhd') : "")
 let ysybody = $.isNode() ? (process.env.ysybody  ? process.env.ysybody  : "") : ($.getdata('ysybody ') ? $.getdata('ysybody ') : "")
-let cookie =$.isNode() ? (process.env.cookie  ? process.env.cookie  : "") : ($.getdata('cookie ') ? $.getdata('cookie ') : "")
 let txbody = $.isNode() ? (process.env.txbody  ? process.env.txbody  : "") : ($.getdata('txbody ') ? $.getdata('txbody ') : "")
 let b = Math.round(new Date().getTime() / 1000).toString();
 let DD = RT(2000, 3500)
@@ -58,7 +53,7 @@ let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
 let id = '', bizid = '', aid = '',  sessionId= '', featurecode= ''
 $.message = ''
-let ysyhds = "",ysybodys = "",cookies = "",txbodys = ""
+let ysyhds = "",ysybodys = "",txbodys = ""
 
 
 
@@ -71,14 +66,12 @@ let ysyhds = "",ysybodys = "",cookies = "",txbodys = ""
             ysyurlArr.push($.getdata('ysyurl'))
             ysyhdArr.push($.getdata('ysyhd'))
             ysybodyArr.push($.getdata('ysybody'))
-            cookieArr.push($.getdata('cookie'))
             txbodyArr.push($.getdata('txbody'))
             let ysycount = ($.getval('ysycount') || '1');
             for (let i = 2; i <= ysycount; i++) {
                 ysyurlArr.push($.getdata(`ysyurl${i}`))
                 ysyhdArr.push($.getdata(`ysyhd${i}`))
                 ysybodyArr.push($.getdata(`ysybody${i}`))
-                cookieArr.push($.getdata(`cookie${i}`))
                 txbodyArr.push($.getdata(`txbody${i}`))
             }
             console.log(
@@ -93,7 +86,6 @@ let ysyhds = "",ysybodys = "",cookies = "",txbodys = ""
                     ysyurl = ysyurlArr[i];
                     ysyhd = ysyhdArr[i];
                     ysybody = ysybodyArr[i];
-                    cookie = cookieArr[i];
                     txbody = txbodyArr[i];
                     $.index = i + 1;
                     console.log(`\n\n开始【萤石云${$.index}】`)
@@ -128,17 +120,7 @@ let ysyhds = "",ysybodys = "",cookies = "",txbodys = ""
                 }
             })
 
-            if (process.env.cookie && process.env.cookie.indexOf('@') > -1) {
-                cookieArr = process.env.cookie.split('@');
-                console.log(`您选择的是用"@"隔开\n`)
-            } else {
-                cookies = [process.env.cookie]
-            };
-            Object.keys(cookies).forEach((item) => {
-                if (cookies[item]) {
-                    cookieArr.push(cookies[item])
-                }
-            })
+           
 
             if (process.env.txbody && process.env.txbody.indexOf('@') > -1) {
                 txbodyArr = process.env.txbody.split('@');
@@ -159,13 +141,10 @@ let ysyhds = "",ysybodys = "",cookies = "",txbodys = ""
                 ysyurl = ysyurlArr[k];
                     ysyhd = ysyhdArr[k];
                     ysybody = ysybodyArr[k];
-                    cookie = cookieArr[k];
                     txbody = txbodyArr[k];
                 $.index = k + 1;
                 console.log(`\n开始【萤石云${$.index}】`)
-                    // await ysytaskList()
-                    // await $.wait(1500)
-                    // await ysyboxcd()
+                    
                     await ysylogin()
                 //message()
             }
@@ -197,11 +176,6 @@ function ysyck() {
 
         $.msg($.name, "", `萤石云${status}获取登录数据成功`)
 
-    }else if($request.url.indexOf("yd/getUserOpenBoxCd") > -1) {
-        const cookie = JSON.stringify($request.headers.Cookie)
-        if (cookie) $.setdata(cookie, `cookie${status}`)
-        $.log(cookie)
-        $.msg($.name, "", `萤石云${status}获取cookie数据成功`)
     }else if($request.url.indexOf("yd/pay") > -1) {
         const txbody = $request.body
         if (txbody) $.setdata(txbody, `txbody${status}`)
@@ -262,7 +236,7 @@ function ysyboxcd(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
+        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -325,7 +299,7 @@ function ysybox(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
+        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -391,7 +365,7 @@ function ysyspbox(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
+        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -443,7 +417,7 @@ function ysytaskList(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
+        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -574,7 +548,7 @@ function ysyvideo(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
+        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -632,7 +606,7 @@ function ysyplvideo(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
+        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -686,7 +660,7 @@ function ysysign(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
+        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -741,7 +715,7 @@ function ysyydinfo(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
+        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -803,7 +777,7 @@ function ysytx(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
+        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -857,7 +831,8 @@ function ysyblindbox(timeout = 0) {
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "zh-cn",
         "Connection": "keep-alive",
-        "Cookie": cookie,"Host": "api.ys7.com",
+        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1285272 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
         "clientno": "undefined",
@@ -916,7 +891,7 @@ function ysyopenblindbox(timeout = 0) {
         "Accept-Language": "zh-cn",
         "Connection": "keep-alive",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
+        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1285272 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -931,6 +906,7 @@ function ysyopenblindbox(timeout = 0) {
         let url = {
             url: `https://api.ys7.com/v3/integral/yd/openBlindBox`,
             headers: sphd,
+            body:``,
         
         }
         $.post(url, async (err, resp, data) => {
@@ -978,7 +954,7 @@ function ysyopenblindboxdb(timeout = 0) {
         "Accept-Language": "zh-cn",
         "Connection": "keep-alive",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": cookie,
+        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1285272 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
