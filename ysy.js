@@ -1,12 +1,12 @@
 /*
 软件名称:萤石云视频
 完成时间：2021-10-13 @YaphetS0903
-感谢tom大哥连线指导
 脚本说明：萤石云。。。下载地址，appstore搜索下载
 一天1毛到3毛，3毛提现，自动提现后续抓到包了加
 评论有时候会获得0金币，是软件bug，手动评论也不增加
 10.15更新，解决ck一天失效问题，需要重新抓取数据，
 10.16更新自动提现
+11.19更新开盲盒
 本来想直接手机号密码登录，可惜不会处理featurecode和token
 目前莹豆还不够提现，抓到提现包了再更新提现，从群友反馈看安卓的豆子多一些，一天一毛五左右，苹果很少
 本脚本以学习为主
@@ -57,7 +57,7 @@ let b = Math.round(new Date().getTime() / 1000).toString();
 let DD = RT(2000, 3500)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
-let id = '', txid = '', aid = '',  sessionId= '', featurecode= ''
+let id = '', bizid = '', aid = '',  sessionId= '', featurecode= ''
 $.message = ''
 let ysyhds = "",ysybodys = "",cookies = "",txbodys = ""
 
@@ -229,10 +229,13 @@ function ysylogin(timeout = 0) {
                     console.log(`【登录】：${result.meta.message}\n`)
                     sessionId =result.sessionInfo.sessionId
                     await ysytaskList()
-                    await $.wait(1500)
+                    await $.wait(3000)
                     await ysyboxcd()
-                    await $.wait(1500)
+                    await $.wait(3000)
+                    await ysyblindbox()
+                    await $.wait(3000)
                     await ysyydinfo()
+                    
 
                 }else{
                     console.log(`【登录】：${result.meta.message}\n`)
@@ -845,6 +848,179 @@ function ysytx(timeout = 0) {
 }
 
 
+//盲盒信息
+function ysyblindbox(timeout = 0) {
+    return new Promise((resolve) => {
+        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
+
+        const sphd ={
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Cookie": cookie,"Host": "api.ys7.com",
+        "User-Agent": "VideoGo/1285272 CFNetwork/1220.1 Darwin/20.3.0",
+        "appid": "ys",
+        "clientno": "undefined",
+        "clienttype": "1",
+        "clientversion": "6.1.5.1285272",
+        "featurecode": featurecode,
+        "language": "undefined",
+        "nettype": "WLAN",
+        "sessionid": sessionId
+    }
+       
+        let url = {
+            url: `https://api.ys7.com/v3/integral/yd/blindBoxMainPage`,
+            headers: sphd,
+        
+        }
+        $.get(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.meta.code == 200) {
+
+
+                    console.log(`【查询剩余开盲盒次数】：${result.meta.message}【剩余次数】：${result.userRemainCount}\n`)
+                    if(result.userRemainCount ==0){
+                        console.log(`【开盲盒次数用完，明天再来】\n`)
+                    }else{
+                        await $.wait(3000)
+                        await ysyopenblindbox()
+                    }
+
+                } else {
+
+                    console.log(`【查询剩余开盲盒次数失败】：${result.meta.message}\n`)
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+//开盲盒
+function ysyopenblindbox(timeout = 0) {
+    return new Promise((resolve) => {
+        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
+
+        const sphd ={
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": cookie,
+        "Host": "api.ys7.com",
+        "User-Agent": "VideoGo/1285272 CFNetwork/1220.1 Darwin/20.3.0",
+        "appid": "ys",
+        "clientno": "undefined",
+        "clienttype": "1",
+        "clientversion": "6.1.5.1285272",
+        "featurecode": featurecode,
+        "language": "undefined",
+        "nettype": "WLAN",
+        "sessionid": sessionId
+    }
+        let url = {
+            url: `https://api.ys7.com/v3/integral/yd/openBlindBox`,
+            headers: sphd,
+        
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.meta.code == 200) {
+
+
+                    console.log(`【开盲盒】：${result.meta.message}【获得】：${result.blindBoxPrizeInfo.prizeName}\n`)
+                    if(result.blindBoxPrizeInfo.prizeType ==10){
+                        console.log(`【开始翻倍】\n`)
+                        bizid =result.blindBoxPrizeInfo.bizId
+                        await $.wait(3000)
+                        await ysyopenblindboxdb()
+                    }else{
+                        console.log(`【获得奖品不能翻倍】\n`)
+                        
+                    }
+
+                } else {
+
+                    console.log(`【开盲盒失败】：${result.meta.message}\n`)
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+//开盲盒翻倍
+function ysyopenblindboxdb(timeout = 0) {
+    return new Promise((resolve) => {
+        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
+
+        const sphd ={
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": cookie,
+        "Host": "api.ys7.com",
+        "User-Agent": "VideoGo/1285272 CFNetwork/1220.1 Darwin/20.3.0",
+        "appid": "ys",
+        "clientno": "undefined",
+        "clienttype": "1",
+        "clientversion": "6.1.5.1285272",
+        "featurecode": featurecode,
+        "language": "undefined",
+        "nettype": "WLAN",
+        "sessionid": sessionId
+    }
+        let url = {
+            url: `https://api.ys7.com/v3/integral/yd/addDoubleYd`,
+            headers: sphd,
+            body:`bizId=${bizid}&doubleFlag=2`,
+        
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.meta.code == 200) {
+
+
+                    console.log(`【开盲盒翻倍】：${result.meta.message}【获得莹豆】：${result.blindBoxPrizeInfo.prizePrice}\n`)
+                    
+
+                } else {
+
+                    console.log(`【开盲盒翻倍失败】：${result.meta.message}\n`)
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
 
 
 
