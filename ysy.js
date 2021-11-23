@@ -2,13 +2,12 @@
 软件名称:萤石云视频
 完成时间：2021-10-13 @YaphetS0903
 脚本说明：萤石云。。。下载地址，appstore搜索下载
-一天1毛到3毛，3毛提现，自动提现后续抓到包了加
+一天1毛到3毛，3毛提现
 评论有时候会获得0金币，是软件bug，手动评论也不增加
 10.15更新，解决ck一天失效问题，需要重新抓取数据，
 10.16更新自动提现
-11.19更新开盲盒，不用再获取ysycookie，只获取登录hd和body就可以，但提现还需要提现body
+11.19更新开盲盒，不用再获取ysycookie，只获取登录body就可以运行，但提现还需要提现body
 本来想直接手机号密码登录，可惜不会处理featurecode和token
-目前莹豆还不够提现，抓到提现包了再更新提现，从群友反馈看安卓的豆子多一些，一天一毛五左右，苹果很少
 本脚本以学习为主
 获取数据： 登录输入手机号密码获得登录数据，然后进入软件点击我的获取cookie，提现一次获取提现数据
 TG通知群:https://t.me/tom_ww
@@ -17,13 +16,12 @@ boxjs地址 :
 https://raw.githubusercontent.com/YaphetS0903/JStest/main/YaphteS0903.boxjs.json
 萤石云
 青龙环境抓取链接：
-登录的header和body链接
+登录的body链接
 https://api.ys7.com/v3/users/login/v2
 提现body链接
 https://api.ys7.com/v3/integral/yd/pay
-环境配置(多账号@隔开)export ysyhd='抓取的header1@抓取的header2'
+环境配置(多账号@隔开)export ysybody='抓取的body1@抓取的body2'
 例：
-export ysyhd='{"clientType":"1","Accept-Encoding":"gzip, deflate, br","netType":"WIFI","Co..........Content-Length":"450"}@账号2的数据'
 export ysybody='account=123456&biz.......callTokenType%5C%22%3A1%7D%22%7D%5D&smsCode=@账号2的数据'
 export txbody='payCode=101005&receiverType=2&receiverId=123456789@账号2的数据'
 圈X配置如下，其他自行测试，加了判断，运行时间一小时一次
@@ -42,9 +40,8 @@ const $ = new Env('萤石云视频');
 let status;
 
 status = (status = ($.getval("ysystatus") || "1")) > 1 ? `${status}` : "";
-let ysyurlArr = [], ysyhdArr = [],ysybodyArr = [], txbodyArr = [],ysycount = ''
-let ysyurl = $.getdata('ysyurl')
-let ysyhd = $.isNode() ? (process.env.ysyhd ? process.env.ysyhd : "") : ($.getdata('ysyhd') ? $.getdata('ysyhd') : "")
+let ysybodyArr = [], txbodyArr = [],ysycount = ''
+
 let ysybody = $.isNode() ? (process.env.ysybody  ? process.env.ysybody  : "") : ($.getdata('ysybody ') ? $.getdata('ysybody ') : "")
 let txbody = $.isNode() ? (process.env.txbody  ? process.env.txbody  : "") : ($.getdata('txbody ') ? $.getdata('txbody ') : "")
 let b = Math.round(new Date().getTime() / 1000).toString();
@@ -53,7 +50,7 @@ let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
 let id = '', bizid = '', aid = '',  sessionId= '', featurecode= ''
 $.message = ''
-let ysyhds = "",ysybodys = "",txbodys = ""
+let ysybodys = "",txbodys = ""
 
 
 
@@ -63,14 +60,12 @@ let ysyhds = "",ysybodys = "",txbodys = ""
         await ysyck()
     } else {
         if (!$.isNode()) {
-            ysyurlArr.push($.getdata('ysyurl'))
-            ysyhdArr.push($.getdata('ysyhd'))
+
             ysybodyArr.push($.getdata('ysybody'))
             txbodyArr.push($.getdata('txbody'))
             let ysycount = ($.getval('ysycount') || '1');
             for (let i = 2; i <= ysycount; i++) {
-                ysyurlArr.push($.getdata(`ysyurl${i}`))
-                ysyhdArr.push($.getdata(`ysyhd${i}`))
+
                 ysybodyArr.push($.getdata(`ysybody${i}`))
                 txbodyArr.push($.getdata(`txbody${i}`))
             }
@@ -80,11 +75,10 @@ let ysyhds = "",ysybodys = "",txbodys = ""
                     new Date().getTimezoneOffset() * 60 * 1000 +
                     8 * 60 * 60 * 1000
                 ).toLocaleString()} ===============================================\n`);
-            for (let i = 0; i < ysyhdArr.length; i++) {
-                if (ysyhdArr[i]) {
+            for (let i = 0; i < ysybodyArr.length; i++) {
+                if (ysybodyArr[i]) {
 
-                    ysyurl = ysyurlArr[i];
-                    ysyhd = ysyhdArr[i];
+ 
                     ysybody = ysybodyArr[i];
                     txbody = txbodyArr[i];
                     $.index = i + 1;
@@ -97,17 +91,7 @@ let ysyhds = "",ysybodys = "",txbodys = ""
                 }
             }
         } else {
-            if (process.env.ysyhd && process.env.ysyhd.indexOf('@') > -1) {
-                ysyhdArr = process.env.ysyhd.split('@');
-                console.log(`您选择的是用"@"隔开\n`)
-            } else {
-                ysyhds = [process.env.ysyhd]
-            };
-            Object.keys(ysyhds).forEach((item) => {
-                if (ysyhds[item]) {
-                    ysyhdArr.push(ysyhds[item])
-                }
-            })
+           
             if (process.env.ysybody && process.env.ysybody.indexOf('@') > -1) {
                 ysybodyArr = process.env.ysybody.split('@');
                 console.log(`您选择的是用"@"隔开\n`)
@@ -135,11 +119,10 @@ let ysyhds = "",ysybodys = "",txbodys = ""
             })
 
 
-            console.log(`共${ysyhdArr.length}个cookie`)
-            for (let k = 0; k < ysyhdArr.length; k++) {
+            console.log(`共${ysybodyArr.length}个cookie`)
+            for (let k = 0; k < ysybodyArr.length; k++) {
                 $.message = ""
-                ysyurl = ysyurlArr[k];
-                    ysyhd = ysyhdArr[k];
+ 
                     ysybody = ysybodyArr[k];
                     txbody = txbodyArr[k];
                 $.index = k + 1;
@@ -162,13 +145,7 @@ let ysyhds = "",ysybodys = "",txbodys = ""
 
 function ysyck() {
     if ($request.url.indexOf("login/v2") > -1) {
-        const ysyurl = $request.url
-        if (ysyurl) $.setdata(ysyurl, `ysyurl${status}`)
-        $.log(ysyurl)
-
-        const ysyhd = JSON.stringify($request.headers)
-        if (ysyhd) $.setdata(ysyhd, `ysyhd${status}`)
-        $.log(ysyhd)
+        
         const ysybody = $request.body
         if (ysybody) $.setdata(ysybody, `ysybody${status}`)
         $.log(ysybody)
@@ -187,10 +164,28 @@ function ysyck() {
 //登录
 function ysylogin(timeout = 0) {
     return new Promise((resolve) => {
+        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
 
+        const sphd ={
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-Hans-CN;q=1",
+        "Connection": "keep-alive",
+        "Content-Length": "441",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Host": "api.ys7.com",
+        "User-Agent": "VideoGo/6.2.0 (iPhone; iOS 14.4.1; Scale/3.00)",
+        "appId": "ys7","clientNo": "",
+        "clientType": "1",
+        "clientVersion": "6.2.0.1300371",
+        "featureCode": featurecode,
+        "netType": "WIFI",
+        "osVersion": "14.4.1",
+        "sessionId": "",
+        "ssid": ""}
         let url = {
             url: `https://api.ys7.com/v3/users/login/v2`,
-            headers: JSON.parse(ysyhd),
+            headers: sphd,
             body:ysybody,
         }
         $.post(url, async (err, resp, data) => {
