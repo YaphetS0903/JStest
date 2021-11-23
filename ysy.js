@@ -6,7 +6,7 @@
 评论有时候会获得0金币，是软件bug，手动评论也不增加
 10.15更新，解决ck一天失效问题，需要重新抓取数据，
 10.16更新自动提现
-11.19更新开盲盒，不用再获取ysycookie，只获取登录body就可以运行，但提现还需要提现body
+11.19更新开盲盒，不用再获取ysycookie，只获取登录body就可以运行，但提现还需要提现body(同一个支付宝无限提，获取一个后面复制粘贴就行了)
 本来想直接手机号密码登录，可惜不会处理featurecode和token
 本脚本以学习为主
 获取数据： 登录输入手机号密码获得登录数据，然后进入软件点击我的获取cookie，提现一次获取提现数据
@@ -48,7 +48,7 @@ let b = Math.round(new Date().getTime() / 1000).toString();
 let DD = RT(2000, 3500)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
-let id = '', bizid = '', aid = '',  sessionId= '', featurecode= ''
+let id = '', bizid = '', aid = '',  sessionId= '', featurecode= '', username= '',iphone= ''
 $.message = ''
 let ysybodys = "",txbodys = ""
 
@@ -165,7 +165,7 @@ function ysyck() {
 function ysylogin(timeout = 0) {
     return new Promise((resolve) => {
         featurecode = ysybody.match(/featureCode=(\w+)/)[1]
-
+        iphone =ysybody.match(/account=(\d+)/)[1]
         const sphd ={
         "Accept": "*/*",
         "Accept-Encoding": "gzip, deflate, br",
@@ -195,7 +195,9 @@ function ysylogin(timeout = 0) {
 
                 if (result.meta.code == 200) {
                     console.log(`【登录】：${result.meta.message}\n`)
+                    console.log(`【用户名】：${result.sessionInfo.userName}【手机号】：${iphone}\n`)
                     sessionId =result.sessionInfo.sessionId
+                    username=result.sessionInfo.userName
                     await ysytaskList()
                     await $.wait(3000)
                     await ysyboxcd()
@@ -206,7 +208,7 @@ function ysylogin(timeout = 0) {
                     
 
                 }else{
-                    console.log(`【登录】：${result.meta.message}\n`)
+                    console.log(`【登录】：${result.meta.message}【手机号】：${iphone}\n`)
                 }
             } catch (e) {
 
@@ -231,7 +233,7 @@ function ysyboxcd(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -294,7 +296,7 @@ function ysybox(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -360,7 +362,7 @@ function ysyspbox(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -412,7 +414,7 @@ function ysytaskList(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -543,7 +545,7 @@ function ysyvideo(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -601,7 +603,7 @@ function ysyplvideo(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -655,7 +657,7 @@ function ysysign(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -710,7 +712,7 @@ function ysyydinfo(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -772,7 +774,7 @@ function ysytx(timeout = 0) {
         "Connection": "keep-alive",
         "Content-Length": "31",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -826,7 +828,7 @@ function ysyblindbox(timeout = 0) {
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "zh-cn",
         "Connection": "keep-alive",
-        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1285272 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -886,7 +888,7 @@ function ysyopenblindbox(timeout = 0) {
         "Accept-Language": "zh-cn",
         "Connection": "keep-alive",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1285272 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
@@ -949,7 +951,7 @@ function ysyopenblindboxdb(timeout = 0) {
         "Accept-Language": "zh-cn",
         "Connection": "keep-alive",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": `"ASG_DisplayName=; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
         "Host": "api.ys7.com",
         "User-Agent": "VideoGo/1285272 CFNetwork/1220.1 Darwin/20.3.0",
         "appid": "ys",
