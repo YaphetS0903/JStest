@@ -565,7 +565,7 @@ function ysytaskList(timeout = 0) {
                     } else {
                         console.log(`【今日评论短视频任务已完成】\n`)
                     }
-                    if (result.taskList[4].taskCompleteNum != result.taskList[2].taskNum) {
+                    if (result.taskList[4].taskCompleteNum != result.taskList[4].taskNum) {
                         console.log(`【开始看激励视频任务】\n`)
                     await ysyspspzyd()
                     await $.wait(3000)
