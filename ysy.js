@@ -402,6 +402,59 @@ function ysyspbox(timeout = 0) {
     })
 }
 
+
+//看激励视频赚莹豆
+function ysyspspzyd(timeout = 0) {
+    return new Promise((resolve) => {
+        featurecode = ysybody.match(/featureCode=(\w+)/)[1]
+
+        const sphd ={
+            "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Content-Length": "31",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": `"ASG_DisplayName=${username}; C_SS=${sessionId}; C_TYPE=1; C_VER=6.1.5.1285272;"`,
+        "Host": "api.ys7.com",
+        "User-Agent": "VideoGo/1262766 CFNetwork/1220.1 Darwin/20.3.0",
+        "appid": "ys",
+        "clientno": "undefined",
+        "clienttype": "1",
+        "clientversion": "6.1.3.1262766",
+        "featurecode": featurecode,
+        "language": "undefined",
+        "nettype": "WIFI",
+        "sessionid": sessionId
+        }
+        let url = {
+            url: `https://api.ys7.com/v3/integral/task/complete`,
+            headers: sphd,
+            body:`eventkey=1014&filterParam=12345`,
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+
+                const result = JSON.parse(data)
+
+                if (result.meta.code == 200) {
+                    console.log(`【看激励视频获得莹豆】：${result.taskIntegral}\n`)
+                   
+
+
+                }else{
+                    console.log(`【看激励视频获得莹豆失败】：${result.meta.message}\n`)
+                }
+            } catch (e) {
+
+            } finally {
+
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
 //任务列表
 function ysytaskList(timeout = 0) {
     return new Promise((resolve) => {
@@ -512,9 +565,13 @@ function ysytaskList(timeout = 0) {
                     } else {
                         console.log(`【今日评论短视频任务已完成】\n`)
                     }
-
-                  
-
+                    if (result.taskList[4].taskCompleteNum != result.taskList[2].taskNum) {
+                        console.log(`【开始看激励视频任务】\n`)
+                    await ysyspspzyd()
+                    await $.wait(3000)
+                    } else {
+                    console.log(`【今日看激励视频任务已完成】\n`)
+                    }
                 } else {
 
                     console.log(`【查询任务列表失败】：${result.meta.message}\n`)
