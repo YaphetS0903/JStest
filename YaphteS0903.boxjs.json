@@ -342,7 +342,7 @@
 	  {
     "id": "cgwz",
         "name": "猜歌王者",
-            "keys": ["cgwzhd","cgwzhd2","cgwzhd3","cgwzhd4","cgwzhd5"],
+            "keys": ["cgwzurl","cgwzhd","cgwzurl2","cgwzhd2","cgwzurl3","cgwzhd3","cgwzurl4","cgwzhd4","cgwzurl5","cgwzhd5"],
                 "author": "@YaphetS0903",
                     "settings": [{
                         "id": "cgwzstatus",
