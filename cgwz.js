@@ -27,14 +27,14 @@ let status;
 
 status = (status = ($.getval("cgwzstatus") || "1")) > 1 ? `${status}` : "";
 const cgwzurlArr = [], cgwzhdArr = [], cgwzcount = ''
-let cgwzurl = $.getdata('cgwzurl')
-let cgwzhd = $.getdata('cgwzhd')
+let cgwzurl = $.isNode() ? (process.env.cgwzurl  ? process.env.cgwzurl  : "") : ($.getdata('cgwzurl ') ? $.getdata('cgwzurl ') : "")
+let cgwzhd = $.isNode() ? (process.env.cgwzhd  ? process.env.cgwzhd  : "") : ($.getdata('cgwzhd ') ? $.getdata('cgwzhd ') : "")
 let b = Math.round(new Date().getTime() / 1000).toString();
 let DD = RT(2000, 3000)
 let tz = ($.getval('tz') || '1');
 let tx = ($.getval('tx') || '1');
 let id = '', txid = '', uid = '', did = '', dtdid = '', ans = ''
-
+let cgwzhds = "",cgwzurls= ""
 $.message = ''
 
 
@@ -45,6 +45,7 @@ $.message = ''
     if (typeof $request !== "undefined") {
         await cgwzck()
     } else {
+        if (!$.isNode()) {
         cgwzurlArr.push($.getdata('cgwzurl'))
         cgwzhdArr.push($.getdata('cgwzhd'))
 
@@ -110,6 +111,79 @@ $.message = ''
                 message()
             }
         }
+    }else {
+        if (process.env.cgwzhd && process.env.cgwzhd.indexOf('@') > -1) {
+            cgwzhdArr = process.env.cgwzhd.split('@');
+            console.log(`您选择的是用"@"隔开\n`)
+        } else {
+            cgwzhds = [process.env.cgwzhd]
+        };
+        Object.keys(cgwzhds).forEach((item) => {
+            if (cgwzhds[item]) {
+                cgwzhdArr.push(cgwzhds[item])
+            }
+        })
+
+        if (process.env.cgwzurl && process.env.cgwzurl.indexOf('@') > -1) {
+            cgwzurlArr = process.env.cgwzurl.split('@');
+            console.log(`您选择的是用"@"隔开\n`)
+        } else {
+            cgwzurls = [process.env.cgwzurl]
+        };
+        Object.keys(cgwzurls).forEach((item) => {
+            if (cgwzurls[item]) {
+                cgwzurlArr.push(cgwzurls[item])
+            }
+        })
+
+
+        console.log(`共${cgwzhdArr.length}个cookie`)
+        for (let k = 0; k < cgwzhdArr.length; k++) {
+            $.message = ""
+            cgwzurl= cgwzurlArr[k];
+            cgwzhd = cgwzhdArr[k];
+            $.index = k + 1;
+            console.log(`\n\n开始【猜歌王者${$.index}】`)
+                
+                for (let l = 0; l < 3; l++) {
+                    $.index = l + 1
+                    console.log(`\n【开始第${l + 1}次整点抢现金!】\n`)
+                    await cgwzqxj()
+                }
+             
+                
+                await $.wait(3000)
+                await cgwzsign()
+                await $.wait(3000)
+
+                await cgwzcheckdjlq()
+                await $.wait(5000)
+
+                await cgwzcheckmrhb()
+                await $.wait(3000)
+
+                await cgwztencheck()
+                await $.wait(3000)
+
+
+                for (let k = 0; k < 5; k++) {
+                    $.index = k + 1
+                    console.log(`\n【开始第${k + 1}次执行答题!】\n等待2秒开始答题`)
+                    await $.wait(2000)
+                    await cgwzdtinfo()
+                    await $.wait(3000)
+                }
+
+
+
+
+
+                await cgwzmyinfo()
+                await $.wait(3000)
+
+                message()
+        }
+    }
     }
 })()
 
