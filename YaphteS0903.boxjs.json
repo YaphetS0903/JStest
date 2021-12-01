@@ -669,6 +669,33 @@
                         "repo": "https://github.com/YaphetS0903/JStest/blob/main/flhs.js",
             "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
             "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/flhs.js"
+  },{
+    "id": "ysy2",
+        "name": "萤石云2",
+            "keys": ["ysyiphone","ysyiphone2","ysyiphone3","ysyiphone4","ysyiphone5","ysyiphone6","ysyiphone7","ysyiphone8","ysyiphone9","ysyiphone10"],
+                "author": "@YaphetS0903",
+                    "settings": [{
+                        "id": "ysystatus",
+                        "name": "当前账号",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "当前抓取ck记录的账号序号，如：1、2、3、4"
+                    }, {
+                        "id": "ysycount",
+                        "name": "账号个数",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "指定任务最多跑几个账号，根据抓取的账号数据个数来设值"
+                    }, {
+                        "id": "tz",
+                        "name": "通知",
+                        "val": "1",
+                        "type": "number",
+                        "desc": "0关闭通知，1打开通知"
+                    }],
+                        "repo": "https://github.com/YaphetS0903/JStest/blob/main/ysy2.js",
+            "icons": ["https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg", "https://raw.githubusercontent.com/YaphetS0903/JStest/main/image/YaphetS.jpg"],
+            "script": "https://raw.githubusercontent.com/YaphetS0903/JStest/main/ysy2.js"
   }
 	]
 }
